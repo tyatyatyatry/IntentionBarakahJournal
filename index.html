@@ -490,9 +490,9 @@ nav.tabs button[aria-current="page"]{background:var(--sun);opacity:1}
   <h3>How to use it</h3>
   <ol class="steps">
     <li><b>Morning: state an intention.</b> One sentence about what you intend today, and for whom.</li>
-    <li><b>A short guided pause.</b> After you write, the journal walks you through six screens, one idea each. It reads what you are doing and matches it to one of eleven postures of the heart (Ikhlas, Tawakkul, Dhikr, Shukr, Sabr, Taqwa, Silaturrahim, Rahmah, Sadaqah, Ihsan, Amanah). It asks you one question about <i>why</i>, reads your answer, then offers a new way to see it, a short story, and the Qur'an or hadith underneath. At the end you check in with your heart and set the intention, with your own words if you want to change them. If the match is off, tap <b>Not quite? Choose another lens</b>; the journal remembers. Where it can, a small free model on your device reads the meaning of what you wrote. Nothing is sent anywhere.</li>
-    <li><b>Night: look back.</b> Choose which intention you are reflecting on, or the day in general, and write freely. Afterwards you get “What's next”: ideas for tomorrow's intention.</li>
-    <li><b>Watch your four trees grow.</b> Date palm for Faith &amp; Worship, olive for Character &amp; Heart, pomegranate for People &amp; Society, fig for Life &amp; Sustenance. Each posture belongs to one tree. An intention gives its tree 1 drop; looking back on it gives 2 more.</li>
+    <li><b>A short guided pause.</b> After you write, the journal walks you through six screens, one idea each. It reads what you are doing and matches it to one of the 21 Sources of Barakah, such as Family &amp; Kinship, Charity or Salah. It asks you one question about <i>why</i>, reads your answer, then offers a new way to see it, a short story from that source, and the Qur'an or hadith underneath. At the end you check in with your heart and set the intention, with your own words if you want to change them. If the match is off, tap <b>Not quite? Choose another source</b>; the journal remembers. Where it can, a small free model on your device reads the meaning of what you wrote. Nothing is sent anywhere.</li>
+    <li><b>Night: look back.</b> Five quiet screens: your morning intention comes back, you say how it went, notice where the Barakah was, put the day down with thanks and forgiveness, and pick one idea for tomorrow.</li>
+    <li><b>Watch your four trees grow.</b> Date palm for Faith &amp; Worship, olive for Character &amp; Heart, pomegranate for People &amp; Society, fig for Life &amp; Sustenance. Each source of Barakah feeds one tree. An intention gives its tree 1 drop; looking back on it gives 2 more.</li>
   </ol>
   <p class="small muted">Up to 7 intentions and 7 reflections a day, so it stays light. Your words stay on this device only; use Backup (top right) to keep a copy.</p>
   <div class="credit">
@@ -1128,8 +1128,8 @@ const GENERIC_KW = new Set(["home$","house$","rumah","pulang","visit","work$","w
 
 /* =====================================================================
    POSTURES
-   Eleven inner postures. Every intention is matched to one of them.
-   Each posture belongs to one tree, and draws on some of the 21 Sources.
+   Eleven inner postures. They are the app's INTERNAL writing layer (the see-it line, concept, invitations, night questions) and are
+   never shown by name. What the person sees is the 21 Sources of Barakah; a Source feeds one tree and has one home posture.
      see      the general "See it differently" line (the app's own words, never a quotation)
      concept  one Islamic concept that adds depth
      inv      small invitations (rotate with "Another way to see it")
@@ -1750,6 +1750,7 @@ function packNudge(det, info){
   return [{p:D.to, src:D.src, ...(D.fl ? {fl:D.fl} : {}), det, ...extra}];
 }
 function fromTarget(to, extra = {}){
+  if (/^src:\d+$/.test(to)){ const id = Number(to.slice(4)); return [{p:SRC_POSTURE[id], src:id, ...extra}]; }
   return [{p:postureOf(to), ...(isMoment(to) ? {m:to} : {}), src:defaultSrc(to), ...extra}];
 }
 function findNudges(text){
@@ -1882,7 +1883,8 @@ function migrateLearned(){
   data.learned = out;
 }
 
-const nudgeName = n => !n ? '' : n.quiet ? 'Begin with intention' : (n.m && MOMENTS[n.m]) ? MOMENTS[n.m].name : (POSTURES[n.p] ? `${POSTURES[n.p].ar} · ${POSTURES[n.p].en}` : '');
+const srcTitle = n => (SRC[n && n.src] || SRC[1]).title;
+const nudgeName = n => !n ? '' : n.quiet ? 'Begin with intention' : srcTitle(n);
 
 /* ---------- Header ---------- */
 function renderHeader(){
@@ -1986,7 +1988,7 @@ const mainNudge = e => (e && e.nudges && e.nudges[0]) || null;
 function treeOf(e){
   if (!e) return 'spiritual';
   if (e.kind === 'reflection' && e.links && e.links.length){ const l = byId(e.links[0]); if (l) return treeOf(l); }
-  const n = mainNudge(e); return (n && POSTURES[n.p]) ? POSTURES[n.p].tree : 'spiritual';
+  const n = mainNudge(e); return (n && SRC[n.src]) ? SRC[n.src].area : 'spiritual';
 }
 function treeDrops(exceptId){
   const d = {spiritual:0, mindful:0, social:0, physical:0};
@@ -2046,8 +2048,10 @@ function cardViews(n){
   }
   return views;
 }
-const cardTitle = n => n.quiet ? 'Begin with intention' : (n.m && MOMENTS[n.m]) ? MOMENTS[n.m].name : POSTURES[n.p].en;
-const cardTag = n => { const P = POSTURES[n.p] || POSTURES.ikhlas, s = SRC[n.src] || SRC[P.sources[0]]; return `${P.ar} · ${s.title}`; };
+/* What the person sees: the situation if one was recognised (Calling your parents), and always the Source of Barakah it belongs to. */
+const cardTitle = n => n.quiet ? 'Begin with intention' : (n.m && MOMENTS[n.m]) ? MOMENTS[n.m].name : srcTitle(n);
+const cardTag = n => (!n.quiet && n.m && MOMENTS[n.m]) ? srcTitle(n) : '';
+const cardLine = n => [cardTitle(n), cardTag(n)].filter(Boolean).join(' \u00B7 ');
 
 /* Shared by the card after saving and by the entry in the Journal ("Another way" is saved on the entry). */
 function nudgeParts(n, e){
@@ -2055,7 +2059,7 @@ function nudgeParts(n, e){
   const key = e.id + ':' + (n.m || n.p), turn = ui.rot[key] ?? e.turn ?? 0;
   const views = cardViews(n), v = views[turn % views.length];
   const P = POSTURES[n.p];
-  return {...v, P, a: AREAS[P.tree], key, turn, many: views.length > 1};
+  return {...v, P, a: AREAS[(SRC[n.src] || SRC[1]).area], key, turn, many: views.length > 1};
 }
 function conceptHTML(c){
   return c ? `<div class="concept"><span class="nl">Islamic concept</span><p><b>${esc(c.term)}.</b> ${esc(c.text)}</p></div>` : '';
@@ -2063,11 +2067,10 @@ function conceptHTML(c){
 function pickerHTML(e){
   if (ui.pick !== e.id) return '';
   const cur = mainNudge(e) || {};
-  const chip = (to, label, sub) => `<button class="pk" data-act="pick" data-entry="${e.id}" data-to="${to}" aria-pressed="${(cur.m || (!cur.m && cur.p)) === to}">${esc(label)}${sub ? `<small>${esc(sub)}</small>` : ''}</button>`;
+  const chip = id => `<button class="pk" data-act="pick" data-entry="${e.id}" data-to="src:${id}" aria-pressed="${cur.src === id && !cur.quiet}">${esc(SRC[id].title)}</button>`;
   return `<div class="picker fade">
-    <p class="small" style="margin:0 0 8px"><b>Which fits better?</b> The journal will remember your choice for sentences like this one.</p>
-    ${AREA_ORDER.map(t => `<div class="pk-group" style="--c:${AREAS[t].text}"><span class="nl">${SPECIES[t].tree} · ${AREAS[t].label}</span><div class="pk-row">${POSTURE_ORDER.filter(p => POSTURES[p].tree === t).map(p => chip(p, POSTURES[p].ar, POSTURES[p].en)).join('')}</div></div>`).join('')}
-    <details class="pk-more"><summary>Or a specific moment</summary><div class="pk-row">${MOMENT_ORDER.map(m => chip(m, MOMENTS[m].name)).join('')}</div></details>
+    <p class="small" style="margin:0 0 8px"><b>Which source of Barakah fits better?</b> The journal will remember your choice for sentences like this one.</p>
+    ${AREA_ORDER.map(t => `<div class="pk-group" style="--c:${AREAS[t].text}"><span class="nl">${SPECIES[t].tree} \u00B7 ${AREAS[t].label}</span><div class="pk-row">${SOURCES.filter(x => x.area === t).map(x => chip(x.id)).join('')}</div></div>`).join('')}
     <div style="text-align:right;margin-top:6px"><button class="btn ghost" data-act="not-quite" data-entry="${e.id}" style="padding:6px 12px;font-size:13px">Close</button></div>
   </div>`;
 }
@@ -2076,7 +2079,7 @@ function nextIdeas(e){
   const base = e.links && e.links.length ? byId(e.links[0]) : null;
   const n = mainNudge(base) || mainNudge(e), own = mainNudge(e);
   const pools = [];
-  const add = x => { if (!x || x.quiet || !POSTURES[x.p]) return; if (x.m && MOMENTS[x.m]) pools.push({label: MOMENTS[x.m].name, p: x.p, list: MOMENTS[x.m].next}); pools.push({label: `${POSTURES[x.p].ar} · ${POSTURES[x.p].en}`, p: x.p, list: POSTURES[x.p].next}); };
+  const add = x => { if (!x || x.quiet || !POSTURES[x.p]) return; if (x.m && MOMENTS[x.m]) pools.push({label: MOMENTS[x.m].name, p: x.p, list: MOMENTS[x.m].next}); pools.push({label: srcTitle(x), p: x.p, list: POSTURES[x.p].next}); };
   add(n); if (own && (!n || own.p !== n.p || own.m !== n.m)) add(own);
   if (!pools.length){ add({p:'shukr'}); add({p:'dhikr'}); }
   const ideas = [], seen = new Set();
@@ -2094,7 +2097,7 @@ function renderSaved(scroll = true){
   if (isInt){
     const V = nudgeParts(n, e);
     body = V ? `<div class="card sleep-q fade" style="border-left:6px solid ${V.a.color}">
-        <span class="nl">${esc(cardTitle(n))} · ${esc(cardTag(n))}</span>
+        <span class="nl">${esc(cardLine(n))}</span>
         <p class="q" style="margin:4px 0 8px;font-family:Lora,Georgia,serif;font-size:17px;line-height:1.5">${esc(V.see)}</p>
         ${e.why ? `<p class="small muted" style="margin:0 0 8px">Your why: “${esc(clip(e.why.a, 120))}”${reasonLine(e.why.r) ? `<br>${esc(reasonLine(e.why.r))}` : ''}</p>` : ''}
         <div class="nudge" style="border:0;box-shadow:none;padding:0;margin:0"><div class="try">${ic('sprout',16)}<span>${esc(V.invite)}</span></div></div>
@@ -2139,7 +2142,7 @@ async function saveEntry(){
 /* ---------- Journal view ---------- */
 function entryHTML(e, opt = {}){
   const mn = mainNudge(e), tr = treeOf(e);
-  const tags = mn && POSTURES[mn.p] ? `<button class="tag" style="--c:${AREAS[tr].color}" data-act="open-tree" data-id="${tr}">${ic(AREAS[tr].icon,12)} ${esc(nudgeName(mn))}</button>` : '';
+  const tags = mn && SRC[mn.src] ? `<button class="tag" style="--c:${AREAS[tr].color}" data-act="open-tree" data-id="${tr}">${ic(AREAS[tr].icon,12)} ${esc(nudgeName(mn))}</button>` : '';
   const on = e.kind === 'reflection' ? (e.links || []).filter(id => id !== opt.parentId).map(byId).filter(Boolean) : [];
   let follow = '';
   if (e.kind === 'intention' && !reflectionsFor(e.id).length && (Date.now() - Date.parse(e.at)) < 2 * 864e5){
@@ -2165,7 +2168,7 @@ function entryHTML(e, opt = {}){
 function entryNudgeHTML(e){
   const n = mainNudge(e), P = n && nudgeParts(n, e); if (!P) return '';
   return `<div class="entry-nudge" style="--c:${P.a.color}">
-    <span class="nl">${esc(cardTitle(n))} · ${esc(cardTag(n))}</span>
+    <span class="nl">${esc(cardLine(n))}</span>
     <p class="q" style="margin:2px 0 6px">${esc(P.see)}</p>
     ${e.why && reasonLine(e.why.r) ? `<p class="en-why">${esc(reasonLine(e.why.r))}</p>` : ''}
     ${conceptHTML(P.concept)}
@@ -2287,7 +2290,7 @@ function treeSVG(area, stage, label){
 function renderGarden(){
   const drops = treeDrops();
   const fed = {};
-  data.entries.forEach(e => { const n = mainNudge(e.kind === 'reflection' && e.links && byId(e.links[0]) ? byId(e.links[0]) : e); if (n && POSTURES[n.p]) fed[n.p] = (fed[n.p] || 0) + (DROPS[e.kind] || 1); });
+  data.entries.forEach(e => { const n = mainNudge(e.kind === 'reflection' && e.links && byId(e.links[0]) ? byId(e.links[0]) : e); if (n && SRC[n.src]) fed[n.src] = (fed[n.src] || 0) + (DROPS[e.kind] || 1); });
   const map = {};
   data.entries.forEach(e => { const k = dayKey(e.at); map[k] = map[k] || {}; map[k][e.kind] = true; });
   let cells = '', active = 0;
@@ -2302,19 +2305,19 @@ function renderGarden(){
   let detail = '';
   if (open){
     const ar = AREAS[open], sp = SPECIES[open];
-    const ps = POSTURE_ORDER.filter(p => POSTURES[p].tree === open);
+    const ps = SOURCES.filter(x => x.area === open);
     const es = data.entries.filter(e => treeOf(e) === open).sort((x, y) => x.at.localeCompare(y.at)).slice(-10);
     const set = new Map(es.map(e => [e.id, e]));
     detail = `<section class="card tree-detail fade" id="treeDetail" style="--c:${ar.color};--c2:${ar.text}">
       <div class="td-head"><h3 style="margin:0">${sp.tree} · ${ar.label}</h3><button class="del" data-act="close-tree" aria-label="Close">${ic('x',18)}</button></div>
-      <p class="small muted" style="margin:6px 0 12px">The postures that feed this tree, and how many drops each has given. Tap one to read more.</p>
-      <div class="fed">${ps.map(p => `<button class="fed-row" data-act="open-posture" data-id="${p}"><span>${esc(POSTURES[p].ar)} · ${esc(POSTURES[p].en)}</span><b>${fed[p] || 0}</b></button>`).join('')}</div>
+      <p class="small muted" style="margin:6px 0 12px">The sources of Barakah that feed this tree, and how many drops each has given. Tap one to read more.</p>
+      <div class="fed">${ps.map(x => `<button class="fed-row" data-act="open-source" data-id="${x.id}"><span>${esc(x.title)}</span><b>${fed[x.id] || 0}</b></button>`).join('')}</div>
       ${es.length ? `<h3 style="margin:16px 0 8px">Recent entries</h3>${threadsHTML(es, set)}` : `<p class="small muted">No entries for this tree yet.</p>`}
     </section>`;
   }
   $('#view').innerHTML = `
     <h2>Your grove</h2>
-    <p class="muted small" style="margin-top:0">Four trees, one for each part of life, each fed by its postures. An intention gives its tree 1 drop. Looking back on it at night gives 2 more. Nothing wilts here.</p>
+    <p class="muted small" style="margin-top:0">Four trees, one for each part of life, each fed by the sources of Barakah. An intention gives its tree 1 drop. Looking back on it at night gives 2 more. Nothing wilts here.</p>
     <div class="grove4">${AREA_ORDER.map(t => {
       const ar = AREAS[t], sp = SPECIES[t], d = drops[t], st = growStage(d), nx = GROW[st + 1];
       const pct = nx ? ((d - GROW[st]) / (nx - GROW[st])) * 100 : 100;
@@ -2337,34 +2340,16 @@ function renderGarden(){
   if (open && ui.scrollTree){ ui.scrollTree = false; setTimeout(() => $('#treeDetail')?.scrollIntoView({behavior:'smooth', block:'start'}), 30); }
 }
 
-/* ---------- Sources view: the 11 postures, then the 21 Sources underneath ---------- */
-function renderSources(open, openP){
-  const postures = POSTURE_ORDER.map(id => { const P = POSTURES[id], a = AREAS[P.tree]; return `
-    <details class="srcitem" id="p-${id}" style="--c:${a.color}" ${openP === id ? 'open' : ''}>
-      <summary><span>${esc(P.ar)}<small>${esc(P.en)}</small></span>${ic('chevron',18)}</summary>
-      <div class="srcbody">
-        <div class="small" style="font-weight:800;color:${a.text};margin-bottom:8px">${ic(a.icon,14)} ${SPECIES[P.tree].tree} · ${a.label}</div>
-        <p style="margin:0 0 10px;font-family:'Lora',serif;font-style:italic;font-size:16px;line-height:1.5">${esc(P.see)}</p>
-        <p style="margin:0 0 10px"><b>${esc(P.concept.term)}.</b> ${esc(P.concept.text)}</p>
-        ${P.dalil.map(d => `<blockquote>${esc(d.text)}<cite>${esc(d.cite)}</cite></blockquote>`).join('')}
-        <strong>Small invitations</strong>
-        <ul>${P.inv.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
-        <strong>Sources of Barakah underneath</strong>
-        <div class="src-links">${P.sources.map(sid => `<button class="tag" style="--c:${a.color}" data-act="open-source" data-id="${sid}">${esc(SRC[sid].title)}</button>`).join('')}</div>
-        ${MOMENT_ORDER.filter(m => MOMENTS[m].posture === id).length ? `<strong>Moments</strong><p class="small muted" style="margin:4px 0 0">${MOMENT_ORDER.filter(m => MOMENTS[m].posture === id).map(m => esc(MOMENTS[m].name)).join(' · ')}</p>` : ''}
-      </div>
-    </details>`; }).join('');
+/* ---------- Sources view: the 21 Sources of Barakah ---------- */
+function renderSources(open){
   $('#view').innerHTML = `
-    <h2>11 postures</h2>
-    <p class="muted small" style="margin-top:0">Every intention is matched to one posture of the heart. Each posture grows one of your four trees, and draws on the sources of Barakah below.</p>
-    <div class="posture-list">${postures}</div>
-    <h2 style="margin-top:24px">21 Sources of Barakah</h2>
-    <p class="muted small" style="margin-top:0">Barakah isn't about doing more in less time. It is getting better results with the time you have, through intention, connection with Allah, and mindful action. These are the sources underneath every card.</p>
-    ${SOURCES.map(s => { const a = AREAS[s.area], P = POSTURES[s.posture]; return `
+    <h2>21 Sources of Barakah</h2>
+    <p class="muted small" style="margin-top:0">Barakah isn't about doing more in less time. It is getting better results with the time you have, through intention, connection with Allah, and mindful action. Every intention is matched to one of these, and each one feeds one of your four trees.</p>
+    ${SOURCES.map(s => { const a = AREAS[s.area]; return `
     <details class="srcitem" id="src-${s.id}" style="--c:${a.color}" ${open === s.id ? 'open' : ''}>
       <summary><span><span class="n">${s.id}</span>${esc(s.title)}</span>${ic('chevron',18)}</summary>
       <div class="srcbody">
-        <div class="small" style="font-weight:800;color:${a.text};margin-bottom:8px">${ic(a.icon,14)} Mostly feeds ${esc(P.ar)} · ${esc(P.en)} (${SPECIES[s.area].tree})</div>
+        <div class="small" style="font-weight:800;color:${a.text};margin-bottom:8px">${ic(a.icon,14)} Feeds your ${SPECIES[s.area].tree.toLowerCase()} \u00B7 ${a.label}</div>
         <blockquote>${esc(s.ev)}<cite>${esc(s.ref)}</cite></blockquote>
         <p style="margin:0 0 10px">${esc(s.why)}</p>
         <strong>Gentle invitations</strong>
@@ -2377,15 +2362,15 @@ function renderSources(open, openP){
         </div>
       </div>
     </details>`; }).join('')}`;
-  const target = openP ? 'p-' + openP : open ? 'src-' + open : null;
+  const target = open ? 'src-' + open : null;
   if (target) setTimeout(() => document.getElementById(target)?.scrollIntoView({behavior:'smooth', block:'start'}), 50);
 }
 
 /* ---------- Router ---------- */
 function render(){
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', b.dataset.tab === ui.tab ? 'page' : 'false'));
-  ({write:renderWrite, journal:renderJournal, garden:renderGarden, sources:() => renderSources(ui.openSource, ui.openPosture)})[ui.tab]();
-  ui.openSource = null; ui.openPosture = null;
+  ({write:renderWrite, journal:renderJournal, garden:renderGarden, sources:() => renderSources(ui.openSource)})[ui.tab]();
+  ui.openSource = null;
 }
 function refresh(){ if (ui.tab === 'journal' && $('#jlist')) renderJournalList(); else if (ui.tab === 'garden') renderGarden(); else if (ui.justSaved && ui.tab === 'write') renderSaved(); else render(); }
 function go(tab){ if (tab !== ui.tab && !ui.scrollTree) ui.openTree = null; ui.tab = tab; ui.confirmDelete = null; render(); window.scrollTo({top:0}); }
@@ -2474,7 +2459,7 @@ const REASONS = [
  {id:'tired', kw:"tired|exhaust|burn|drain|busy|no time|too much|heavy|lazy|unmotivated|numb|struggl|hard$|difficult", line:"You sound tired. Choose the smallest version of this that is still honest, and let that be enough for today."}
 ];
 /* Some reasons point to a better lens than the one the sentence matched. The journey offers it; it never switches silently. */
-const REASON_LENS = {trust:'tawakkul', envy:'shukr', hurt:'feeling-low'};
+const REASON_LENS = {trust:3, envy:9, hurt:5};
 const reasonLine = id => { const r = REASONS.find(x => x.id === id); return r ? r.line : ''; };
 const REASON_OTHER = "Thank you for putting it into words. Naming your reason is already part of making the intention.";
 
@@ -2767,16 +2752,14 @@ function jSlide(step){
     const r = REASONS.find(x => x.id === J.reason), a = J.answer.trim();
     const bridge = a ? jRv(2, 'j-bridge', 'div', '', `<small>You said: “${esc(clip(a, 90))}”</small>${esc(r ? r.line : REASON_OTHER)}`) : '';
     const concept = v.concept ? jRv(3, 'j-concept', 'details', '', `<summary>${ic('book',16)} ${esc(v.concept.term)}</summary><p>${esc(v.concept.text)}</p>`) : '';
-    const lens = REASON_LENS[J.reason], cur = J.nudge.m || J.nudge.p;
-    const lensName = lens && (MOMENTS[lens] ? MOMENTS[lens].name : POSTURES[lens] && POSTURES[lens].en);
-    const same = lens && (lens === cur || (POSTURES[lens] && POSTURES[lens].ar === (POSTURES[cur] || {}).ar) || (MOMENTS[lens] && J.nudge.m === lens));
-    const suggest = lens && lensName && !same && !J.nudge.fixed ? jRv(4, 'j-suggest', 'div', '', `Your reason sounds more like <b>${esc(lensName)}</b>. <button class="j-link" data-act="j-switch" data-to="${lens}">See it that way</button>`) : '';
-    const pick = J.pickOpen ? `<div class="j-pick" role="group" aria-label="Choose a lens">${POSTURE_ORDER.map(p => `<button data-act="j-pick" data-to="${p}" aria-pressed="${n.p === p && !n.m}">${esc(POSTURES[p].ar)} <span style="font-weight:500">· ${esc(POSTURES[p].en)}</span></button>`).join('')}</div>` : '';
+    const lens = REASON_LENS[J.reason];
+    const suggest = lens && lens !== J.nudge.src && !J.nudge.fixed ? jRv(4, 'j-suggest', 'div', '', `Your reason sounds more like <b>${esc(SRC[lens].title)}</b>. <button class="j-link" data-act="j-switch" data-to="src:${lens}">See it that way</button>`) : '';
+    const pick = J.pickOpen ? `<div class="j-pick" role="group" aria-label="Choose a source of Barakah">${SOURCES.map(x => `<button data-act="j-pick" data-to="src:${x.id}" aria-pressed="${n.src === x.id}">${esc(x.title)}</button>`).join('')}</div>` : '';
     return jRv(0, 'j-k', 'p', '', `See it differently · ${esc(cardTitle(n))}`) +
       jRv(1, 'j-d md', 'h2', 'tabindex="-1"', esc(v.see)) + bridge + concept +
       suggest +
-      jRv(4, 'j-links', 'div', '', `${jViews().length > 1 ? `<button class="j-link" data-act="j-view">Another way to see it</button>` : ''}<button class="j-link" data-act="j-lens">${J.pickOpen ? 'Close' : 'Not quite? Choose another lens'}</button>`) + pick +
-      jRv(5, 'j-note', 'p', '', esc(cardTag(n)));
+      jRv(4, 'j-links', 'div', '', `${jViews().length > 1 ? `<button class="j-link" data-act="j-view">Another way to see it</button>` : ''}<button class="j-link" data-act="j-lens">${J.pickOpen ? 'Close' : 'Not quite? Choose another source'}</button>`) + pick +
+      (cardTag(n) ? jRv(5, 'j-note', 'p', '', esc(cardTag(n))) : '');
   }
   if (step === 3){
     const L = jStories(), st = L[J.storyAlt % L.length];
@@ -3045,7 +3028,7 @@ document.addEventListener('click', ev => {
     case 'j-lens': J.pickOpen = !J.pickOpen; jRefresh(); break;
     case 'j-switch':
     case 'j-pick': {
-      const to = b.dataset.to; if (!POSTURES[to] && !MOMENTS[to]) break;
+      const to = b.dataset.to; if (!(/^src:\d+$/.test(to) && SRC[to.slice(4)])) break;
       const old = J.nudge;
       J.nudge = fromTarget(to, {fixed:true, ...(old.d ? {d:old.d} : {}), ...(old.purpose ? {purpose:true} : {})})[0];
       J.turn = 0; J.storyAlt = 0; J.qs = jQs(J.nudge, J.text); J.qi = 0; J.pickOpen = false; jRefresh(); break;
@@ -3064,7 +3047,7 @@ document.addEventListener('click', ev => {
     case 'clear-inspire': draft.inspire = null; persistDraft(); renderWrite(); break;
     case 'not-quite': ui.pick = ui.pick === b.dataset.entry ? null : b.dataset.entry; refresh(); break;
     case 'pick': {
-      const e = byId(b.dataset.entry), to = b.dataset.to; if (!e || !(POSTURES[to] || MOMENTS[to])) break;
+      const e = byId(b.dataset.entry), to = b.dataset.to; if (!e || !(/^src:\d+$/.test(to) && SRC[to.slice(4)])) break;
       const old = mainNudge(e) || {};
       e.nudges = fromTarget(to, {fixed:true, ...(old.d ? {d:old.d} : {}), ...(old.purpose ? {purpose:true} : {})});
       delete e.turn; Object.keys(ui.rot).filter(k => k.startsWith(e.id + ':')).forEach(k => delete ui.rot[k]);
@@ -3074,7 +3057,6 @@ document.addEventListener('click', ev => {
       ui.pick = null; persist(); refresh(); toast('Thank you. The journal will remember this.');
       break;
     }
-    case 'open-posture': ui.openPosture = b.dataset.id; ui.justSaved = null; go('sources'); break;
     case 'close-welcome': $('#welcome').close(); break;
     case 'open-tree': {
       const t = b.dataset.id;
