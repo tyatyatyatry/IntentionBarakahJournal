@@ -2360,10 +2360,10 @@ function importText(str){
    THE JOURNEY  (what happens after "Begin")
    A full-screen walk, one idea per screen, tiered so each step uses the one before it:
      Tier 1  your sentence      -> a posture (the matching engine above)
-     Tier 2  a probing question -> picked from the situation's 4-5 by words in your sentence, shown under your own words;
+     Tier 2  a probing question -> picked from the Source of Barakah's 4-6 by words in your sentence, shown under your own words;
                                    your answer is read for a REASON (allah, people, worry, duty, love, growth, tired)
                                    and, if tier 1 found nothing, the answer is used to match again
-     Tier 3  situation + reason -> "see it differently" + a line that answers your reason, then a story that fits both, and the source
+     Tier 3  Source + reason    -> "see it differently" + a line that answers your reason, then a story from that Source, and the evidence
    Nothing is saved until the last step; closing early keeps your words as a draft.
    Stories are short retellings of well-known accounts. They need a scholar's or your own check before sharing.
    ===================================================================== */
@@ -2379,291 +2379,221 @@ const REASONS = [
 ];
 const REASON_OTHER = "Thank you for putting it into words. Naming your reason is already part of making the intention.";
 
-/* Tier 3: one story per posture. Retold in brief; each names its source. */
-const STORIES = {
- ikhlas:{title:"The rock at the cave's mouth", cite:'Bukhari & Muslim',
-  text:"Three men sheltering in a cave were sealed in when a boulder slid across the entrance. Each asked Allah by naming one deed done only for His sake: caring for his elderly parents before his own children, turning away from a wrong he could have done out of fear of Allah, and keeping a worker's wages safe until they had grown. After each du'a the rock moved a little, until they walked out."},
- tawakkul:{title:"Hajar between two hills", cite:'Bukhari',
-  text:"Ibrahim (a.s.) left Hajar and their baby Ismail in an empty valley with little water. She asked, \"Did Allah command you to do this?\" He said yes. \"Then He will not neglect us,\" she said. When the water ran out she did not sit and wait. She ran between Safa and Marwa, seven times, looking for help. Then water came from the ground by the baby's feet: Zamzam."},
- dhikr:{title:"The words after prayer", cite:'Bukhari & Muslim',
-  text:"Some poor companions came to the Prophet ﷺ and said the wealthy had taken the reward: they pray as we pray, fast as we fast, and give charity too. He ﷺ taught them words anyone can say: SubhanAllah, Alhamdulillah and Allahu Akbar, thirty-three times after every prayer. When the wealthy heard, they began saying them too. He ﷺ said, \"That is the bounty of Allah; He gives it to whom He wills.\""},
- shukr:{title:"Should I not be grateful?", cite:'Bukhari & Muslim',
-  text:"The Prophet ﷺ would stand in prayer at night until his feet swelled. Aisha asked, \"Why do you do this, when Allah has forgiven your past and future sins?\" He ﷺ said, \"Should I not be a grateful servant?\""},
- sabr:{title:"Ayyub calls out", cite:'Quran 21:83-84, 38:44',
-  text:"A severe hardship touched Ayyub (a.s.). He did not accuse Allah. He turned to Him: \"Indeed, adversity has touched me, and You are the Most Merciful of the merciful.\" Allah answered him, removed the harm, and gave him his family back, and the like of them with them. Of him the Quran says: \"Indeed, We found him patient, an excellent servant.\""},
- taqwa:{title:"Yusuf and the closed door", cite:'Quran 12:23-25',
-  text:"Alone in a house, with the doors locked and a temptation set before him, Yusuf (a.s.) said, \"I seek refuge in Allah! He is my master, who has made my stay good.\" Then he ran for the door. A small lesson sits in that: taqwa often looks like walking toward the exit early, before the pressure peaks."},
- silah:{title:"Hot ashes", cite:'Muslim',
-  text:"A man said to the Prophet ﷺ, \"I have relatives I keep ties with, but they cut me off. I treat them well and they treat me badly.\" The Prophet ﷺ said, \"If it is as you say, it is as though you were feeding them hot ashes, and you will always have a helper from Allah against them as long as you continue.\""},
- rahmah:{title:"The thirsty dog", cite:'Bukhari & Muslim',
-  text:"A man on a long road grew very thirsty. He found a well, climbed down, drank, and came up. Then he saw a dog panting, licking damp earth from thirst. He thought, \"This dog is as thirsty as I was.\" He went back down, filled his leather sock with water, held it in his teeth as he climbed, and gave the dog a drink. Allah thanked him for it and forgave him. The companions asked, \"Is there reward for us in animals too?\" He ﷺ said, \"In every living creature there is reward.\""},
- sadaqah:{title:"A garden called Bayruha", cite:'Bukhari & Muslim',
-  text:"When the verse came, \"You will never attain righteousness until you spend from that which you love\" (3:92), Abu Talha went to the Prophet ﷺ. His dearest property was a garden, Bayruha, across from the mosque, with sweet water the Prophet ﷺ liked to drink. \"I give it for the sake of Allah,\" he said. The Prophet ﷺ said, \"That is profitable wealth,\" and advised him to give it to his relatives, which he did."},
- ihsan:{title:"The stranger in white", cite:'Muslim',
-  text:"One day a man in very white clothes, with no sign of travel on him, sat before the Prophet ﷺ and asked about Islam, about faith, and about ihsan. Of ihsan the Prophet ﷺ said, \"It is to worship Allah as though you see Him; and if you do not see Him, then truly He sees you.\" The visitor was Jibril, who had come to teach the people their religion."},
- amanah:{title:"Al-Amin, the trustworthy", cite:'Sirah (Ibn Hisham)',
-  text:"Even among those who opposed him, Muhammad ﷺ was known as al-Amin, the trustworthy, and people kept leaving their valuables with him. When he left Makkah for Madinah, he asked Ali to stay behind a little longer, only to return those deposits to their owners."}
-};
+
 
 /* =====================================================================
-   SITUATIONS (v2 of the journey)
-   The 87 detectors and 27 moments are grouped into 19 situation families. A family owns the questions and the stories,
-   so they speak to what you are actually doing (calling your mother, an exam, a rift, a payday), not only to the posture.
-   Order of choice:  detector or moment  ->  family  ->  question (by your words)  ->  story (by your reason).
-   A posture is the fallback when nothing is more specific. Stories are short retellings and need a scholar's check.
+   THE 21 SOURCES OF BARAKAH AS CHANNELS
+   Every situation the matcher recognises already belongs to one of the 21 Sources (n.src). That Source owns the questions
+   and the stories. Order of choice:  Source  ->  question (by your words)  ->  story (by situation, then by your reason).
+   Stories are short retellings and need a scholar's or your own check before sharing.
    ===================================================================== */
-const FAMILY_IDS = {
- salah:"prayer-on-time voluntary-prayer masjid adhan-iqamah after-salah taking-ease busy-day",
- dawn:"fajr last-third tahajjud morning sleep before-sleep thursday",
- quran:"quran-time memorise tadabbur",
- remembrance:"bismillah istighfar salawat friday rain blessed-days ramadan umrah-plan commute travel journey",
- anxious:"worry waiting big-moment decision asking hoping-to-marry leaving-home",
- low:"feeling-low gentle-with-self",
- family:"parents-elders calling-parents keeping-in-touch parents-dua coming-home entering-home spouse",
- rift:"family-rift making-amends mending-rift tension-home",
- patience:"patience anger complaining",
- work:"work plan-day start-new ordinary-task procrastination business selling",
- learning:"studying reading deen-learning teaching",
- trust:"spending payday saving-for debts integrity",
- giving:"giving small-kindness shared-meal",
- mercy:"visiting-sick dua-for-others creatures helping-colleague help-while-busy unseen-people community",
- earth:"nature planting",
- gratitude:"counting-blessings good-news comparing",
- restraint:"screen-time speech holding-back letting-go company",
- body:"body mindful-eating fasting suhoor iftar",
- sincerity:"sincerity"
-};
-const POSTURE_FAMILY = {ikhlas:'sincerity', tawakkul:'anxious', dhikr:'remembrance', shukr:'gratitude', sabr:'patience', taqwa:'restraint', silah:'family', rahmah:'mercy', sadaqah:'giving', ihsan:'work', amanah:'trust'};
-const FAMILY_OF = {};
-Object.entries(FAMILY_IDS).forEach(([f, ids]) => ids.split(' ').forEach(id => { FAMILY_OF[id] = f; }));
-
-/* Questions: [text, keywords that make it the better fit]. Four or five per family. */
-const FAMILY_QS = {
- salah:[
-  ["What usually pulls you away from praying on time, and what could you set up to meet it halfway?","busy|work|meeting|phone|tired|late|forget"],
-  ["Is this about showing up on time, or about being present once you are there?","on time|early|late|present|focus|khushu"],
-  ["What do you want to feel in the first minute after you finish?",""],
-  ["When you stand to pray, where does your mind go first?",""]],
- dawn:[
-  ["What does the night before need to look like for this to happen?","sleep|night|late|phone"],
-  ["What makes the first minutes after waking so hard, and what would make them easier?","wake|alarm|tired|snooze|woke"],
-  ["What would you ask Allah for in the quiet of that hour?",""],
-  ["Whose name would you bring with you into that dua?",""]],
- quran:[
-  ["Is this about reciting, understanding, or remembering? Which do you need most right now?","memor|hafal|tafsir|understand|read|recite"],
-  ["What gets in the way of your time with it: time, focus, or feeling distant?","busy|time|focus|distant"],
-  ["What small amount could you keep even on your worst day?",""],
-  ["What do you hope the Quran says to you this week?",""]],
- remembrance:[
-  ["Which moment of your day is quietest, and could a few words live there?",""],
-  ["When do you forget Allah the most, and what pulls you away?","phone|scroll|busy|work|forget|distract"],
-  ["What are you hoping these words will do for your heart today?",""],
-  ["What is one dua you would ask for if you knew it would be heard?",""]],
- anxious:[
+/* Questions: [text, keywords that make it the better fit]. Four to six per Source. */
+const SRC_QS = {
+ 1:[
+  ["If no one ever knew you did this, would you still do it?","show|post|impress|notice|boss|credit|recogni"],
+  ["Who are you picturing when you imagine this going well?",""],
+  ["What part of this are you hoping Allah sees?",""],
+  ["Is there a second, quieter reason under the first one?",""]],
+ 2:[
+  ["Where in this will you need to choose Allah's way over the easy way?","decide|decision|choose|honest|truth|claim|lie|friend"],
+  ["Who or what is influencing your choice here, and would you be at peace with that in front of Allah?","friend|friends|company|hang out|people"],
+  ["If you were sure Allah was watching, what would you do differently here?",""],
+  ["What would you ask Allah about this choice, if you could ask one thing?",""]],
+ 3:[
+  ["What is the hardest moment in this likely to be?","patien|sabar|kids|child|hard|difficult|angry|annoy"],
+  ["What would patience look like as one small action, not a feeling?","patien|sabar|calm"],
   ["What exactly are you most afraid might happen?","worr|afraid|fear|anxious|nervous|scared"],
   ["What part of this is in your hands, and what part is not?",""],
   ["What have you already done to prepare, and what is left to hand over?","prepar|plan|ready|study|prep|practice"],
   ["If it turns out differently from what you hope, what would you still want to have done right?","result|outcome|interview|exam|offer|decision|accept|wait"],
   ["What would you say to a friend who was carrying this?",""]],
- low:[
-  ["What is sitting heaviest on your heart right now?",""],
-  ["When did you last feel a little lighter, and what was happening?",""],
-  ["What would be the kindest next small step, with nothing else required?",""],
-  ["Who could you tell, even in one sentence?",""]],
- family:[
-  ["What do you most want them to feel after this?","mom|mum|mother|dad|father|parents|call|visit"],
-  ["Is there something you have wanted to say to them that you have not?",""],
-  ["What usually gets in the way: time, distance, pride, or something older?","busy|far|distance|pride|awkward"],
-  ["What is one small thing they would notice and remember?",""]],
- rift:[
-  ["What do you most want to be true between you after this?",""],
-  ["What part of this is yours to own, even if the other person owns more?",""],
-  ["What is stopping you from reaching out first?","pride|first|apolog|sorry"],
-  ["What would make it easier for them to say yes?",""]],
- patience:[
-  ["What is the hardest moment in this likely to be?","hard|difficult|angry|annoy|wait|frustrat|mad"],
-  ["What do you usually do when it gets hard, and do you want to do that again?",""],
-  ["What would patience look like as one small action, not a feeling?",""],
-  ["What do you wish you could say, and what could you say instead?","say|tell|snap|shout|argue"]],
- work:[
-  ["Who is this work really for, apart from you?",""],
-  ["Which part of it will you be most tempted to rush or leave half-done?","rush|quick|deadline|finish"],
-  ["What would doing this well look like if no one ever checked?",""],
-  ["How could this become something you do for Allah, not only for the deadline?",""],
-  ["What would help you begin the first ten minutes?","procrastinat|start|begin|delay|lazy|put off"]],
- learning:[
-  ["What are you hoping to be able to do, or to be, after you learn this?",""],
-  ["Who could benefit if you learn this well?",""],
-  ["What makes it hard to stay with: difficulty, distraction, or doubt?","hard|difficult|focus|distract|doubt|fail|exam"],
-  ["What small dua could you make before you begin?",""]],
- trust:[
+ 4:[
+  ["Is this about reciting, understanding, or remembering? Which do you need most right now?","memor|hafal|tafsir|understand|read|recite"],
+  ["What gets in the way of your time with it: time, focus, or feeling distant?","busy|time|focus|distant"],
+  ["What small amount could you keep even on your worst day?",""],
+  ["What do you hope the Quran says to you this week?",""]],
+ 5:[
+  ["Which moment of your day is quietest, and could a few words live there?",""],
+  ["When do you forget Allah the most, and what pulls you away?","phone|scroll|busy|work|forget|distract"],
+  ["What are you hoping these words will do for your heart today?",""],
+  ["What is one dua you would ask for if you knew it would be heard?",""],
+  ["What is sitting heaviest on your heart right now?","sad|down|low|heavy|ashamed|sorry|guilt"]],
+ 6:[
+  ["What do you hope this meal will do for you, beyond filling you?",""],
+  ["Who could you share it with, and what would that change?","lunch|dinner|breakfast|iftar|suhoor|family|friend"],
+  ["What do you reach for when you are not actually hungry?","snack|eat|junk|sugar|binge"],
+  ["What would eating with awareness look like, one step at a time?",""]],
+ 7:[
+  ["What exactly would you ask for, if you knew it would be heard?","hope|wish|pray|dua|ask|marry|job"],
+  ["What would you ask for someone else, in the same breath?",""],
+  ["What are you holding back from asking Allah, and why?",""],
+  ["What will you do differently while you wait for the answer?","wait|waiting|result|answer"]],
+ 8:[
   ["What do you want this money to do, for you and for others?",""],
   ["What are you afraid of when you think about this?","afraid|worr|debt|owe|short|enough|bills"],
   ["Does anyone have a right to part of this, and have they received it?","owe|debt|lend|borrow|pay"],
   ["What would handling this honestly look like, even if it costs you?",""]],
- giving:[
-  ["Who would be helped most, and does it matter that they know it was you?",""],
-  ["What fear comes up when you think of giving this?",""],
-  ["If it were not money, what could you give: time, a skill, a kind word?",""],
-  ["What do you love that you could part with?",""]],
- mercy:[
-  ["Who here is quietly struggling, even if they do not show it?",""],
-  ["How would you want to be treated in their place?",""],
-  ["What is the gentlest way to do this?",""],
-  ["What would help even if they never thanked you?",""]],
- earth:[
-  ["What do you hope will still be here because you took care of it?",""],
-  ["Who else benefits when you look after this?",""],
-  ["What small thing could you do again and again, not only once?",""]],
- gratitude:[
+ 9:[
   ["What in this could you easily take for granted?",""],
   ["Who helped make this possible, apart from you?",""],
   ["How could you thank Allah for it with something you do?",""],
   ["What would you miss most if it were gone tomorrow?",""]],
- restraint:[
+ 10:[
+  ["Does anyone have a right to part of this, and have they received it?","owe|debt|lend|borrow|pay back|repay|loan"],
+  ["Who would be helped most, and does it matter that they know it was you?",""],
+  ["What fear comes up when you think of giving this?",""],
+  ["If it were not money, what could you give: time, a skill, a kind word?",""],
+  ["What do you love that you could part with?",""]],
+ 11:[
+  ["What is pulling you toward this journey, and what is the sincerest version of that wish?",""],
+  ["What would you need to put in order before you could go?","save|money|plan|time|leave"],
+  ["Who would you carry in your dua there?",""],
+  ["What would you want to ask Allah for there?",""]],
+ 12:[
+  ["What do you most want them to feel after this?","mom|mum|mother|dad|father|parents|call|visit"],
+  ["Is there something you have wanted to say to them that you have not?",""],
+  ["What usually gets in the way: time, distance, pride, or something older?","busy|far|distance|pride|awkward"],
+  ["What is one small thing they would notice and remember?",""],
+  ["What do you most want to be true between you after this?","fight|argue|apolog|sorry|rift|upset|angry"],
+  ["What is stopping you from reaching out first?","pride|first|apolog|sorry"]],
+ 13:[
+  ["What does the night before need to look like for this to happen?","sleep|night|late|phone"],
+  ["What makes the first minutes after waking so hard, and what would make them easier?","wake|alarm|tired|snooze|woke"],
+  ["What would you ask Allah for in the quiet of that hour?",""],
+  ["Whose name would you bring with you into that dua?",""],
+  ["What does your body need from you today, rather than what it demands?","gym|workout|exercise|body|sleep|tired"],
+  ["How do you want to feel at the end of the day?",""]],
+ 14:[
+  ["What do you most want your spouse to feel from you today?","husband|wife|spouse|suami|istri"],
+  ["What small thing do they quietly carry that you have stopped noticing?",""],
+  ["What did you love about them that you have stopped saying?",""],
+  ["If you are hoping to marry, what part is yours to prepare, and what do you leave with Allah?","marry|marriage|nikah|someone|proposal"]],
+ 15:[
+  ["What usually pulls you away from praying on time, and what could you set up to meet it halfway?","busy|work|meeting|phone|tired|late|forget"],
+  ["Is this about showing up on time, or about being present once you are there?","on time|early|late|present|focus|khushu"],
+  ["What do you want to feel in the first minute after you finish?",""],
+  ["When you stand to pray, where does your mind go first?",""]],
+ 16:[
+  ["What do you hope to find, or to leave behind, in that place?",""],
+  ["How will you carry the feeling of that place back into your ordinary days?",""],
+  ["Who will you remember while you are there?",""],
+  ["What do you want to feel when you arrive?",""]],
+ 17:[
+  ["What do you want this time to hold that other times do not?",""],
+  ["What will you set aside to make room for it?","busy|time|work"],
+  ["What would you ask for if this were the moment?",""],
+  ["How could you prepare the night before?",""]],
+ 18:[
+  ["What would help you begin the first ten minutes?","procrastinat|start|begin|delay|lazy|put off|nunda|malas"],
   ["What exactly are you stepping away from, and what will you step toward?","avoid|stop|quit|resist|leave|give up|stay away"],
   ["When is it hardest, and what is going on around you then?","alone|night|late|tired|phone|bored"],
   ["What small boundary would protect you today?",""],
-  ["Who do you want to be in that moment, if Allah is watching?",""]],
- body:[
-  ["What does your body need from you today, rather than what it demands?",""],
-  ["What would taking care of it, as a trust from Allah, look like in one action?",""],
-  ["What gets in the way: time, energy, or motivation?","time|tired|energy|lazy|motivat"],
-  ["How do you want to feel at the end of the day?",""]],
- sincerity:[
-  ["If no one ever knew you did this, would you still do it?","show|post|impress|notice|boss|credit|recogni"],
-  ["Who are you picturing when you imagine this going well?",""],
-  ["What part of this are you hoping Allah sees?",""],
-  ["Is there a second, quieter reason under the first one?",""]]
+  ["Who do you want to be in that moment, if Allah is watching?",""],
+  ["What do you feel right before you give in, and what could you do in that gap?","angry|anger|mad|snap|shout|temper"],
+  ["What is the hardest moment in this likely to be?","hard|difficult|annoy|frustrat"]],
+ 19:[
+  ["What are you hoping to be able to do, or to be, after you learn this?",""],
+  ["Who could benefit if you learn this well?",""],
+  ["What makes it hard to stay with: difficulty, distraction, or doubt?","hard|difficult|focus|distract|doubt|fail|exam"],
+  ["What small dua could you make before you begin?",""]],
+ 20:[
+  ["What do you hope will still be here because you took care of it?",""],
+  ["Who else benefits when you look after this?",""],
+  ["What small thing could you do again and again, not only once?",""]],
+ 21:[
+  ["Who here is quietly struggling, even if they do not show it?",""],
+  ["How would you want to be treated in their place?",""],
+  ["What is the gentlest way to do this?",""],
+  ["What would help even if they never thanked you?",""]]
 };
 
-/* Stories: t title, c source, x text, r reasons it suits best, k label (default "A story"). */
-const FAMILY_STORIES = {
- salah:[
-  {t:"Give us rest through it", d:"busy-day prayer-on-time voluntary-prayer after-salah adhan-iqamah", c:"Abu Dawud", r:["tired","duty"],
-   x:"When the time for prayer came, the Prophet ﷺ would say to Bilal, “O Bilal, call the iqamah and give us rest through it.” To him, prayer was not an interruption of the day. It was where the day could rest."},
-  {t:"Every step is counted", d:"masjid", c:"Muslim", r:["allah","growth"],
-   x:"A man lived far from the mosque yet never missed a prayer there. Someone said, “Why not buy a donkey, for the dust and the heat?” He said, “I would not like my house to be beside the mosque. I want my steps to the mosque, and back to my family, to be written for me.” The Prophet ﷺ said, “Allah has gathered all of that for you.”"}],
- dawn:[
-  {t:"Better than the world", d:"fajr", c:"Muslim", r:["tired","allah"], k:"A saying",
-   x:"The Prophet ﷺ said of the two rak'ahs before Fajr, “They are dearer to me than the whole world.”"},
-  {t:"If only he would pray at night", d:"last-third tahajjud", c:"Bukhari & Muslim", r:["growth","allah"],
-   x:"Abdullah ibn Umar, still a young man, told the Prophet ﷺ of a dream. The Prophet ﷺ said, “What a fine man Abdullah is, if only he would pray at night.” After that, he slept only a little of the night."},
-  {t:"Better than what you asked for", d:"sleep before-sleep", c:"Bukhari & Muslim", r:["tired","love"],
-   x:"Fatima, whose hands were sore from grinding grain, asked the Prophet ﷺ for a servant. He came to them in the evening and said, “Shall I tell you something better than what you asked for?” He taught them to say SubhanAllah, Alhamdulillah and Allahu Akbar, thirty-three, thirty-three and thirty-four times, when they went to bed."}],
- quran:[
-  {t:"Did He name me?", d:"tadabbur quran-time", c:"Bukhari & Muslim", r:["love","allah"],
-   x:"The Prophet ﷺ said to Ubayy ibn Ka'b, “Allah has commanded me to recite the Quran to you.” Ubayy asked, “Did He name me?” “Yes,” he said. And Ubayy wept."},
-  {t:"The night the angels came close", d:"memorise", c:"Bukhari & Muslim", r:["growth","tired"],
-   x:"Usayd ibn Hudayr was reciting Surat al-Baqarah at night when his horse began to shy. When he stopped, it calmed. When he recited, it shied again. He looked up and saw something like a canopy of lamps rising into the sky. The Prophet ﷺ told him, “Those were the angels, drawing near to listen to you.”"}],
- remembrance:[
-  {t:"A treasure from Paradise", d:"bismillah commute travel journey", c:"Bukhari & Muslim", r:["tired","worry"],
-   x:"On a journey, the people began raising their voices in takbir. The Prophet ﷺ said, “Be gentle with yourselves. You are not calling on someone deaf or absent. He is with you.” Then he said to Abu Musa, “Shall I tell you a treasure from the treasures of Paradise? La hawla wa la quwwata illa billah.”"},
-  {t:"All of my dua", d:"salawat friday", c:"Tirmidhi", r:["worry","love"],
-   x:"Ubayy ibn Ka'b asked, “O Messenger of Allah, I send many prayers upon you. How much of my dua should be for you?” “As much as you like,” he said. Ubayy kept raising it until he said, “All of my dua.” The Prophet ﷺ said, “Then your worries will be taken care of, and your sins forgiven.”"}],
- anxious:[
-  {t:"Two, and Allah is the third", d:"worry", c:"Bukhari & Muslim; Quran 9:40", r:["worry","people"],
-   x:"In the cave, with the Quraysh outside, Abu Bakr whispered, “If one of them looks down at his feet, he will see us.” The Prophet ﷺ said, “O Abu Bakr, what do you think of two whose third is Allah?” The Quran records his words: “Do not grieve; indeed Allah is with us.”"},
-  {t:"Enough for us is Allah", d:"big-moment decision leaving-home", c:"Bukhari; Quran 3:173", r:["worry","duty"],
-   x:"“Hasbunallahu wa ni'mal wakeel,” said Ibrahim (a.s.) when he was thrown into the fire. Muhammad ﷺ and his companions said it when they were told, “The people have gathered against you, so fear them.” It only increased their faith."},
-  {t:"No! My Lord is with me", d:"waiting asking hoping-to-marry", c:"Quran 26:61-62", r:["worry","growth"], k:"From the Qur'an",
-   x:"At the sea, with Pharaoh's army behind them, Musa's people said, “We are about to be overtaken.” He said, “No! Indeed, my Lord is with me; He will guide me.” Then Allah told him to strike the sea with his staff."}],
- low:[
-  {t:"From the belly of the whale", d:"feeling-low", c:"Quran 21:87-88", r:["tired","duty"], k:"From the Qur'an",
-   x:"Yunus (a.s.) found himself in the darkness of the whale, the night and the sea. He called out, “There is no god but You; glory be to You; indeed I was among the wrongdoers.” Allah says, “So We responded to him and saved him from the distress. And thus do We save the believers.”"},
-  {t:"Only to Allah", d:"gentle-with-self", c:"Quran 12:83-86", r:["love","worry"], k:"From the Qur'an",
-   x:"Yaqub (a.s.) lost Yusuf, and then his grief grew until his eyes turned white with sorrow. He said, “So, beautiful patience,” and, “I only complain of my suffering and my grief to Allah.”"}],
- family:[
-  {t:"Your mother, then your mother", d:"calling-parents parents-elders keeping-in-touch parents-dua", c:"Bukhari & Muslim", r:["love","duty"],
-   x:"A man asked, “O Messenger of Allah, who is most deserving of my good company?” “Your mother,” he said. “Then who?” “Your mother.” “Then who?” “Your mother.” “Then who?” “Then your father.”"},
-  {t:"The friend of his father", d:"parents-elders", c:"Muslim", r:["love","people"],
-   x:"On the road to Makkah, Abdullah ibn Umar met a Bedouin, greeted him, and gave him the donkey he was riding and the turban from his own head. His companions said, “He would have been content with a little.” Ibn Umar said, “His father was a friend of Umar's, and I heard the Prophet ﷺ say that the best kindness is for a man to keep ties with the loved ones of his father.”"},
-  {t:"In the service of his family", d:"spouse coming-home entering-home", c:"Bukhari", r:["duty","people"],
-   x:"Aisha was asked what the Prophet ﷺ did at home. She said, “He was busy serving his family, and when the time for prayer came, he went out to pray.”"}],
- rift:[
-  {t:"A man of Paradise", d:"tension-home making-amends", c:"Ahmad", r:["people","tired"],
-   x:"Three days in a row the Prophet ﷺ said, “A man of Paradise will walk in now,” and each time it was the same Ansari. Abdullah ibn Amr stayed with him to see his deeds and found nothing unusual. When he asked, the man said, “Only that I go to bed without any ill feeling in my heart toward any Muslim.”"},
-  {t:"Go, you are free", d:"family-rift mending-rift", c:"Sirah (Ibn Hisham)", r:["people","duty"],
-   x:"When the Prophet ﷺ entered Makkah as its victor, the people who had driven him out waited for their sentence. He asked, “What do you think I will do with you?” They said, “A noble brother, son of a noble brother.” He said, “Go, you are free.”"}],
- patience:[
-  {t:"The Bedouin and the cloak", d:"anger", c:"Bukhari & Muslim", r:["tired","people"],
-   x:"A Bedouin pulled the Prophet's ﷺ cloak so hard that its edge left a mark on his neck, and said, “O Muhammad, give me some of the wealth of Allah that you have.” The Prophet ﷺ turned to him, smiled, and ordered that he be given something."},
-  {t:"Patience is at the first strike", d:"patience complaining", c:"Bukhari & Muslim", r:["tired","worry"],
-   x:"The Prophet ﷺ passed a woman weeping at a grave and said, “Fear Allah and be patient.” Not knowing him, she said, “Leave me; you have not been struck as I have.” When she learned who it was, she came to his door and said, “I did not recognise you.” He said, “Patience is at the first strike.”"}],
- work:[
-  {t:"From the work of his own hands", d:"work business selling", c:"Bukhari", r:["duty","growth"],
-   x:"The Prophet ﷺ said, “No one has ever eaten better food than that which he earned with his own hands. The Prophet of Allah, Dawud (a.s.), used to eat from the earnings of his own hands.”"},
-  {t:"Musa at the well", d:"ordinary-task helping-colleague", c:"Quran 28:23-24", r:["allah","tired"], k:"From the Qur'an",
-   x:"Arriving in Madyan, a stranger with nothing, Musa (a.s.) saw two women holding back their flock. He watered it for them, then went to the shade and said, “My Lord, I am in need of whatever good You send down to me.” Soon after, an invitation came: work, and a home."},
-  {t:"The trench", d:"procrastination start-new plan-day", c:"Bukhari", r:["tired","growth"],
-   x:"Digging the trench around Madinah, the Prophet ﷺ carried earth with his companions until the dust covered him. They were hungry, and some had tied stones to their bellies. They worked, and he worked with them."}],
- learning:[
-  {t:"Musa goes looking for knowledge", d:"deen-learning reading", c:"Quran 18:60-69", r:["growth","tired"], k:"From the Qur'an",
-   x:"Musa (a.s.) said, “I will not stop until I reach the junction of the two seas, even if I travel for years.” He found a servant of Allah who had been given knowledge, and asked, “May I follow you so you teach me?” The servant said, “You will not be able to be patient with me.” Musa said, “You will find me patient, if Allah wills.”"},
-  {t:"The spread-out cloak", d:"studying teaching", c:"Bukhari", r:["growth","worry"],
-   x:"Abu Hurayrah said he stayed close to the Prophet ﷺ while others were busy in the markets and fields. He told the Prophet ﷺ that he heard much and forgot it. The Prophet ﷺ asked him to spread out his cloak, then to gather it to his chest. Abu Hurayrah said, “After that, I never forgot anything.”"}],
- trust:[
-  {t:"Allah as guarantor", d:"debts", c:"Bukhari", r:["worry","duty"],
-   x:"A man of Bani Israil asked another for a loan of a thousand dinars. “Bring a witness.” “Allah is enough as a witness.” “Bring a guarantor.” “Allah is enough as a guarantor.” When the time came he could find no boat, so he put the money in a hollowed log with a letter and asked Allah to deliver it. The lender found the log on the shore with the money inside. When the borrower finally arrived to repay him, the lender said, “Allah has already delivered what you sent.”"},
-  {t:"Green and sweet", d:"payday spending saving-for", c:"Bukhari & Muslim", r:["worry","growth"],
-   x:"Hakim ibn Hizam asked the Prophet ﷺ for money, and was given it. Again, and again. Then the Prophet ﷺ said, “This wealth is green and sweet. Whoever takes it with a generous heart will be blessed in it. Whoever takes it with greed will not be blessed, like one who eats and is never full.” Hakim said he would take from no one after that, and kept to it."},
-  {t:"The jar of gold", d:"integrity", c:"Bukhari & Muslim", r:["duty","people"],
-   x:"A man bought land and found a jar of gold in it. He took it to the seller: “Take your gold. I bought the land, not the gold.” The seller said, “I sold you the land and everything in it.” They went to a judge, who told them to marry the buyer's son to the seller's daughter, and to spend on themselves from it and give in charity."}],
- giving:[
-  {t:"Half a date", d:"giving small-kindness", c:"Muslim", r:["love","tired"],
-   x:"A woman came to Aisha with her two little daughters, asking for food. Aisha had only one date, and gave it to her. The woman split it between her daughters and ate none herself. When the Prophet ﷺ heard, he said, “Allah has made Paradise for her because of it.”"},
-  {t:"The lamp that went out", d:"shared-meal", c:"Bukhari & Muslim", r:["love","people"],
-   x:"A man took a guest of the Prophet ﷺ home, but his wife said they had food only for the children. He told her to put the children to sleep, light the lamp and let it go out as if fixing it, and sit with the guest pretending to eat. In the morning the Prophet ﷺ said, “Allah was pleased with what you two did last night.”"},
-  {t:"What did you leave for your family?", c:"Abu Dawud & Tirmidhi", r:["allah","growth"],
-   x:"Abu Bakr brought all his wealth to the Prophet ﷺ. “What did you leave for your family?” he asked. Abu Bakr said, “I left Allah and His Messenger for them.”"}],
- mercy:[
-  {t:"The thirsty dog", d:"creatures dua-for-others", c:"Bukhari & Muslim", r:["love","duty"],
-   x:"A man on a long road grew very thirsty. He found a well, climbed down, drank, and came up. Then he saw a dog panting, licking damp earth from thirst. He thought, “This dog is as thirsty as I was.” He went back down, filled his leather sock with water, held it in his teeth as he climbed, and gave the dog a drink. Allah thanked him for it and forgave him."},
-  {t:"The boy who was ill", d:"visiting-sick", c:"Bukhari", r:["love","allah"],
-   x:"A young boy who used to serve the Prophet ﷺ fell ill, and the Prophet ﷺ went to visit him. He sat by the boy's head and invited him to Islam. The boy looked at his father, who was beside him, and his father said, “Obey Abul-Qasim.” The boy accepted Islam, and the Prophet ﷺ left saying, “Praise be to Allah who saved him from the Fire through me.”"},
-  {t:"A branch on the road", d:"unseen-people community", c:"Bukhari & Muslim", r:["tired","duty"],
-   x:"While a man was walking, he found a thorny branch on the road and moved it aside. Allah thanked him for it and forgave him."},
-  {t:"The baby's cry", d:"help-while-busy helping-colleague", c:"Bukhari & Muslim", r:["duty","people"],
-   x:"The Prophet ﷺ said, “I begin the prayer meaning to make it long, then I hear a child crying and I shorten it, because I know how much his mother is troubled by his crying.”"}],
- earth:[
-  {t:"The sapling in your hand", d:"planting", c:"Ahmad", r:["growth","tired"], k:"A saying",
-   x:"The Prophet ﷺ said, “If the Final Hour is about to begin and one of you has a sapling in his hand, if he can plant it before it begins, let him plant it.”"},
-  {t:"Sulayman and the ant", d:"nature", c:"Quran 27:18-19", r:["love","allah"], k:"From the Qur'an",
-   x:"As Sulayman's army passed a valley of ants, one ant said, “O ants, enter your homes so that Sulayman and his soldiers do not crush you without noticing.” He smiled, amused at her words, and said, “My Lord, enable me to be grateful for Your favour that You have bestowed upon me.”"}],
- gratitude:[
-  {t:"Good news, and the gift of his clothes", d:"good-news counting-blessings", c:"Bukhari & Muslim", r:["love","allah"],
-   x:"After fifty days of waiting, Ka'b ibn Malik heard a voice call out from the mountain that Allah had accepted his repentance. A man ran to him with the news, and Ka'b took off both his garments and gave them to him. When he reached the Prophet ﷺ, his face was shining with joy."},
-  {t:"The mat and the world", d:"comparing", c:"Bukhari & Muslim", r:["people","growth"],
-   x:"Umar went in and saw the Prophet ﷺ lying on a straw mat that had left marks on his side, with little else in the room. Umar began to weep. “Why do you weep?” “Chosroes and Caesar live in luxury, and you are Allah's Messenger.” He ﷺ said, “Are you not content that they have this world, and we have the next?”"}],
- restraint:[
-  {t:"Hold this back", d:"speech", c:"Tirmidhi", r:["tired","people"],
-   x:"The Prophet ﷺ took hold of his own tongue and said to Mu'adh, “Hold this back.” Mu'adh asked, “Will we be held to account for what we say?” He ﷺ said, “Is there anything that throws people on their faces into the Fire except what their tongues have reaped?”"},
-  {t:"Protect his chastity", d:"letting-go holding-back company", c:"Ahmad", r:["worry","people"],
-   x:"A young man came to the Prophet ﷺ and asked permission to do something forbidden. The people rebuked him, but the Prophet ﷺ said, “Come closer,” and spoke with him gently. Then he put his hand on the young man's chest and prayed, “O Allah, forgive his sin, purify his heart, and protect his chastity.” The young man never turned to it again."},
-  {t:"Two blessings", d:"screen-time", c:"Bukhari", r:["tired","growth"], k:"A saying",
-   x:"The Prophet ﷺ said, “There are two blessings that many people lose out on: health and free time.”"}],
- body:[
-  {t:"Your body has a right over you", d:"body", c:"Bukhari", r:["tired","duty"],
-   x:"Salman visited Abu Darda and found him fasting and praying through the nights. Salman said, “Your Lord has a right over you, your body has a right over you, and your family has a right over you. Give each its right.” The Prophet ﷺ said, “Salman has spoken the truth.”"},
-  {t:"Fresh dates and water", d:"fasting suhoor iftar mindful-eating", c:"Abu Dawud", r:["love","tired"], k:"A sunnah",
-   x:"The Prophet ﷺ would break his fast before praying, with fresh dates. If there were none, then dry dates. If there were none, then a few sips of water."}],
- sincerity:[
-  {t:"The rock at the cave's mouth", c:"Bukhari & Muslim", r:["allah","worry"],
-   x:"Three men sheltering in a cave were sealed in when a boulder slid across the entrance. Each asked Allah by naming one deed done only for His sake: caring for his elderly parents before his own children, turning away from a wrong he could have done out of fear of Allah, and keeping a worker's wages safe until they had grown. After each du'a the rock moved a little, until they walked out."},
-  {t:"Charity in the dark", c:"Bukhari & Muslim", r:["allah","worry"],
-   x:"A man said, “I will give charity tonight.” In the morning people said it had gone to a thief. “O Allah, praise be to You: to a thief!” He gave again and it went to an adulteress, then again and it went to a rich man. He was told, “As for the thief, perhaps it will keep him from stealing. The adulteress, from immorality. The rich man may learn, and spend from what Allah gave him.”"}]
-};
+/* Stories: t title, s Sources it belongs to, d situations it fits best, r reasons it suits, k label (default "A story"), c source, x text. */
+const STORY_LIB = [
+ {"t":"Give us rest through it","s":[15],"d":"busy-day prayer-on-time voluntary-prayer after-salah adhan-iqamah","r":["tired","duty"],"c":"Abu Dawud","x":"When the time for prayer came, the Prophet ﷺ would say to Bilal, “O Bilal, call the iqamah and give us rest through it.” To him, prayer was not an interruption of the day. It was where the day could rest."},
+ {"t":"Every step is counted","s":[16],"d":"masjid","r":["allah","growth"],"c":"Muslim","x":"A man lived far from the mosque yet never missed a prayer there. Someone said, “Why not buy a donkey, for the dust and the heat?” He said, “I would not like my house to be beside the mosque. I want my steps to the mosque, and back to my family, to be written for me.” The Prophet ﷺ said, “Allah has gathered all of that for you.”"},
+ {"t":"Better than the world","s":[13],"d":"fajr","r":["tired","allah"],"k":"A saying","c":"Muslim","x":"The Prophet ﷺ said of the two rak'ahs before Fajr, “They are dearer to me than the whole world.”"},
+ {"t":"If only he would pray at night","s":[17],"d":"last-third tahajjud","r":["growth","allah"],"c":"Bukhari & Muslim","x":"Abdullah ibn Umar, still a young man, told the Prophet ﷺ of a dream. The Prophet ﷺ said, “What a fine man Abdullah is, if only he would pray at night.” After that, he slept only a little of the night."},
+ {"t":"Better than what you asked for","s":[13],"d":"sleep before-sleep","r":["tired","love"],"c":"Bukhari & Muslim","x":"Fatima, whose hands were sore from grinding grain, asked the Prophet ﷺ for a servant. He came to them in the evening and said, “Shall I tell you something better than what you asked for?” He taught them to say SubhanAllah, Alhamdulillah and Allahu Akbar, thirty-three, thirty-three and thirty-four times, when they went to bed."},
+ {"t":"Did He name me?","s":[4],"d":"tadabbur quran-time","r":["love","allah"],"c":"Bukhari & Muslim","x":"The Prophet ﷺ said to Ubayy ibn Ka'b, “Allah has commanded me to recite the Quran to you.” Ubayy asked, “Did He name me?” “Yes,” he said. And Ubayy wept."},
+ {"t":"The night the angels came close","s":[4],"d":"memorise","r":["growth","tired"],"c":"Bukhari & Muslim","x":"Usayd ibn Hudayr was reciting Surat al-Baqarah at night when his horse began to shy. When he stopped, it calmed. When he recited, it shied again. He looked up and saw something like a canopy of lamps rising into the sky. The Prophet ﷺ told him, “Those were the angels, drawing near to listen to you.”"},
+ {"t":"A treasure from Paradise","s":[5],"d":"bismillah commute travel journey","r":["tired","worry"],"c":"Bukhari & Muslim","x":"On a journey, the people began raising their voices in takbir. The Prophet ﷺ said, “Be gentle with yourselves. You are not calling on someone deaf or absent. He is with you.” Then he said to Abu Musa, “Shall I tell you a treasure from the treasures of Paradise? La hawla wa la quwwata illa billah.”"},
+ {"t":"All of my dua","s":[5,7],"d":"salawat friday","r":["worry","love"],"c":"Tirmidhi","x":"Ubayy ibn Ka'b asked, “O Messenger of Allah, I send many prayers upon you. How much of my dua should be for you?” “As much as you like,” he said. Ubayy kept raising it until he said, “All of my dua.” The Prophet ﷺ said, “Then your worries will be taken care of, and your sins forgiven.”"},
+ {"t":"Two, and Allah is the third","s":[3],"d":"worry","r":["worry","people"],"c":"Bukhari & Muslim; Quran 9:40","x":"In the cave, with the Quraysh outside, Abu Bakr whispered, “If one of them looks down at his feet, he will see us.” The Prophet ﷺ said, “O Abu Bakr, what do you think of two whose third is Allah?” The Quran records his words: “Do not grieve; indeed Allah is with us.”"},
+ {"t":"Enough for us is Allah","s":[3],"d":"big-moment decision leaving-home","r":["worry","duty"],"c":"Bukhari; Quran 3:173","x":"“Hasbunallahu wa ni'mal wakeel,” said Ibrahim (a.s.) when he was thrown into the fire. Muhammad ﷺ and his companions said it when they were told, “The people have gathered against you, so fear them.” It only increased their faith."},
+ {"t":"No! My Lord is with me","s":[3],"d":"waiting asking hoping-to-marry","r":["worry","growth"],"k":"From the Qur'an","c":"Quran 26:61-62","x":"At the sea, with Pharaoh's army behind them, Musa's people said, “We are about to be overtaken.” He said, “No! Indeed, my Lord is with me; He will guide me.” Then Allah told him to strike the sea with his staff."},
+ {"t":"From the belly of the whale","s":[5,7],"d":"feeling-low","r":["tired","duty"],"k":"From the Qur'an","c":"Quran 21:87-88","x":"Yunus (a.s.) found himself in the darkness of the whale, the night and the sea. He called out, “There is no god but You; glory be to You; indeed I was among the wrongdoers.” Allah says, “So We responded to him and saved him from the distress. And thus do We save the believers.”"},
+ {"t":"Only to Allah","s":[7],"d":"gentle-with-self","r":["love","worry"],"k":"From the Qur'an","c":"Quran 12:83-86","x":"Yaqub (a.s.) lost Yusuf, and then his grief grew until his eyes turned white with sorrow. He said, “So, beautiful patience,” and, “I only complain of my suffering and my grief to Allah.”"},
+ {"t":"Your mother, then your mother","s":[12],"d":"calling-parents parents-elders keeping-in-touch parents-dua","r":["love","duty"],"c":"Bukhari & Muslim","x":"A man asked, “O Messenger of Allah, who is most deserving of my good company?” “Your mother,” he said. “Then who?” “Your mother.” “Then who?” “Your mother.” “Then who?” “Then your father.”"},
+ {"t":"The friend of his father","s":[12],"d":"parents-elders","r":["love","people"],"c":"Muslim","x":"On the road to Makkah, Abdullah ibn Umar met a Bedouin, greeted him, and gave him the donkey he was riding and the turban from his own head. His companions said, “He would have been content with a little.” Ibn Umar said, “His father was a friend of Umar's, and I heard the Prophet ﷺ say that the best kindness is for a man to keep ties with the loved ones of his father.”"},
+ {"t":"In the service of his family","s":[14],"d":"spouse coming-home entering-home","r":["duty","people"],"c":"Bukhari","x":"Aisha was asked what the Prophet ﷺ did at home. She said, “He was busy serving his family, and when the time for prayer came, he went out to pray.”"},
+ {"t":"A man of Paradise","s":[12],"d":"tension-home making-amends","r":["people","tired"],"c":"Ahmad","x":"Three days in a row the Prophet ﷺ said, “A man of Paradise will walk in now,” and each time it was the same Ansari. Abdullah ibn Amr stayed with him to see his deeds and found nothing unusual. When he asked, the man said, “Only that I go to bed without any ill feeling in my heart toward any Muslim.”"},
+ {"t":"Go, you are free","s":[12],"d":"family-rift mending-rift","r":["people","duty"],"c":"Sirah (Ibn Hisham)","x":"When the Prophet ﷺ entered Makkah as its victor, the people who had driven him out waited for their sentence. He asked, “What do you think I will do with you?” They said, “A noble brother, son of a noble brother.” He said, “Go, you are free.”"},
+ {"t":"The Bedouin and the cloak","s":[18],"d":"anger","r":["tired","people"],"c":"Bukhari & Muslim","x":"A Bedouin pulled the Prophet's ﷺ cloak so hard that its edge left a mark on his neck, and said, “O Muhammad, give me some of the wealth of Allah that you have.” The Prophet ﷺ turned to him, smiled, and ordered that he be given something."},
+ {"t":"Patience is at the first strike","s":[3,9],"d":"patience complaining","r":["tired","worry"],"c":"Bukhari & Muslim","x":"The Prophet ﷺ passed a woman weeping at a grave and said, “Fear Allah and be patient.” Not knowing him, she said, “Leave me; you have not been struck as I have.” When she learned who it was, she came to his door and said, “I did not recognise you.” He said, “Patience is at the first strike.”"},
+ {"t":"From the work of his own hands","s":[8],"d":"work business selling","r":["duty","growth"],"c":"Bukhari","x":"The Prophet ﷺ said, “No one has ever eaten better food than that which he earned with his own hands. The Prophet of Allah, Dawud (a.s.), used to eat from the earnings of his own hands.”"},
+ {"t":"Musa at the well","s":[8],"d":"ordinary-task helping-colleague","r":["allah","tired"],"k":"From the Qur'an","c":"Quran 28:23-24","x":"Arriving in Madyan, a stranger with nothing, Musa (a.s.) saw two women holding back their flock. He watered it for them, then went to the shade and said, “My Lord, I am in need of whatever good You send down to me.” Soon after, an invitation came: work, and a home."},
+ {"t":"The trench","s":[1,18],"d":"procrastination start-new plan-day","r":["tired","growth"],"c":"Bukhari","x":"Digging the trench around Madinah, the Prophet ﷺ carried earth with his companions until the dust covered him. They were hungry, and some had tied stones to their bellies. They worked, and he worked with them."},
+ {"t":"Musa goes looking for knowledge","s":[19],"d":"deen-learning reading","r":["growth","tired"],"k":"From the Qur'an","c":"Quran 18:60-69","x":"Musa (a.s.) said, “I will not stop until I reach the junction of the two seas, even if I travel for years.” He found a servant of Allah who had been given knowledge, and asked, “May I follow you so you teach me?” The servant said, “You will not be able to be patient with me.” Musa said, “You will find me patient, if Allah wills.”"},
+ {"t":"The spread-out cloak","s":[19],"d":"studying teaching","r":["growth","worry"],"c":"Bukhari","x":"Abu Hurayrah said he stayed close to the Prophet ﷺ while others were busy in the markets and fields. He told the Prophet ﷺ that he heard much and forgot it. The Prophet ﷺ asked him to spread out his cloak, then to gather it to his chest. Abu Hurayrah said, “After that, I never forgot anything.”"},
+ {"t":"Allah as guarantor","s":[8,10],"d":"debts","r":["worry","duty"],"c":"Bukhari","x":"A man of Bani Israil asked another for a loan of a thousand dinars. “Bring a witness.” “Allah is enough as a witness.” “Bring a guarantor.” “Allah is enough as a guarantor.” When the time came he could find no boat, so he put the money in a hollowed log with a letter and asked Allah to deliver it. The lender found the log on the shore with the money inside. When the borrower finally arrived to repay him, the lender said, “Allah has already delivered what you sent.”"},
+ {"t":"Green and sweet","s":[8],"d":"payday spending saving-for","r":["worry","growth"],"c":"Bukhari & Muslim","x":"Hakim ibn Hizam asked the Prophet ﷺ for money, and was given it. Again, and again. Then the Prophet ﷺ said, “This wealth is green and sweet. Whoever takes it with a generous heart will be blessed in it. Whoever takes it with greed will not be blessed, like one who eats and is never full.” Hakim said he would take from no one after that, and kept to it."},
+ {"t":"The jar of gold","s":[2,8],"d":"integrity","r":["duty","people"],"c":"Bukhari & Muslim","x":"A man bought land and found a jar of gold in it. He took it to the seller: “Take your gold. I bought the land, not the gold.” The seller said, “I sold you the land and everything in it.” They went to a judge, who told them to marry the buyer's son to the seller's daughter, and to spend on themselves from it and give in charity."},
+ {"t":"Half a date","s":[10],"d":"giving small-kindness","r":["love","tired"],"c":"Muslim","x":"A woman came to Aisha with her two little daughters, asking for food. Aisha had only one date, and gave it to her. The woman split it between her daughters and ate none herself. When the Prophet ﷺ heard, he said, “Allah has made Paradise for her because of it.”"},
+ {"t":"The lamp that went out","s":[6,10],"d":"shared-meal","r":["love","people"],"c":"Bukhari & Muslim","x":"A man took a guest of the Prophet ﷺ home, but his wife said they had food only for the children. He told her to put the children to sleep, light the lamp and let it go out as if fixing it, and sit with the guest pretending to eat. In the morning the Prophet ﷺ said, “Allah was pleased with what you two did last night.”"},
+ {"t":"What did you leave for your family?","s":[10],"r":["allah","growth"],"c":"Abu Dawud & Tirmidhi","x":"Abu Bakr brought all his wealth to the Prophet ﷺ. “What did you leave for your family?” he asked. Abu Bakr said, “I left Allah and His Messenger for them.”"},
+ {"t":"The thirsty dog","s":[20,21],"d":"creatures dua-for-others","r":["love","duty"],"c":"Bukhari & Muslim","x":"A man on a long road grew very thirsty. He found a well, climbed down, drank, and came up. Then he saw a dog panting, licking damp earth from thirst. He thought, “This dog is as thirsty as I was.” He went back down, filled his leather sock with water, held it in his teeth as he climbed, and gave the dog a drink. Allah thanked him for it and forgave him."},
+ {"t":"The boy who was ill","s":[21],"d":"visiting-sick","r":["love","allah"],"c":"Bukhari","x":"A young boy who used to serve the Prophet ﷺ fell ill, and the Prophet ﷺ went to visit him. He sat by the boy's head and invited him to Islam. The boy looked at his father, who was beside him, and his father said, “Obey Abul-Qasim.” The boy accepted Islam, and the Prophet ﷺ left saying, “Praise be to Allah who saved him from the Fire through me.”"},
+ {"t":"A branch on the road","s":[21],"d":"unseen-people community","r":["tired","duty"],"c":"Bukhari & Muslim","x":"While a man was walking, he found a thorny branch on the road and moved it aside. Allah thanked him for it and forgave him."},
+ {"t":"The baby's cry","s":[21],"d":"help-while-busy helping-colleague","r":["duty","people"],"c":"Bukhari & Muslim","x":"The Prophet ﷺ said, “I begin the prayer meaning to make it long, then I hear a child crying and I shorten it, because I know how much his mother is troubled by his crying.”"},
+ {"t":"The sapling in your hand","s":[20],"d":"planting","r":["growth","tired"],"k":"A saying","c":"Ahmad","x":"The Prophet ﷺ said, “If the Final Hour is about to begin and one of you has a sapling in his hand, if he can plant it before it begins, let him plant it.”"},
+ {"t":"Sulayman and the ant","s":[20],"d":"nature","r":["love","allah"],"k":"From the Qur'an","c":"Quran 27:18-19","x":"As Sulayman's army passed a valley of ants, one ant said, “O ants, enter your homes so that Sulayman and his soldiers do not crush you without noticing.” He smiled, amused at her words, and said, “My Lord, enable me to be grateful for Your favour that You have bestowed upon me.”"},
+ {"t":"Good news, and the gift of his clothes","s":[9],"d":"good-news counting-blessings","r":["love","allah"],"c":"Bukhari & Muslim","x":"After fifty days of waiting, Ka'b ibn Malik heard a voice call out from the mountain that Allah had accepted his repentance. A man ran to him with the news, and Ka'b took off both his garments and gave them to him. When he reached the Prophet ﷺ, his face was shining with joy."},
+ {"t":"The mat and the world","s":[8,9],"d":"comparing","r":["people","growth"],"c":"Bukhari & Muslim","x":"Umar went in and saw the Prophet ﷺ lying on a straw mat that had left marks on his side, with little else in the room. Umar began to weep. “Why do you weep?” “Chosroes and Caesar live in luxury, and you are Allah's Messenger.” He ﷺ said, “Are you not content that they have this world, and we have the next?”"},
+ {"t":"Hold this back","s":[18],"d":"speech","r":["tired","people"],"c":"Tirmidhi","x":"The Prophet ﷺ took hold of his own tongue and said to Mu'adh, “Hold this back.” Mu'adh asked, “Will we be held to account for what we say?” He ﷺ said, “Is there anything that throws people on their faces into the Fire except what their tongues have reaped?”"},
+ {"t":"Protect his chastity","s":[18],"d":"letting-go holding-back company","r":["worry","people"],"c":"Ahmad","x":"A young man came to the Prophet ﷺ and asked permission to do something forbidden. The people rebuked him, but the Prophet ﷺ said, “Come closer,” and spoke with him gently. Then he put his hand on the young man's chest and prayed, “O Allah, forgive his sin, purify his heart, and protect his chastity.” The young man never turned to it again."},
+ {"t":"Two blessings","s":[18],"d":"screen-time","r":["tired","growth"],"k":"A saying","c":"Bukhari","x":"The Prophet ﷺ said, “There are two blessings that many people lose out on: health and free time.”"},
+ {"t":"Your body has a right over you","s":[13,6],"d":"body","r":["tired","duty"],"c":"Bukhari","x":"Salman visited Abu Darda and found him fasting and praying through the nights. Salman said, “Your Lord has a right over you, your body has a right over you, and your family has a right over you. Give each its right.” The Prophet ﷺ said, “Salman has spoken the truth.”"},
+ {"t":"Fresh dates and water","s":[6],"d":"fasting suhoor iftar mindful-eating","r":["love","tired"],"k":"A sunnah","c":"Abu Dawud","x":"The Prophet ﷺ would break his fast before praying, with fresh dates. If there were none, then dry dates. If there were none, then a few sips of water."},
+ {"t":"The rock at the cave's mouth","s":[1],"r":["allah","worry"],"c":"Bukhari & Muslim","x":"Three men sheltering in a cave were sealed in when a boulder slid across the entrance. Each asked Allah by naming one deed done only for His sake: caring for his elderly parents before his own children, turning away from a wrong he could have done out of fear of Allah, and keeping a worker's wages safe until they had grown. After each du'a the rock moved a little, until they walked out."},
+ {"t":"Charity in the dark","s":[1],"r":["allah","worry"],"c":"Bukhari & Muslim","x":"A man said, “I will give charity tonight.” In the morning people said it had gone to a thief. “O Allah, praise be to You: to a thief!” He gave again and it went to an adulteress, then again and it went to a rich man. He was told, “As for the thief, perhaps it will keep him from stealing. The adulteress, from immorality. The rich man may learn, and spend from what Allah gave him.”"},
+ {"t":"Hajar between two hills","s":[3,11],"d":"waiting","r":["worry","growth"],"c":"Bukhari","x":"Ibrahim (a.s.) left Hajar and their baby Ismail in an empty valley with little water. She asked, \"Did Allah command you to do this?\" He said yes. \"Then He will not neglect us,\" she said. When the water ran out she did not sit and wait. She ran between Safa and Marwa, seven times, looking for help. Then water came from the ground by the baby's feet: Zamzam."},
+ {"t":"Ayyub calls out","s":[3],"d":"patience","r":["tired","worry"],"c":"Quran 21:83-84, 38:44","x":"A severe hardship touched Ayyub (a.s.). He did not accuse Allah. He turned to Him: \"Indeed, adversity has touched me, and You are the Most Merciful of the merciful.\" Allah answered him, removed the harm, and gave him his family back, and the like of them with them. Of him the Quran says: \"Indeed, We found him patient, an excellent servant.\""},
+ {"t":"Yusuf and the closed door","s":[18],"d":"holding-back","r":["worry","people"],"c":"Quran 12:23-25","x":"Alone in a house, with the doors locked and a temptation set before him, Yusuf (a.s.) said, \"I seek refuge in Allah! He is my master, who has made my stay good.\" Then he ran for the door. A small lesson sits in that: taqwa often looks like walking toward the exit early, before the pressure peaks."},
+ {"t":"Hot ashes","s":[12],"d":"family-rift keeping-in-touch","r":["people","tired"],"c":"Muslim","x":"A man said to the Prophet ﷺ, \"I have relatives I keep ties with, but they cut me off. I treat them well and they treat me badly.\" The Prophet ﷺ said, \"If it is as you say, it is as though you were feeding them hot ashes, and you will always have a helper from Allah against them as long as you continue.\""},
+ {"t":"A garden called Bayruha","s":[10],"d":"giving","r":["allah","growth"],"c":"Bukhari & Muslim","x":"When the verse came, \"You will never attain righteousness until you spend from that which you love\" (3:92), Abu Talha went to the Prophet ﷺ. His dearest property was a garden, Bayruha, across from the mosque, with sweet water the Prophet ﷺ liked to drink. \"I give it for the sake of Allah,\" he said. The Prophet ﷺ said, \"That is profitable wealth,\" and advised him to give it to his relatives, which he did."},
+ {"t":"The stranger in white","s":[8,19],"d":"work","r":["growth","allah"],"c":"Muslim","x":"One day a man in very white clothes, with no sign of travel on him, sat before the Prophet ﷺ and asked about Islam, about faith, and about ihsan. Of ihsan the Prophet ﷺ said, \"It is to worship Allah as though you see Him; and if you do not see Him, then truly He sees you.\" The visitor was Jibril, who had come to teach the people their religion."},
+ {"t":"Al-Amin, the trustworthy","s":[8],"d":"integrity business selling payday","r":["duty","people"],"c":"Sirah (Ibn Hisham)","x":"Even among those who opposed him, Muhammad ﷺ was known as al-Amin, the trustworthy, and people kept leaving their valuables with him. When he left Makkah for Madinah, he asked Ali to stay behind a little longer, only to return those deposits to their owners."},
+ {"t":"The words after prayer","s":[5],"d":"after-salah","r":["tired","growth"],"c":"Bukhari & Muslim","x":"Some poor companions came to the Prophet ﷺ and said the wealthy had taken the reward: they pray as we pray, fast as we fast, and give charity too. He ﷺ taught them words anyone can say: SubhanAllah, Alhamdulillah and Allahu Akbar, thirty-three times after every prayer. When the wealthy heard, they began saying them too. He ﷺ said, \"That is the bounty of Allah; He gives it to whom He wills.\""},
+ {"t":"Should I not be grateful?","s":[9],"d":"counting-blessings","r":["allah","love"],"c":"Bukhari & Muslim","x":"The Prophet ﷺ would stand in prayer at night until his feet swelled. Aisha asked, \"Why do you do this, when Allah has forgiven your past and future sins?\" He ﷺ said, \"Should I not be a grateful servant?\""},
+ {"t":"They were with you","s":[1],"r":["allah","love"],"c":"Bukhari","x":"On the way back from Tabuk, the Prophet ﷺ said, “In Madinah there are men who were with you in every journey you made and every valley you crossed.” They asked, “Even though they were in Madinah?” He said, “Yes. A genuine excuse held them back.”"},
+ {"t":"Istikhara, in every matter","s":[2],"d":"decision","r":["worry","duty"],"k":"A sunnah","c":"Bukhari","x":"Jabir said the Prophet ﷺ taught them to seek guidance in every matter, just as he taught them a surah of the Quran. When one of you is worried about a decision, he said, pray two rak'ahs, then ask Allah to guide you by His knowledge and enable you by His power, and to decree what is good for your religion, your life and the end of your affair."},
+ {"t":"The seller of musk","s":[2],"d":"company","r":["people","growth"],"k":"A parable","c":"Bukhari & Muslim","x":"The Prophet ﷺ said, “A good companion and a bad companion are like a seller of musk and a blacksmith. The seller of musk may give you some, or you may buy from him, or at least you will find a good scent from him. The blacksmith may burn your clothes, or at least you will find a bad smell from him.”"},
+ {"t":"“I have no excuse”","s":[2],"d":"integrity","r":["duty","worry"],"c":"Bukhari & Muslim","x":"When the Prophet ﷺ returned from Tabuk, those who had stayed behind came to him with excuses. Ka'b ibn Malik said, “By Allah, I have no excuse. I was never stronger or better off than when I stayed behind.” The Prophet ﷺ said, “This one has spoken the truth.” When Allah later accepted his repentance, Ka'b said, “Allah saved me through truthfulness.”"},
+ {"t":"A hundred times a day","s":[5],"d":"istighfar","r":["tired","duty"],"k":"A saying","c":"Muslim","x":"The Prophet ﷺ said, “O people, turn in repentance to Allah, for I turn to Him a hundred times a day.”"},
+ {"t":"Gather, and mention His name","s":[6],"d":"shared-meal","r":["people","love"],"c":"Abu Dawud","x":"Some companions told the Prophet ﷺ, “We eat but we are never satisfied.” He asked, “Perhaps you eat separately?” “Yes.” He said, “Gather over your food and mention the name of Allah. It will be blessed for you.”"},
+ {"t":"A third, a third, a third","s":[6],"d":"mindful-eating","r":["tired","growth"],"k":"A saying","c":"Tirmidhi","x":"The Prophet ﷺ said, “The son of Adam fills no vessel worse than his stomach. A few morsels are enough to keep his back straight. If he must, then a third for his food, a third for his drink, and a third for his breath.”"},
+ {"t":"A call in secret","s":[7],"d":"asking","r":["worry","love"],"k":"From the Qur'an","c":"Quran 19:2-7","x":"Zakariyya (a.s.) was old, his bones weak and his hair white. He called on his Lord in secret: “My Lord, my bones have grown feeble and my head is aflame with white, and never, my Lord, have I been disappointed in calling upon You.” Allah answered him with the news of a son."},
+ {"t":"Raising the House","s":[11,16],"r":["allah","growth"],"k":"From the Qur'an","c":"Quran 2:127-128","x":"Ibrahim and Ismail (a.s.) were raising the foundations of the House. As they built, they said, “Our Lord, accept this from us. Indeed You are the Hearing, the Knowing.”"},
+ {"t":"Umrah in Ramadan","s":[11],"d":"umrah-plan","r":["love","tired"],"c":"Bukhari & Muslim","x":"The Prophet ﷺ asked a woman of the Ansar why she had not performed Hajj with them. She said they had only two camels for drawing water, and her husband and son had gone on one and left the other with her. He said, “When Ramadan comes, perform Umrah, for Umrah in Ramadan is equal to Hajj.”"},
+ {"t":"Early in the morning","s":[13],"d":"morning","r":["growth","tired"],"c":"Abu Dawud & Tirmidhi","x":"The Prophet ﷺ prayed, “O Allah, bless my nation in their early mornings,” and whenever he sent out a force, he sent it early in the day. Sakhr al-Ghamidi was a merchant who sent out his goods in the early morning, and he became rich and had much wealth."},
+ {"t":"Allah will never disgrace you","s":[14],"d":"spouse hoping-to-marry","r":["worry","love"],"c":"Bukhari","x":"After the first revelation, the Prophet ﷺ returned home trembling and said to Khadija, “I fear for myself.” She said, “Never! By Allah, Allah will never disgrace you. You keep ties with your relatives, you bear the burdens of the weak, you give to those who have nothing, you honour the guest, and you help in times of hardship.”"},
+ {"t":"A race between them","s":[14],"d":"spouse coming-home","r":["love","tired"],"c":"Abu Dawud","x":"Aisha said she raced the Prophet ﷺ and beat him. Later, when she had put on weight, they raced again and he beat her. He said, “This is for that.”"},
+ {"t":"Go back and pray again","s":[15],"d":"prayer-on-time","r":["growth","duty"],"c":"Bukhari & Muslim","x":"A man came in and prayed quickly, then greeted the Prophet ﷺ. He said, “Go back and pray, for you have not prayed.” This happened three times. The man said, “I cannot do better than this, so teach me.” The Prophet ﷺ taught him to take his time: to bow until he was at ease, to rise, to prostrate until he was at ease, and to do the same in all of his prayer."},
+ {"t":"Pardon me","s":[17],"d":"ramadan blessed-days","r":["tired","allah"],"c":"Tirmidhi","x":"Aisha asked, “O Messenger of Allah, if I find Laylat al-Qadr, what should I say?” He said, “Say: O Allah, You are Pardoning and You love to pardon, so pardon me.”"},
+ {"t":"It has just come from its Lord","s":[17],"d":"rain","r":["love","tired"],"c":"Muslim","x":"When it rained, the Prophet ﷺ uncovered part of his garment so the rain fell on him. When asked why, he said, “Because it has just come from its Lord, the Most High.”"},
+ {"t":"Charity from a tree","s":[20],"d":"planting","r":["growth","tired"],"k":"A saying","c":"Bukhari & Muslim","x":"The Prophet ﷺ said, “There is no Muslim who plants a tree or sows a field, and then a bird, a person or an animal eats from it, but it is charity for him.”"}
+];
 
 let J = null;
 const J_STEPS = 6;
 const jEl = () => $('#journey');
 const jCur = () => $('#jStage .j-slide.on');
 
-/* The situation this intention is about: its detector or moment, else its posture. */
-const jFamily = n => n.quiet ? 'sincerity' : (FAMILY_OF[n.det] || FAMILY_OF[n.m] || POSTURE_FAMILY[n.p] || 'sincerity');
-/* Tier 2a: the situation's questions, best fit first. Words in your sentence win; otherwise it varies by sentence. */
+/* The Source of Barakah this intention belongs to (1 to 21). Every matched situation already carries one. */
+const jSrc = n => (n && SRC_QS[n.src]) ? n.src : 1;
+/* Tier 2a: the Source's questions, best fit first. Words in your sentence win; otherwise it varies by sentence. */
 function jQs(n, text){
-  const list = FAMILY_QS[jFamily(n)] || FAMILY_QS.sincerity, t = normalise(text), len = list.length, h = hashStr(t) % len;
+  const list = SRC_QS[jSrc(n)], t = normalise(text), len = list.length, h = hashStr(t) % len;
   return list.map(([q, kw], i) => ({q, i, s: kw ? kw.split('|').reduce((c, k) => c + (toRe(k).test(t) ? 1 : 0), 0) : 0}))
     .sort((a, b) => b.s - a.s || ((a.i - h + len) % len) - ((b.i - h + len) % len)).map(x => x.q);
 }
@@ -2679,14 +2609,12 @@ function jPhrase(text){
 /* Tier 3: stories of this situation, those that suit your reason first. The posture's own story is the last resort. */
 const REASON_LABEL = {allah:'your wish to do it for Allah', people:'your care for people', worry:'your worry', duty:'your sense of duty', love:'your love', growth:'your wish to grow', tired:'your tiredness'};
 function jStories(){
-  const n = J.nudge, key = [n.det, n.m].filter(Boolean);
-  const score = s => (s.d && key.some(k => s.d.split(' ').includes(k)) ? 2 : 0) + (J.reason && s.r && s.r.includes(J.reason) ? 1 : 0);
-  const list = (FAMILY_STORIES[jFamily(n)] || []).map((s, i) => ({s, i}))
-    .sort((a, b) => score(b.s) - score(a.s) || a.i - b.i)
-    .map(({s}) => ({title:s.t, cite:s.c, text:s.x, kind:s.k || (s.c.startsWith('Quran') ? "From the Qur'an" : 'A story'), fit:s.r && J.reason && s.r.includes(J.reason) ? 1 : 0}));
-  const P = STORIES[n.p];
-  if (!list.length && P) list.push({title:P.title, cite:P.cite, text:P.text, kind:'A story', fit:0});
-  return list;
+  const n = J.nudge, src = jSrc(n), key = [n.det, n.m].filter(Boolean);
+  const fits = x => !!(J.reason && x.r && x.r.includes(J.reason));
+  const score = x => (x.d && key.some(k => x.d.split(' ').includes(k)) ? 2 : 0) + (fits(x) ? 1 : 0);
+  return STORY_LIB.map((x, i) => ({x, i})).filter(({x}) => x.s.includes(src))
+    .sort((a, b) => score(b.x) - score(a.x) || a.i - b.i)
+    .map(({x}) => ({title:x.t, cite:x.c, text:x.x, kind:x.k || (x.c.startsWith('Quran') ? "From the Qur'an" : 'A story'), fit:fits(x) ? 1 : 0}));
 }
 /* Tier 2b: what the answer says about why. */
 function jReason(answer){
@@ -2710,7 +2638,7 @@ function jSlide(step){
   }
   if (step === 1){
     J.q = jQuestion();
-    return jRv(0, 'j-k', 'p', '', 'A question first') +
+    return jRv(0, 'j-k', 'p', '', `${esc(SRC[jSrc(J.nudge)].title)} \u00B7 a question`) +
       jRv(1, 'j-echo', 'p', '', `About \u201C${esc(jPhrase(J.text))}\u201D`) +
       jRv(1, 'j-d lg on-bg', 'h2', 'tabindex="-1"', esc(J.q)) +
       `<textarea id="jAns" class="rv" style="--i:2" placeholder="A line or two is enough. Or leave it blank and continue." aria-label="Your answer, optional">${esc(J.answer)}</textarea>` +
@@ -2729,10 +2657,10 @@ function jSlide(step){
   if (step === 3){
     const L = jStories(), st = L[J.storyAlt % L.length];
     const why = st.fit ? ` and ${REASON_LABEL[J.reason]}` : '';
-    return jRv(0, 'j-k', 'p', '', esc(st.kind)) +
+    return jRv(0, 'j-k', 'p', '', `${esc(st.kind)}`) +
       jRv(1, 'j-d lg', 'h2', 'tabindex="-1"', esc(st.title)) +
       jRv(2, 'j-story', 'p', '', esc(st.text)) +
-      jRv(3, 'j-note', 'p', '', `${esc(st.cite)} \u00B7 retold briefly`) +
+      jRv(3, 'j-note', 'p', '', `${esc(st.cite)} \u00B7 retold briefly \u00B7 ${esc(SRC[jSrc(J.nudge)].title)}`) +
       jRv(4, 'j-links', 'div', '', (L.length > 1 ? `<button class="j-link" data-act="j-story">Another story</button>` : '') + `<span class="j-note" style="padding:8px 0">Chosen for \u201C${esc(clip(jPhrase(J.text), 40))}\u201D${esc(why)}</span>`);
   }
   if (step === 4){
