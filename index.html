@@ -11,7 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23FFCA26'/%3E%3Cpath d='M32 50V30' stroke='%2319532B' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M32 34c-8 0-13-5-13-12 8 0 13 5 13 12zM32 30c0-8 5-13 13-13 0 8-5 13-13 13z' fill='%239ABC04'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&family=Lora:ital@1&family=Antonio:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=Antonio:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --sun:#FFCA26; --cream:#F3E8CC; --carrot:#F86015; --tomato:#D42518; --forest:#19532B; --kiwi:#9ABC04;
@@ -363,6 +363,78 @@ dialog{max-height:calc(100dvh - 48px);overflow:auto}
 @media (prefers-reduced-motion:reduce){
   .j,.j::before,.j::after,.j-prog,.j-slide,.j-next{transition:none}
   .j-slide.on .rv{animation:none;opacity:1;transform:none}.j-slide .rv{opacity:1;transform:none}.j-sprout{animation:none}
+}
+
+/* ---- v3: journey type (upright, except short scripture), night journey, KV re-skin, desktop ---- */
+.j,.j *{font-style:normal}
+.j h2{text-transform:none}
+.j h2.j-d.up{text-transform:uppercase}
+.j-story{font-family:'Lora',Georgia,serif;font-style:normal;font-weight:400;font-size:clamp(18px,4.6vw,21px);line-height:1.65}
+.j-echo{font-family:'Lora',Georgia,serif;font-style:normal;font-size:15px}
+.j-quote{font-style:italic}
+.j-quote+cite{font-style:normal}
+.j-lbl{display:block;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;letter-spacing:.06em;margin:6px 0 6px;color:var(--jfg)}
+.j-in{width:100%;max-width:34em;border:2px solid color-mix(in srgb,var(--jfg) 30%,transparent);border-radius:16px;padding:13px 16px;background:rgba(255,255,255,.6);color:var(--forest);font-family:'Nunito',sans-serif;font-size:17px;margin-bottom:12px;display:block}
+.j-in:focus{outline:0;border-color:var(--jac);background:#fff}
+.j-ideas{display:flex;flex-direction:column;gap:10px;max-width:36em;margin-bottom:12px}
+.j-idea{text-align:left;border:2px solid color-mix(in srgb,var(--jfg) 40%,transparent);background:rgba(255,255,255,.28);color:inherit;border-radius:18px;padding:12px 16px;font-family:'Lora',Georgia,serif;font-size:17px;line-height:1.45}
+.j-idea small{display:block;font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;margin-bottom:2px}
+.j-idea[aria-pressed="true"]{background:var(--jfg);color:var(--jbg);border-color:var(--jfg)}
+.j-slide .j-pick{margin-bottom:12px}
+@media (min-width:900px){
+  .j-bar-top,.j-foot{max-width:920px;padding-left:56px;padding-right:56px}
+  .j-slide{max-width:920px;padding:24px 56px}
+  .j-d.up{font-size:110px}.j-d.xl{font-size:92px}.j-d.lg{font-size:62px}.j-d.md{font-size:46px}
+  .j-s{font-size:18px}.j-story{font-size:24px}.j-quote{font-size:40px}.j-bridge{font-size:17px}.j-k{font-size:13px}
+  .j textarea{font-size:19px;min-height:150px}.j-in{font-size:19px}.j-idea{font-size:19px}.j-carry,.j-concept{font-size:16px}
+  .j-next{width:76px;height:76px}.j-back{font-size:16px}
+}
+
+/* the rest of the app speaks the KV: condensed headings, colour blocks, upright text */
+h1{font-family:'Antonio','Fredoka',sans-serif;font-weight:700;font-size:32px;letter-spacing:.03em;text-transform:uppercase;line-height:1;color:var(--forest)}
+h2{font-family:'Antonio','Fredoka',sans-serif;font-weight:700;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1.05}
+h3{font-family:'Antonio','Fredoka',sans-serif;font-weight:600;font-size:22px;letter-spacing:.02em;text-transform:uppercase}
+.act-name,.tc-h,.stats b,.w-plus,.day-h{font-family:'Antonio','Fredoka',sans-serif;letter-spacing:.02em}
+.act-name{font-size:24px;text-transform:uppercase}
+.btn{font-family:'Antonio','Nunito',sans-serif;font-weight:700;letter-spacing:.07em;text-transform:uppercase;font-size:17px}
+.btn.ghost,.btn.soft{font-size:15px}
+.question{font-family:'Antonio','Fredoka',sans-serif;font-style:normal;font-weight:700;font-size:30px;line-height:1.05;letter-spacing:.01em;text-transform:uppercase;color:var(--carrot);margin:4px 0 10px}
+.write.night .question{color:var(--sun)}
+.write.card{background:var(--cream);border:0;border-radius:28px;box-shadow:none;padding:24px 22px}
+.write.night{background:var(--forest)}
+.write textarea{background:#fff;border-radius:20px;box-shadow:none}
+.write.night textarea{background:rgba(255,255,255,.1)}
+.label{font-family:'Poppins','Nunito',sans-serif;letter-spacing:.14em}
+.write:not(.night) .label{color:var(--carrot);opacity:1}
+.chip{border-width:2px}
+.entry{border-radius:22px}
+.entry .eq{font-style:normal}
+.nudge .q,.entry-nudge .q,.tree-detail .q,.nb p.q,.nb.source p,.qlist,.pair,.en-src,.next .idea,.link-chip,.morning-quote p{font-style:normal}
+.srcbody blockquote{font-style:italic}
+nav.tabs button[aria-current="page"]{background:var(--sun);opacity:1}
+.stats div{border-radius:20px}
+.saved-head h2{font-size:34px}
+
+/* tablets */
+@media (min-width:600px) and (max-width:959px){ .app{max-width:600px} }
+
+/* desktop: the tab bar becomes a side column, the content gets room */
+@media (min-width:960px){
+  body{background:var(--cream)}
+  .app{max-width:1220px;display:grid;grid-template-columns:300px minmax(0,1fr);grid-template-rows:auto 1fr;padding-bottom:0;min-height:100vh;background:linear-gradient(90deg,var(--sun) 300px,var(--paper) 300px);box-shadow:0 0 90px rgba(25,83,43,.14)}
+  header{grid-column:1;grid-row:1;border-radius:0;padding:40px 28px 24px}
+  nav.tabs{position:static;transform:none;width:auto;grid-column:1;grid-row:2;grid-template-columns:1fr;gap:6px;align-content:start;background:transparent;backdrop-filter:none;border-top:0;padding:8px 20px 32px}
+  nav.tabs button{flex-direction:row;justify-content:flex-start;gap:12px;font-size:17px;padding:14px 18px;border-radius:18px;opacity:.85}
+  nav.tabs button[aria-current="page"]{background:var(--forest);color:var(--cream);opacity:1}
+  main{grid-column:2;grid-row:1 / span 2;padding:44px 56px 72px;max-width:900px}
+  #toast{bottom:32px}
+  .seg{max-width:460px}
+  .grove4{grid-template-columns:repeat(4,1fr)}
+  .plots{grid-template-columns:repeat(4,1fr)}
+  .grove{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+  .question{font-size:38px}
+  .write textarea{min-height:200px;font-size:18px}
+  h2{font-size:36px}
 }
 </style>
 </head>
@@ -1883,18 +1955,12 @@ function renderWrite(){
     </section>`;
   } else {
     const cands = linkCandidates();
-    draft.links = (draft.links || []).filter(id => byId(id));
     html += `<section class="card write night fade">
       <p class="label">Night reflection</p>
-      ${cands.length ? `<p class="question" style="font-size:16px;margin-bottom:10px">Which intention are you looking back on?</p><p class="small muted" style="margin:-6px 0 10px">Looking back on an intention gives its tree 2 drops.</p>
-      <div class="links">${cands.map(e => `<button class="link-chip" data-act="link" data-id="${e.id}" aria-pressed="${draft.links.includes(e.id)}"><span class="lc-day">${dayKey(e.at) === todayKey() ? 'Today' : 'Yesterday'} · ${fmtTime(e.at)}</span>“${esc(clip(e.text))}”</button>`).join('')}
-        <button class="link-chip general" data-act="link-none" aria-pressed="${!draft.links.length}">The day in general</button></div>`
-      : `<p class="small muted" style="margin-top:0">You have not stated an intention today. You can still reflect on the day, or switch to Intention first so you have something to come back to.</p>`}
-      <p class="label" style="margin-top:4px">A question to start with</p>
-      <div class="chips">${QUESTIONS.map(q => `<button class="chip" data-act="question" data-v="${esc(q)}" aria-pressed="${draft.question === q}">${esc(q)}</button>`).join('')}</div>
-      <p class="question">${esc(draft.question)}</p>
-      <textarea id="txt" placeholder="Write freely. Nobody reads this but you." aria-label="Your reflection">${esc(draft.reflection)}</textarea>
-      <div class="actions"><span class="count muted"><span id="cnt"></span><br>${used} of ${DAILY_LIMIT} today</span><button class="btn primary" data-act="save">${ic('moon',18)} Keep this reflection</button></div>
+      <p class="question">Look back on your day.</p>
+      <p class="muted" style="line-height:1.6;margin:0 0 4px">A few quiet screens: how it went, what you noticed, and one thing for tomorrow. About two minutes.</p>
+      <p class="small muted" style="margin:0">${cands.length ? `You can look back on ${cands.length === 1 ? 'an intention' : 'your intentions'} from today or yesterday, or just the day.` : 'You have not stated an intention today. You can still look back on the day.'} Looking back on an intention gives its tree 2 drops.</p>
+      <div class="actions" style="justify-content:flex-end"><span class="count muted">${used} of ${DAILY_LIMIT} today</span><button class="btn primary" data-act="reflect-start">${ic('arrow',18)} Begin</button></div>
     </section>`;
   }
 
@@ -1953,7 +2019,7 @@ function waterCard(e){
    ONE small invitation. The Qur'an / hadith sits underneath behind a tap. The app's own words never read as quotations. */
 const unquote = t => t.replace(/^["“]\s*/, '').replace(/\s*["”]$/, '');
 const asLine = l => typeof l === 'string' ? {see:l} : (l || null);
-const reflectQ = e => { const w = e && e.why && e.why.a; return w ? `You wanted this because “${clip(w, 80)}”. How did it go?` : null; };
+const reflectQ = e => { const w = e && e.why && e.why.a; return w ? `You wanted this because “${clip(w, 80).replace(/[.!?\s]+$/, '')}”. How did it go?` : null; };
 const nightQ = n => !n ? QUESTIONS[1] : (n.m && MOMENTS[n.m]) ? MOMENTS[n.m].night : (POSTURES[n.p] ? POSTURES[n.p].night[0] : QUESTIONS[1]);
 const uniqDalil = list => { const seen = new Set(); return list.filter(d => d && d.text && !seen.has(d.cite + d.text.slice(0, 20)) && seen.add(d.cite + d.text.slice(0, 20))); };
 
@@ -2029,27 +2095,19 @@ function renderSaved(scroll = true){
     const V = nudgeParts(n, e);
     body = V ? `<div class="card sleep-q fade" style="border-left:6px solid ${V.a.color}">
         <span class="nl">${esc(cardTitle(n))} · ${esc(cardTag(n))}</span>
-        <p class="q" style="margin:4px 0 8px;font-family:Lora,Georgia,serif;font-style:italic;font-size:17px">${esc(V.see)}</p>
+        <p class="q" style="margin:4px 0 8px;font-family:Lora,Georgia,serif;font-size:17px;line-height:1.5">${esc(V.see)}</p>
         ${e.why ? `<p class="small muted" style="margin:0 0 8px">Your why: “${esc(clip(e.why.a, 120))}”${reasonLine(e.why.r) ? `<br>${esc(reasonLine(e.why.r))}` : ''}</p>` : ''}
         <div class="nudge" style="border:0;box-shadow:none;padding:0;margin:0"><div class="try">${ic('sprout',16)}<span>${esc(V.invite)}</span></div></div>
         <div class="row" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn soft" data-act="carry" data-entry="${e.id}" style="padding:8px 14px;font-size:13px">${ic('moon',16)} Reflect on this tonight</button></div>
       </div>` : '';
   } else {
-    const ln = mainNudge(linked[0]) || n;
-    body = `${linked.length ? `<div class="pair fade"><div><span class="lc-day">Your intention</span>“${esc(clip(linked[0].text, 140))}”</div><div class="arrow">${ic('moon',14)} and tonight you wrote</div><div>“${esc(clip(e.text, 140))}”</div></div>` : ''}
-      ${ln && !ln.quiet ? `<div class="card sleep-q fade"><span class="nl">Before you sleep</span><p class="q" style="margin:4px 0 0">${esc(nightQ(ln))}</p></div>` : ''}
-      <section class="card next fade">
-        <h3 style="margin:0 0 4px">What's next</h3>
-        <p class="small muted" style="margin:0 0 12px">Ideas for tomorrow's intention, from what you lived today. Tap one to keep it ready in tomorrow's box.</p>
-        ${nextIdeas(e).map(x => `<button class="idea" data-act="use-idea" data-v="${esc('Bismillah, I intend to ' + x.t + '.')}" style="--c:${AREAS[POSTURES[x.p].tree].color}">
-          <span class="lc-day">${esc(x.label)}</span>Bismillah, I intend to ${esc(x.t)}.</button>`).join('')}
-      </section>`;
+    body = linked.length ? `<div class="pair fade"><div><span class="lc-day">Your intention</span>“${esc(clip(linked[0].text, 140))}”</div><div class="arrow">${ic('moon',14)} and tonight you wrote</div><div>“${esc(clip(e.text, 140))}”</div></div>` : '';
   }
   $('#view').innerHTML = `
     <div class="saved-head fade">
       <div class="dot">${ic('check',22)}</div>
-      <div><h2 style="margin:0">${isInt ? 'Intention stated.' : 'Reflection kept.'}</h2>
-      <div class="muted small">${isInt ? 'Go and live it. Come back tonight to look back.' : 'Your reflection watered the tree again.'}</div></div>
+      <div><h2 style="margin:0">${isInt ? 'Intention set.' : 'Day closed.'}</h2>
+      <div class="muted small">${isInt ? 'Go and live it. Come back tonight to look back.' : 'Your reflection watered the tree again. Sleep well.'}</div></div>
     </div>
     ${waterCard(e)}
     ${body}
@@ -2072,34 +2130,10 @@ async function computeNudges(text){
 }
 async function saveEntry(){
   if (ui.saving) return;
-  const mode = draft.mode || defaultMode();
-  const text = (draft[mode] || '').trim();
-  if (todays(mode).length >= DAILY_LIMIT){ toast(`You have reached ${DAILY_LIMIT} for today.`); return; }
-  if (!text){ toast(mode === 'intention' ? 'Write your intention first.' : 'Write a line or two first.'); $('#txt')?.focus(); return; }
-  if (mode === 'intention') return startJourney(text);
-  const links = mode === 'reflection' ? (draft.links || []).filter(id => byId(id)) : [];
-  let nudges = await computeNudges(text);
-  // nothing matched in the reflection? follow the intention it looks back on
-  // a reflection on an intention carries that intention's card, so the tag and tree agree
-  if (mode === 'reflection' && links.length){
-    const from = byId(links[0]).nudges || [];
-    if (from.length) nudges = from.map(n => { const c = {...n}; delete c.fixed; delete c.word; delete c.purpose; return c; });
-  }
-  const entry = {
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
-    at: new Date().toISOString(),
-    kind: mode,
-    prompt: mode === 'reflection' ? draft.question : null,
-    text, nudges
-  };
-  if (links.length) entry.links = links;
-  data.entries.push(entry);
-  persist();
-  draft[mode] = '';
-  if (mode === 'reflection') draft.links = []; else draft.inspire = null;
-  persistDraft();
-  ui.justSaved = entry.id;
-  render();
+  const text = (draft.intention || '').trim();
+  if (todays('intention').length >= DAILY_LIMIT){ toast(`You have reached ${DAILY_LIMIT} for today.`); return; }
+  if (!text){ toast('Write your intention first.'); $('#txt')?.focus(); return; }
+  return startJourney(text);
 }
 
 /* ---------- Journal view ---------- */
@@ -2401,6 +2435,7 @@ function importText(str){
       const valid = incoming.filter(e => e && typeof e.id === 'string' && typeof e.text === 'string' && typeof e.at === 'string' && !isNaN(Date.parse(e.at)) && (e.kind === 'intention' || e.kind === 'reflection'))
         .map(e => ({id:e.id, at:e.at, kind:e.kind, prompt: typeof e.prompt === 'string' ? e.prompt : null, text:e.text,
           ...(Array.isArray(e.links) ? {links: e.links.filter(x => typeof x === 'string')} : {}),
+          ...(typeof e.how === 'string' ? {how:e.how} : {}),
           ...(e.why && typeof e.why.a === 'string' ? {why:{q: typeof e.why.q === 'string' ? e.why.q : '', a:e.why.a, r: typeof e.why.r === 'string' ? e.why.r : null}} : {}),
           nudges: (Array.isArray(e.nudges) && e.nudges.map(migrateNudge).filter(Boolean).length) ? e.nudges.map(migrateNudge).filter(Boolean) : findNudges(e.text)}));
       const have = new Set(data.entries.map(e => e.id));
@@ -2650,7 +2685,7 @@ const STORY_LIB = [
 ];
 
 let J = null;
-const J_STEPS = 6;
+const jSteps = () => (J && J.kind === 'reflection') ? 5 : 6;
 const jEl = () => $('#journey');
 const jCur = () => $('#jStage .j-slide.on');
 
@@ -2711,6 +2746,7 @@ const jQuestion = () => J.qs[J.qi % J.qs.length];
 const jRv = (i, cls, tag, attrs, inner) => `<${tag} class="${cls} rv" style="--i:${i}" ${attrs || ''}>${inner}</${tag}>`;
 
 function jSlide(step){
+  if (J.kind === 'reflection') return jSlideRef(step);
   const n = J.nudge, v = jView();
   if (step === 0){
     const len = J.text.trim().length, cls = len <= 70 ? 'xl' : len <= 140 ? 'lg' : 'md';
@@ -2775,8 +2811,8 @@ function jShow(step, dir){
   const el = jEl(), stage = $('#jStage');
   J.step = step;
   el.classList.toggle('back', dir < 0);
-  el.dataset.s = step;
-  if (step === 2) J.reason = J.answer.trim() ? jReason(J.answer) : null;
+  el.dataset.s = J.kind === 'reflection' ? JR_THEME[step] : step;
+  if (J.kind !== 'reflection' && step === 2) J.reason = J.answer.trim() ? jReason(J.answer) : null;
   const old = stage.querySelector('.j-slide.on');
   if (old){ old.classList.remove('on'); old.classList.add('out'); setTimeout(() => old.remove(), 700); }
   const sl = document.createElement('section');
@@ -2784,24 +2820,122 @@ function jShow(step, dir){
   stage.appendChild(sl);
   void sl.offsetWidth;
   sl.classList.add('on');
-  $('#jCount').textContent = step < J_STEPS ? `${pad(step + 1)} / ${pad(J_STEPS)}` : '';
-  $('#jProg').style.width = ((step + 1) / (J_STEPS + 1) * 100) + '%';
-  $('#jBack').hidden = step === 0 || step === J_STEPS;
+  $('#jCount').textContent = step < jSteps() ? `${pad(step + 1)} / ${pad(jSteps())}` : '';
+  $('#jProg').style.width = ((step + 1) / (jSteps() + 1) * 100) + '%';
+  $('#jBack').hidden = step === 0 || step === jSteps();
   const nx = $('#jNext');
-  nx.classList.toggle('wide', step >= J_STEPS - 1);
-  nx.innerHTML = step === J_STEPS - 1 ? `${ic('check',22)} Set my intention` : step === J_STEPS ? `Go to my day ${ic('arrow',22)}` : ic('arrow',26);
-  nx.setAttribute('aria-label', step === J_STEPS - 1 ? 'Set my intention' : step === J_STEPS ? 'Go to my day' : 'Next');
+  nx.classList.toggle('wide', step >= jSteps() - 1);
+  const lastLabel = J.kind === 'reflection' ? 'Close my day' : 'Set my intention', doneLabel = J.kind === 'reflection' ? 'Good night' : 'Go to my day';
+  nx.innerHTML = step === jSteps() - 1 ? `${ic('check',22)} ${lastLabel}` : step === jSteps() ? `${doneLabel} ${ic('arrow',22)}` : ic('arrow',26);
+  nx.setAttribute('aria-label', step === jSteps() - 1 ? lastLabel : step === jSteps() ? doneLabel : 'Next');
   setTimeout(() => { const h = sl.querySelector('h2'); if (h && J && J.step === step) h.focus({preventScroll:true}); }, 420);
 }
 /* Re-draw the current screen in place (no slide), e.g. after "another way to see it". */
 function jRefresh(){ const sl = jCur(); if (!sl) return; sl.classList.add('still'); sl.innerHTML = jSlide(J.step); }
+
+/* =====================================================================
+   THE NIGHT JOURNEY  (after "Begin" in the evening)
+   Look back -> how did it go -> notice -> put the day down -> one thing for tomorrow.
+   It saves one reflection that carries all of it, linked to the morning intention it looks back on.
+   ===================================================================== */
+const JR_THEME = [3, 1, 5, 2, 0, 3];
+const HOW_LINKED = ['I lived it', 'Partly', 'I forgot', 'It did not happen'];
+const HOW_GENERAL = ['Light', 'Busy', 'Heavy', 'Grateful'];
+const GENERIC_NOTICE = ['Where did I notice Barakah today?', 'What is one moment from today I do not want to forget?', 'What almost slipped past me today?'];
+const jLinked = () => (J && J.link) ? byId(J.link) : null;
+function jNoticeQs(){
+  const e = jLinked(), n = mainNudge(e), src = n && SRC[n.src];
+  const list = [n && !n.quiet ? nightQ(n) : null, ...(src && src.pm ? src.pm : []), ...GENERIC_NOTICE].filter(Boolean);
+  return [...new Set(list)];
+}
+const jDay = e => dayKey(e.at) === todayKey() ? 'This morning' : 'Yesterday';
+
+function jSlideRef(step){
+  const e = jLinked(), cands = linkCandidates();
+  if (step === 0){
+    const chips = cands.length ? `<div class="j-pick" role="group" aria-label="Which intention">${cands.map(c => `<button data-act="jr-link" data-id="${c.id}" aria-pressed="${J.link === c.id}">${esc(jDay(c))} · ${esc(clip(c.text, 34))}</button>`).join('')}<button data-act="jr-link" data-id="" aria-pressed="${!J.link}">The day in general</button></div>` : '';
+    if (e){
+      const len = e.text.trim().length, cls = len <= 70 ? 'xl' : len <= 140 ? 'lg' : 'md';
+      return jRv(0, 'j-k', 'p', '', `${ic('moon',16)} ${esc(jDay(e))}, you intended`) +
+        jRv(1, `j-d ${cls} on-bg`, 'h2', 'tabindex="-1"', `“${esc(e.text.trim())}”`) +
+        (e.why && e.why.a ? jRv(2, 'j-bridge', 'div', '', `<small>You wanted this because</small>“${esc(clip(e.why.a, 120))}”`) : '') +
+        jRv(3, 'j-s', 'p', '', 'Bismillah. A few quiet minutes to look back on it.') + jRv(4, '', 'div', '', chips);
+    }
+    return jRv(0, 'j-k', 'p', '', `${ic('moon',16)} Tonight`) +
+      jRv(1, 'j-d xl on-bg', 'h2', 'tabindex="-1"', 'Let’s look back on today.') +
+      jRv(3, 'j-s', 'p', '', cands.length ? 'Bismillah. Choose an intention to look back on, or just the day.' : 'Bismillah. You did not state an intention today, and that is fine. A few quiet minutes to look back on the day.') + jRv(4, '', 'div', '', chips);
+  }
+  if (step === 1){
+    const opts = e ? HOW_LINKED : HOW_GENERAL;
+    return jRv(0, 'j-k', 'p', '', 'How it went') +
+      jRv(1, 'j-d lg on-bg', 'h2', 'tabindex="-1"', e ? 'How did it go?' : 'How was your day?') +
+      jRv(2, 'j-pick', 'div', 'role="group" aria-label="How it went"', opts.map(o => `<button data-act="jr-how" data-v="${esc(o)}" aria-pressed="${J.how === o}">${esc(o)}</button>`).join('')) +
+      `<textarea id="jSaid" class="rv" style="--i:3" placeholder="A line or two about what happened. Or leave it." aria-label="What happened, optional">${esc(J.said)}</textarea>`;
+  }
+  if (step === 2){
+    const qs = jNoticeQs(); J.qNotice = qs[J.qi % qs.length];
+    return jRv(0, 'j-k', 'p', '', 'Notice') +
+      jRv(1, 'j-d lg on-bg', 'h2', 'tabindex="-1"', esc(J.qNotice)) +
+      `<textarea id="jNotice" class="rv" style="--i:2" placeholder="Write freely. Nobody reads this but you." aria-label="Your reflection">${esc(J.notice)}</textarea>` +
+      jRv(3, 'j-links', 'div', '', `<button class="j-link" data-act="jr-q">Ask me another question</button>`);
+  }
+  if (step === 3){
+    return jRv(0, 'j-k', 'p', '', 'Put the day down') +
+      jRv(1, 'j-d lg on-bg', 'h2', 'tabindex="-1"', 'Say thanks. Ask forgiveness.') +
+      jRv(2, 'j-lbl', 'label', 'for="jGrat"', 'Alhamdulillah for…') +
+      `<input id="jGrat" class="j-in rv" style="--i:2" type="text" maxlength="160" value="${esc(J.grat)}" aria-label="Grateful for, optional">` +
+      jRv(3, 'j-lbl', 'label', 'for="jForg"', 'Astaghfirullah for…') +
+      `<input id="jForg" class="j-in rv" style="--i:3" type="text" maxlength="160" value="${esc(J.forg)}" aria-label="Asking forgiveness for, optional">` +
+      jRv(4, 'j-note', 'p', '', 'Both are optional. A single word is enough.');
+  }
+  if (step === 4){
+    J.ideas = J.ideas || nextIdeas({links: J.link ? [J.link] : [], nudges: []});
+    return jRv(0, 'j-k', 'p', '', 'Tomorrow') +
+      jRv(1, 'j-d lg on-bg', 'h2', 'tabindex="-1"', 'One thing for tomorrow?') +
+      jRv(2, 'j-ideas', 'div', 'role="group" aria-label="Ideas for tomorrow"', J.ideas.map((x, i) => `<button class="j-idea" data-act="jr-idea" data-i="${i}" aria-pressed="${J.idea === i}"><small>${esc(x.label)}</small>Bismillah, I intend to ${esc(x.t)}.</button>`).join('')) +
+      jRv(3, 'j-note', 'p', '', 'Optional. Your pick waits in tomorrow’s box.');
+  }
+  return jRv(0, 'j-k', 'p', '', `${ic('moon',16)} Bismillah`) +
+    jRv(1, 'j-d up', 'h2', 'tabindex="-1"', 'Day closed.') +
+    jRv(2, 'j-s', 'p', '', 'Rest well. May Allah accept it, and bless your tomorrow.');
+}
+
+async function commitReflection(){
+  if (todays('reflection').length >= DAILY_LIMIT){ toast(`You have reached ${DAILY_LIMIT} reflections for today.`); closeJourney(); return false; }
+  const parts = [];
+  if (J.how) parts.push(J.said.trim() ? `${J.how}. ${J.said.trim()}` : J.how); else if (J.said.trim()) parts.push(J.said.trim());
+  if (J.notice.trim()) parts.push(J.notice.trim());
+  if (J.grat.trim()) parts.push('Grateful for: ' + J.grat.trim());
+  if (J.forg.trim()) parts.push('Asking forgiveness for: ' + J.forg.trim());
+  if (!parts.length){ toast('Choose how it went, or write a line, before closing the day.'); jShow(1, -1); return false; }
+  const text = parts.join('\n\n'), link = jLinked();
+  let nudges = link && link.nudges && link.nudges.length ? link.nudges.map(n => { const c = {...n}; delete c.fixed; delete c.word; delete c.purpose; return c; }) : await computeNudges(text);
+  const entry = {id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), at: new Date().toISOString(), kind:'reflection', prompt: J.notice.trim() ? J.qNotice : null, text, nudges};
+  if (link) entry.links = [link.id];
+  if (J.how) entry.how = J.how;
+  data.entries.push(entry); persist();
+  if (J.idea != null && J.ideas[J.idea]){ draft.intention = 'Bismillah, I intend to ' + J.ideas[J.idea].t + '.'; draft.mode = 'intention'; draft.inspire = null; }
+  draft.links = []; persistDraft();
+  ui.justSaved = entry.id; ui.tab = 'write'; render();
+  return true;
+}
+function startReflection(link){
+  if (J) return;
+  const cands = linkCandidates();
+  const pick = link !== undefined ? link : ((draft.links || [])[0] || (cands.find(e => dayKey(e.at) === todayKey()) || cands[0] || {}).id || null);
+  J = {kind:'reflection', step:0, link: pick && byId(pick) ? pick : null, how:null, said:'', notice:'', grat:'', forg:'', idea:null, ideas:null, qi:0, qNotice:'', busy:false};
+  openJourneyShell();
+}
 
 async function startJourney(text){
   if (J) return;
   const btn = $('[data-act="save"]'); if (btn) btn.disabled = true;
   const n = (await computeNudges(text))[0];
   if (btn) btn.disabled = false;
-  J = {text, nudge:n, alts:jAlts(n, rankDetectors(text)), step:0, answer:'', reason:null, turn:0, pickOpen:false, dalilAlt:0, qi:0, storyAlt:0, qs:jQs(n, text), q:'', busy:false};
+  J = {kind:'intention', text, nudge:n, alts:jAlts(n, rankDetectors(text)), step:0, answer:'', reason:null, turn:0, pickOpen:false, dalilAlt:0, qi:0, storyAlt:0, qs:jQs(n, text), q:'', busy:false};
+  openJourneyShell();
+}
+function openJourneyShell(){
   $('.app').inert = true;
   $('.j-x').innerHTML = ic('x', 22);
   jEl().hidden = false;
@@ -2834,9 +2968,14 @@ function commitJourney(){
 }
 async function jNext(){
   if (!J || J.busy) return;
-  if (J.step >= J_STEPS){ closeJourney(); return; }
+  if (J.step >= jSteps()){ closeJourney(); return; }
   J.busy = true;
   try {
+    if (J.kind === 'reflection'){
+      if (J.step === jSteps() - 1){ if (!(await commitReflection())) return; }
+      jShow(J.step + 1, 1);
+      return;
+    }
     if (J.step === 1){
       const ta = $('#jAns'); if (ta) J.answer = ta.value;
       // tier 1 found nothing: the answer is a second chance to match
@@ -2845,20 +2984,21 @@ async function jNext(){
         if (n2 && !n2.quiet){ J.nudge = n2; J.turn = 0; J.storyAlt = 0; J.qs = jQs(n2, J.text); }
       }
     }
-    if (J.step === J_STEPS - 1){ if (!commitJourney()) return; }
+    if (J.step === jSteps() - 1){ if (!commitJourney()) return; }
     jShow(J.step + 1, 1);
   } finally { if (J) J.busy = false; }
 }
-function jBack(){ if (J && !J.busy && J.step > 0 && J.step < J_STEPS){ const ta = $('#jAns'); if (ta) J.answer = ta.value; jShow(J.step - 1, -1); } }
+function jBack(){ if (J && !J.busy && J.step > 0 && J.step < jSteps()) jShow(J.step - 1, -1); }
 
 document.addEventListener('input', ev => {
   if (!J) return;
-  if (ev.target.id === 'jAns') J.answer = ev.target.value;
+  const f = {jAns:'answer', jSaid:'said', jNotice:'notice', jGrat:'grat', jForg:'forg'}[ev.target.id];
+  if (f) J[f] = ev.target.value;
 });
 document.addEventListener('keydown', ev => {
   if (!J) return;
   if (ev.key === 'Escape'){ ev.preventDefault(); closeJourney(); return; }
-  if (ev.target.closest && ev.target.closest('textarea')) return;
+  if (ev.target.closest && ev.target.closest('textarea,input')) return;
   if (ev.key === 'ArrowRight') jNext(); else if (ev.key === 'ArrowLeft') jBack();
 });
 (function swipe(){
@@ -2888,7 +3028,11 @@ document.addEventListener('click', ev => {
       ta.dispatchEvent(new Event('input'));
       break;
     }
-    case 'question': draft.question = b.dataset.v; persistDraft(); renderWrite(); $('#txt')?.focus(); break;
+    case 'reflect-start': startReflection(); break;
+    case 'jr-link': J.link = b.dataset.id || null; J.ideas = null; jRefresh(); break;
+    case 'jr-how': J.how = J.how === b.dataset.v ? null : b.dataset.v; jRefresh(); break;
+    case 'jr-q': J.qi++; jShow(2, 1); break;
+    case 'jr-idea': J.idea = J.idea === Number(b.dataset.i) ? null : Number(b.dataset.i); jRefresh(); break;
     case 'save': saveEntry(); break;
     case 'j-next': jNext(); break;
     case 'j-back': jBack(); break;
@@ -2907,28 +3051,17 @@ document.addEventListener('click', ev => {
       J.turn = 0; J.storyAlt = 0; J.qs = jQs(J.nudge, J.text); J.qi = 0; J.pickOpen = false; jRefresh(); break;
     }
     case 'done': ui.justSaved = null; renderWrite(); break;
-    case 'carry': {
-      const en = b.dataset.entry ? mainNudge(byId(b.dataset.entry)) : null;
-      draft.mode = 'reflection'; draft.question = (b.dataset.entry && reflectQ(byId(b.dataset.entry))) || (en ? nightQ(en) : SRC[id].pm[0]);
-      if (b.dataset.entry) draft.links = [b.dataset.entry];
-      persistDraft();
-      ui.justSaved = null; toast('Saved for tonight\'s reflection.');
-      go('write'); break;
+    case 'carry':
+    case 'reflect-on': {
+      const eid = b.dataset.entry || b.dataset.id; if (!byId(eid)) break;
+      draft.mode = 'reflection'; draft.links = [eid]; persistDraft(); ui.justSaved = null;
+      go('write'); startReflection(eid); break;
     }
     case 'tomorrow':
       draft.mode = 'intention'; draft.inspire = id;
       if (!draft.intention.trim()) draft.intention = STARTERS[0];
       persistDraft(); ui.justSaved = null; go('write'); break;
     case 'clear-inspire': draft.inspire = null; persistDraft(); renderWrite(); break;
-    case 'reflect-on':
-      draft.mode = 'reflection'; draft.links = [b.dataset.id]; draft.question = reflectQ(byId(b.dataset.id)) || 'Did I live my intention today?';
-      persistDraft(); ui.justSaved = null; go('write'); break;
-    case 'link': {
-      const l = b.dataset.id; draft.links = draft.links || [];
-      draft.links = draft.links.includes(l) ? [] : [l];
-      persistDraft(); renderWrite(); break;
-    }
-    case 'link-none': draft.links = []; persistDraft(); renderWrite(); break;
     case 'not-quite': ui.pick = ui.pick === b.dataset.entry ? null : b.dataset.entry; refresh(); break;
     case 'pick': {
       const e = byId(b.dataset.entry), to = b.dataset.to; if (!e || !(POSTURES[to] || MOMENTS[to])) break;
@@ -2950,10 +3083,6 @@ document.addEventListener('click', ev => {
       break;
     }
     case 'close-tree': ui.openTree = null; renderGarden(); break;
-    case 'use-idea':
-      draft.intention = b.dataset.v; draft.mode = 'intention'; draft.inspire = null; persistDraft();
-      b.closest('.next').querySelectorAll('.idea').forEach(x => x.classList.toggle('picked', x === b));
-      toast('Kept for tomorrow\'s intention.'); break;
     case 'open-source': ui.openSource = id; ui.justSaved = null; go('sources'); break;
     case 'delete': ui.confirmDelete = b.dataset.id; refresh(); break;
     case 'cancel-delete': ui.confirmDelete = null; refresh(); break;
