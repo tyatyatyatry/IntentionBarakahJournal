@@ -1,0 +1,128 @@
+# Format: acceptable Source numbers (comma separated) | sentence.   Q = the app should stay quiet (nothing confident).
+# Sources: 1 Intentions, 2 Piety, 3 Trust, 4 Quran, 5 Remembrance, 6 Eating, 7 Dua, 8 Halal earning, 9 Gratitude, 10 Charity,
+# 11 Hajj/Umrah, 12 Family, 13 Waking early, 14 Marriage, 15 Salah, 16 Blessed places, 17 Blessed times, 18 Avoiding sins,
+# 19 Knowledge, 20 Plants, 21 Helping people.  DEV set: used while tuning.
+12|Bismillah, today I intend to call my mother after Maghrib and listen properly.
+12|I will visit my grandmother this weekend and sit with her without touching my phone
+12|Today I want to be gentler with my dad even when he repeats the same stories
+12|I will call my parents tonight, I know they miss me
+12|I intend to apologise to my sister for what I said yesterday
+12|ingin telepon ibu hari ini dan tanya kabarnya
+12,21,19|I will help my little brother with his homework even though I'm tired
+12,14|I will be patient with my mother-in-law today and not take things personally
+12|Make time for my aunt who just lost her husband, sit with her
+12,18,3|I will not raise my voice at my kids when they are loud after school
+14|I will do something small to make my husband feel appreciated today
+14|I will pray for my future husband and prepare myself well
+14|I want to stop nagging my wife and speak with kindness
+14,12|I intend to be patient with my spouse when we disagree tonight
+14,3,8|I will trust Allah's timing for my marriage and stop comparing my life
+14|semoga jodohku dimudahkan, aku mau perbaiki diri dulu
+15|I will pray Dhuhr on time even if I'm in the middle of a meeting
+15|Today I want to pray with more khushu and put my phone away before I start
+15,16|I will go to the mosque for Maghrib and Isha today
+15|aku mau sholat tepat waktu hari ini
+15|I will pray my sunnah rawatib today, not skip them
+15,17|I intend to pray Duha before I start working
+13|I will wake up for Fajr on time and not go back to sleep
+13|Set my alarm and sleep early so I can wake up before Fajr
+13|I will start my day early today and do my work before the sun gets high
+13,17|Wake up for tahajjud at least once this week
+13,18|I will not stay up scrolling so I can get up for subuh
+4|I will read one page of Quran every day after Fajr
+4|I want to memorise Surah Mulk this month, starting tonight
+4|I will read the tafsir of the verse I recited today and think about what it says to me
+4|Ngaji sebentar sebelum tidur malam ini
+5|I will say SubhanAllah and Alhamdulillah while I'm doing the dishes
+5|I will make istighfar 100 times today
+5,17|I will send salawat on the Prophet more today because it's Friday
+5|I will say Bismillah before I start my work and before I eat
+5|dzikir pagi dulu sebelum mulai kerja
+7|I hope Allah makes my exam easy, I will make dua after every prayer today
+7|I will pray for my friend who is struggling, in my sujood
+7|I will ask Allah for barakah in my rizq today
+7,12|Hari ini aku mau berdoa untuk orang tuaku setelah sholat
+3|I will do my best on the interview and leave the result to Allah
+3|I will stop worrying about what I can't control and put my trust in Allah
+3|I will wait for the test results with patience and tawakkul
+3,1,8|I place my trust in Allah as I start this new job next week
+3|aku akan berusaha maksimal lalu tawakal
+9|I will write three things I am grateful for before I sleep
+9|I will say alhamdulillah instead of complaining about the traffic today
+9,8|I will stop comparing my life to people on Instagram and be thankful for what I have
+9,21|I will thank my colleague who helped me yesterday
+8,2|I will be honest in my reimbursement claims and not pad them
+8|I will work with excellence today and not cut corners on this report
+8,18,2|I will not take what is not mine from the shop, even a small thing
+8|I want to be content with my salary and stop wanting more
+8,2|Hari ini aku mau kerja jujur dan tidak korupsi waktu
+8,10|I will pay my debt to my friend today
+8,10|I will avoid wasting money on things I don't need this month
+10|I will give sadaqah today, even a small amount
+10,6|I will cook extra and bring food to my neighbour
+10|I want to give a gift to my friend who has been having a hard time
+10|Bayar zakat fitrah dan sedekah ke panti asuhan
+10|I will donate to the mosque fund this Friday
+21|I will help my colleague finish her task even though I'm busy
+21|I will visit my sick friend at the hospital
+21|I will check on my neighbour who lives alone
+21|I will volunteer at the food bank on Saturday
+21,10|I will be kind to the cleaner and the security guard at my office and greet them
+21|I will give way to others while driving and not honk
+21|Aku mau bantu teman yang lagi kesulitan
+19|I will study for my exam tomorrow for two hours with focus
+19|I will finish reading the book I started and take notes
+19,16|I will attend the Islamic study circle at my masjid tonight
+19|I will learn one new thing about my work today
+19|belajar bahasa arab 20 menit hari ini
+18|I will stop scrolling TikTok at night and sleep early
+18|I will guard my tongue and not gossip about colleagues at lunch
+18|I will lower my gaze and avoid things that harm my heart today
+18|I will control my anger when my brother provokes me
+18|I will stop procrastinating and start the report I've been avoiding
+18,2|I will stay away from the friends who pull me toward bad habits
+18|Stop menunda-nunda dan kerjakan tugas sekarang
+6|I will eat slowly and stop when I'm two thirds full
+6,5|I will share my meal with my family tonight and say Bismillah
+6|I will fast on Monday and Thursday this week
+6|Buka puasa dengan kurma dan air putih dulu
+6|I will cook a healthy dinner instead of ordering takeout
+13,6|I will go to the gym after work and take care of my body
+20|I will water the plants and look after my garden
+20|I will plant a small tree with my kids this weekend
+20|I will feed the stray cats near my house
+20,21|I will pick up trash in the park near my home
+11|I will save up money for umrah this year and make a plan
+11,7|I will make dua for an invitation to Makkah
+16|I will go to the masjid and sit there quietly for a while
+16,17|I will pray Jumuah early and listen to the khutbah well
+17|I will make the most of the last ten nights and pray qiyam
+17|I will fast on Arafah day and make lots of dua
+17,5|I will send extra salawat and do good this Friday
+17,7|It's raining, I'll make dua in this blessed time
+2,8|I will choose the honest answer even when it costs me
+2,18|I will stay away from friends who make light of sinning
+2|I will pray istikhara before deciding on the job offer
+2|I will make decisions today by asking what pleases Allah first
+1|For the sake of Allah, I will be sincere and not do things to be seen by others
+1|I will renew my intention before starting each task today
+1|I want to do my work today only for Allah, not for praise
+1|Today I intend to plan my day with intentions for each task
+1|Bismillah, I will clean the house and make it an act of worship
+14,7,9|I will have a bigger heart when my friends get married before me and make dua for them
+7,9,8|I will make dua for the people I envy instead of feeling bitter
+3|I will let go of what I can't change and trust that what is meant for me won't miss me
+9|I will be happy for my cousin who got the promotion I wanted
+3,9|Today I will not feel sorry for myself and remember Allah's plans are better
+5|I feel low today, I will sit with Allah and make dhikr
+12,14|My mom is nagging me about marriage, I will answer calmly and respectfully
+21,10|I will be kind to a stranger today
+21,10|I will smile and greet people in the lift
+3|I will stop checking my phone for the interview result and trust Allah
+14|I will not feel hurt when relatives ask me when I'll get married, I will smile and make dua
+12|When my father scolds me, I will not answer back
+Q|Do the thing
+Q|Be better today
+Q|I will try my best
+Q|Have a good day
+Q|Today is Tuesday

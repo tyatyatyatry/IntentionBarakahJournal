@@ -327,6 +327,8 @@ dialog{max-height:calc(100dvh - 48px);overflow:auto}
 .j-story{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(18px,4.8vw,22px);line-height:1.55;margin:0 0 14px;max-width:30em}
 .j-note{font-family:'Poppins',sans-serif;font-size:12px;opacity:.8;margin:0}
 .j-suggest{background:rgba(255,255,255,.28);border-radius:16px;padding:10px 14px;margin:0 0 10px;font-family:'Poppins',sans-serif;font-size:14px;line-height:1.55;max-width:32em}
+.j-alt{font-family:'Poppins',sans-serif;font-size:13px;line-height:1.5;margin-top:6px;max-width:34em}
+.j-alt .j-pick{margin:6px 0 0}
 .j-echo{font-family:'Lora',Georgia,serif;font-style:italic;font-size:16px;line-height:1.45;margin:0 0 10px;opacity:.85;max-width:30em;border-left:3px solid var(--jac);padding-left:12px}
 .j-quote{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(22px,6vw,32px);line-height:1.38;margin:0 0 12px;max-width:26em;text-wrap:pretty}
 .j-quote+cite{font-family:'Poppins',sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--jac);margin:0 0 18px}
@@ -760,8 +762,8 @@ const DETECT_RAW = [
  ['plan-day',1,'ikhlas','plan','plan$|plans$|planning|schedule|agenda|to-do|todo|rencana|jadwal|organi|priorit'],
  ['start-new',1,'ikhlas','start','start|begin|launch|new project|first day|mulai|memulai|kick off|kickoff|venture'],
  ['ordinary-task',1,'ikhlas','chores','chore|laundry|cleaning|clean up|tidy|beres|cuci|nyapu|ngepel|admin$|paperwork|routine task|errand|ironing|setrika'],
- ['decision',2,'decision',null,'decid|decision|choose|choice|dilemma|option|keputusan|memilih|pilih|bimbang|torn$|should i'],
- ['integrity',2,'amanah','honesty','honest|jujur|integrity|claim|reimburs|expense|amanah|responsib|tanggung jawab|promise|janji|report|laporan|data$'],
+ ['decision',2,'decision',null,'decid|decision|choose|choice|dilemma|option|keputusan|memilih|pilih|bimbang|torn$|should i|istikhara|istikharah|istikhoroh'],
+ ['integrity',2,'amanah','honesty','honest|jujur|integrity|claim|reimburs|expense|amanah|responsib|tanggung jawab|promise|janji|report|laporan|data$|steal|stole|theft|shoplift|cheat|not mine|take what is not|korupsi|korup|cheating|fraud|padding|pad my|return the money|overpaid|overcharged|give back what|belongs to|not rightfully|kembalikan'],
  ['company',2,'taqwa','companions','friend|sahabat|teman|hang out|nongkrong|circle$|mentor|bestie|squad'],
  ['big-moment',3,'big-moment',null,'interview|exam|ujian|test$|presentation|presentasi|pitch|sidang|defense|audition|wawancara|tes$|deadline'],
  ['waiting',3,'tawakkul','waiting','waiting|wait for|menunggu|result|hasil|pengumuman|announce|applied|apply|application|lamar|submit|outcome|verdict'],
@@ -774,36 +776,36 @@ const DETECT_RAW = [
  ['istighfar',5,'dhikr','istighfar','sorry|forgiv|maaf|istighfar|astaghfirullah|mistake|regret|menyesal|guilt|khilaf|wrong$'],
  ['salawat',5,'dhikr','salawat','salawat|sholawat|shalawat|prophet|nabi$|rasul'],
  ['feeling-low',5,'feeling-low',null,'sad$|sedih|feeling down|feel down|feeling low|feel low|feeling blue|feel blue|tired|lelah|capek|exhausted|empty|hampa|lonely|kesepian|cry|nangis|galau|unmotivated|drained'],
- ['shared-meal',6,'sadaqah','meal','lunch|dinner|breakfast|makan siang|makan malam|sarapan|eat with|makan bareng|makan bersama|bukber|buka bersama|potluck|invite|traktir'],
- ['mindful-eating',6,'taqwa','food','eat$|eating|makan|food|snack|ngemil|diet|portion|porsi|hungry|lapar|overeat|kenyang|cook|masak|meal prep|waste|leftover|sisa'],
+ ['shared-meal',6,'sadaqah','meal','lunch|dinner|breakfast|makan siang|makan malam|sarapan|eat with|makan bareng|makan bersama|bukber|buka bersama|potluck|invite|traktir|meal$|share my food|eat together|makan sama'],
+ ['mindful-eating',6,'taqwa','food','eat$|eating|makan|food|snack|ngemil|diet|portion|porsi|hungry|lapar|overeat|kenyang|cook|masak|meal prep|waste|leftover|sisa|overeat|overeating|binge|makan berlebihan|portion|stuffed|junk food|sugar|diet$|greedy eating|moderation'],
  ['fasting',6,'taqwa','fasting','fast$|fasting|puasa|shaum|senin kamis'],
- ['asking',7,'tawakkul','dua','hope|harap|semoga|wish|pray for|berdoa|doa$|dua$|ask allah|butuh|pengen|i pray'],
+ ['asking',7,'tawakkul','dua','hope|harap|semoga|wish|pray for|berdoa|doa$|dua$|ask allah|butuh|pengen|i pray|doakan|mendoakan|doain|mendoa|supplicat|make dua|make a dua'],
  ['parents-dua',7,'silah','parents-dua','restu|doain|doakan|pray for me|their dua|blessing from|ridha|ridho'],
  ['dua-for-others',7,'rahmah','dua-others','pray for her|pray for him|pray for them|struggling|duka|berduka|condolence|meninggal|passed away|innalillahi|funeral|takziah'],
  ['work',8,'ihsan','work','work$|working|worked|works$|kerja|office|making this|make this|app$|apps$|website|creat|build|building|develop|coding|code$|design|kantor|job|career|karir|project|proyek|client|klien|kpi$|deliverable|overtime|lembur|promot|meeting|rapat|memo$|coordinat|koordinasi|memos$|director|direktur|draft|drafting|nota dinas'],
- ['spending',8,'amanah','money','spend|buy$|buying|beli|bought|shopping|belanja|budget|anggaran|bill$|bills$|tagihan|cicil|installment|afford|mahal|expensive|hemat|boros|checkout|cart$|keranjang'],
+ ['spending',8,'amanah','money','spend|buy$|buying|beli|bought|shopping|belanja|budget|anggaran|bill$|bills$|tagihan|cicil|installment|afford|mahal|expensive|hemat|boros|checkout|cart$|keranjang|waste money|wasting money|waste of money|israf|frugal|overspend|impulse buy'],
  ['business',8,'selling',null,'sell|sold|jual|customer|pelanggan|business|bisnis|usaha|dagang|trade|deal$|deals$|contract|kontrak|price|harga|umkm|invoice|nego'],
  ['comparing',8,'shukr','comparing','compar|membandingkan|envy|iri$|jealous|rich$|kaya$|everyone else|enough|cukup|qanaah|qana\'ah|not enough'],
  ['good-news',9,'good-news',null,'good news|kabar baik|passed$|lulus|accepted|diterima|promoted|won$|menang|success|berhasil|achiev|finally|alhamdulillah'],
  ['counting-blessings',9,'shukr',null,'grateful|thankful|thank|syukur|bersyukur|blessed|nikmat|appreciat|lucky|beruntung|happy|senang|bahagia|joy'],
  ['complaining',9,'sabr','complaining','complain|ngeluh|mengeluh|annoyed|kesal|sebel$|sebal$|frustrat|unfair|hate|benci|bad day|worst|ugh$|why me'],
- ['giving',10,'sadaqah','money','gift|hadiah|kado|present for|surprise for|charit|sedekah|sadaqah|donat|donasi|zakat|infaq|infak|wakaf|waqf|give$|gave|giving|berbagi|share'],
+ ['giving',10,'sadaqah','money','gift|hadiah|kado|present for|surprise for|charit|sedekah|sadaqah|donat|donasi|zakat|infaq|infak|wakaf|waqf|give$|gave|giving|berbagi|share|fund$|contribute|contribution|sponsor|orphan|anak yatim|homeless|needy|the poor|fakir|miskin|underprivileged|beggar|food for|pack food|sedekah'],
  ['small-kindness',10,'sadaqah','smile','smile|senyum|kindness|be kind|compliment|greet|sapa|polite|sopan|nice to'],
  ['debts',10,'amanah','debts','lend|pinjam|minjem|borrow|owe$|owed|utang|hutang|debt|loan|repay|piutang'],
  ['umrah-plan',11,'dhikr','umrah','umrah|umroh|hajj|haji$|makkah|mecca|mekah|madinah|medina|tanah suci|haramain|kaaba|kabah'],
  ['saving-for',11,'amanah','saving','save for|saving for|nabung untuk|tabungan|fund$|funds$|dana$|savings goal'],
  ['keeping-in-touch',12,'silah',null,'call$|called|calling|telepon|nelpon|video call|vc$|text$|texted|texting|message|whatsapp|relative|saudara|cousin|sepupu|aunt|tante|uncle|om$|pakde|bude|keluarga besar|silaturahmi|silaturahim|silaturrahim'],
- ['parents-elders',12,'silah','elders','cherish|parent|orang tua|mom$|mum$|mother|ibu$|mama|dad$|father|ayah|bapak|papa|grandma|grandpa|grandparent|nenek|kakek|eyang|mbah|oma$|opa$|elder|lansia|jenguk|mudik|pulang kampung'],
+ ['parents-elders',12,'silah','elders','cherish|parent|orang tua|mom$|mum$|mother|ibu$|mama|dad$|father|ayah|bapak|papa|grandma|grandpa|grandparent|nenek|kakek|eyang|mbah|oma$|opa$|elder$|elders$|lansia|jenguk|mudik|pulang kampung'],
  ['coming-home',12,'entering-home',null,'home$|rumah|come home|pulang|arrive home|sampai rumah|house$|family time|kids|anak|children|sibling|adik|kakak'],
  ['family-rift',12,'mending-rift',null,'fight|berantem|bertengkar|argue|argument|conflict|konflik|misunderstanding|salah paham|not talking|diam-diaman|estranged|maafin|reconcil'],
  ['fajr',13,'fajr',null,'fajr|subuh|shubuh|wake|woke|bangun|alarm|overslept|kesiangan|early'],
  ['morning',13,'ihsan','early','morning|pagi|routine|rutinitas|dzikir pagi|matsurat|ma\'thurat|first hour|before work|sunrise'],
  ['sleep',13,'before-sleep',null,'sleep|slept|tidur|bedtime|insomnia|begadang|stay up|late night|nap$|naps$|istirahat|rest$|ngantuk|sleepy'],
  ['body',13,'amanah','body','gym$|workout|olahraga|exercise|physical|shower|bath$|mandi|hygiene|groom|skincare|self-care|self care|run$|running|lari$|jog|walk$|walking|yoga|swim|renang|health|sehat|doctor|dokter|checkup|check-up|diet|weight'],
- ['spouse',14,'silah','spouse','husband|wife|suami|istri|spouse|pasangan|date night|anniversary'],
+ ['spouse',14,'silah','spouse','husband|wife|suami|istri|spouse|pasangan|date night|anniversary|couple|couples|my partner|pasangan|fiance|fianc|tunangan|in-laws|mertua|in laws'],
  ['hoping-to-marry',14,'tawakkul','marriage','marry|married|marriage|nikah|menikah|jodoh|taaruf|ta\'aruf|single$|jomblo|wedding|lamaran|khitbah|proposal'],
  ['tension-home',14,'sabr','home-tension','argu|ribut|cekcok|quarrel|upset with|marah sama|kesal sama|cold war|silent treatment'],
- ['prayer-on-time',15,'dhikr','salah','pray$|prayer|praying|sholat|shalat|salat|solat|dhuhr|zuhur|dzuhur|asr$|ashar|maghrib|isha$|isya|on time|tepat waktu'],
+ ['prayer-on-time',15,'dhikr','salah','pray$|prayer|praying|sholat|shalat|salat|solat|dhuhr|zuhur|dzuhur|asr$|ashar|maghrib|isha$|isya|on time|tepat waktu|khushu|khusyuk|khushoo|sujood|sujud|rakaat|rakat|rakaah'],
  ['busy-day',15,'dhikr','busy','busy|sibuk|packed|back to back|back-to-back|hectic|full day|rush|buru-buru|crazy day'],
  ['voluntary-prayer',15,'dhikr','salah','duha|dhuha|witr|witir|rawatib|sunnah prayer|sholat sunnah|istikhara|istikharah'],
  ['masjid',16,'dhikr','masjid','masjid|mosque|musholla|mushola|musala|jamaah|berjamaah|jumatan|friday prayer'],
@@ -814,8 +816,8 @@ const DETECT_RAW = [
  ['rain',17,'rain',null,'rain|hujan|storm|gerimis|drizzl'],
  ['last-third',17,'tahajjud',null,'last third|sepertiga|midnight|3am|before fajr|qiyamul lail|tahajjud|qiyam|qiyamul|night prayer'],
  ['screen-time',18,'taqwa','screens','scroll|doomscroll|phone|hp$|handphone|tiktok|instagram|ig$|youtube|netflix|social media|sosmed|medsos|twitter|reels|gaming|game'],
- ['anger',18,'sabr','anger','angry|marah|anger|emosi|mad$|furious|bentak|yell|shout|irritat|snapped|snap at|lost my temper'],
- ['speech',18,'taqwa','speech','gossip|ghibah|gibah|ngomongin|talk about|rumor|rumour|lie$|lied|lying|bohong|rude|kasar|insult|mock|ejek|sarcas|nyinyir|backbit'],
+ ['anger',18,'sabr','anger','angry|marah|anger|emosi|mad$|furious|bentak|yell|shout|irritat|snapped|snap at|lost my temper|raise my voice|raising my voice|scold|harsh words|short-tempered|lose it|ngegas|nyolot|meltdown|tantrum'],
+ ['speech',18,'taqwa','speech','gossip|ghibah|gibah|ngomongin|talk about|rumor|rumour|lie$|lied|lying|bohong|rude|kasar|insult|mock|ejek|sarcas|nyinyir|backbit|guard my tongue|guard my words|mind my words|speak well|speak kindly'],
  ['procrastination',18,'ihsan','procrastination','procrastinat|menunda|nunda|lazy|malas|mager|delay|put off|putting off|avoid'],
  ['studying',19,'ihsan','learning','study|studi|belajar|exam|class|kelas|kuliah|course|kursus|lecture|homework|tugas|assignment|thesis|skripsi|tesis|essay|research|riset|scholarship|beasiswa|learn|learning|knowledge|ilmu|ilm$|training|workshop|seminar|webinar|pelatihan|bootcamp|upskill|certif|sertifik|lesson|economics|ekonomi|subject|materi'],
  ['reading',19,'ihsan','learning','read$|reading|baca|book|buku|novel|article|artikel|ebook|kindle|library|perpustakaan'],
@@ -830,10 +832,10 @@ const DETECT_RAW = [
  ['helping-colleague',21,'rahmah','colleague','colleague|coworker|rekan|team|tim$|boss|atasan|manager|senior|staff|help|bantu|tolong|support|cover for|gantikan'],
  ['visiting-sick',21,'visiting-sick',null,'sick|sakit|hospital|rumah sakit|rs$|opname|recover|sembuh|ill$|unwell'],
  ['unseen-people',21,'rahmah','unseen','cleaner|satpam|security|driver|ob$|office boy|cashier|kasir|waiter|kurir|courier|delivery|pembantu|asisten rumah tangga|gardener|tukang'],
- ['community',21,'rahmah','community','volunteer|relawan|community|komunitas|ngo$|bakti sosial|baksos|donor darah|blood|fundrais|galang dana|gotong royong'],
+ ['community',21,'rahmah','community','volunteer|relawan|community|komunitas|ngo$|bakti sosial|baksos|donor darah|blood|fundrais|galang dana|gotong royong|neighbo|lives alone|living alone|check on|checking on|look out for|look in on|food bank|soup kitchen|homeless'],
  ['holding-back',18,'taqwa',null,'resist|refrain|abstain|stay away|keep away|hold back|holding back|stop myself|stopping myself|not give in|tahan diri|menahan diri'],
  ['letting-go',18,'letting-go',null,'situationship|talking stage|crush|gebetan|mantan|ex$|haram relationship|toxic relationship|unfollow|move on|let go of|letting go of|lowering my gaze|lower my gaze'],
- ['sincerity',1,'ikhlas',null,'sincer|ikhlas|riya|show off|showing off|pamer|recognition|be noticed|noticed|praise|for the sake of allah|lillah|karena allah|renew my intention|renew my niyyah|niyyah|niat'],
+ ['sincerity',1,'ikhlas',null,'sincer|ikhlas|riya|show off|showing off|pamer|recognition|be noticed|noticed|praise|for the sake of allah|lillah|karena allah|renew my intention|renew my niyyah|niyyah|niat|clean intention|pure intention|pure heart|clean heart|niyyah|niat|sincerely|only for allah|for allah alone|lillah|intention$|intentions$|ibadah|act of worship'],
  ['patience',3,'sabr',null,'patient|patience|sabar|endure|bear with|persever|hardship|cobaan|trial|tested|test from allah|steadfast|istiqamah|istiqomah'],
  ['after-salah',5,'after-salah',null,'ayat al-kursi|ayatul kursi|ayat kursi|after salah|after every prayer|after each prayer|after my prayers|dzikir setelah sholat|wirid'],
  ['adhan-iqamah',17,'adhan-iqamah',null,'adhan|azan|adzan|iqamah|iqama|iqomah|call to prayer'],
@@ -843,7 +845,14 @@ const DETECT_RAW = [
  ['blessed-days',17,'blessed-days',null,'arafah|arafa$|ashura|asyura|muharram|dhul hijjah|dzulhijjah|dhul-hijjah|first ten days'],
  ['payday',8,'payday',null,'payday|gajian|got paid|get paid|paycheck|salary|gaji$|thr$|bonus'],
  ['help-while-busy',21,'help-while-busy',null,'help|bantu|tolong|assist|support'],
- ['calling-parents',12,'calling-parents',null,'call my mom|call my mum|call my mother|call mom|call mum|call mama|call my dad|call my father|call dad|call papa|call my parents|call home|telepon ibu|telepon mama|nelpon mama|nelpon ibu|telepon ayah|nelpon ayah|video call my mom|video call my parents|text my mom|text my mum|text my mother|text my dad']
+ ['calling-parents',12,'calling-parents',null,'call my mom|call my mum|call my mother|call mom|call mum|call mama|call my dad|call my father|call dad|call papa|call my parents|call home|telepon ibu|telepon mama|nelpon mama|nelpon ibu|telepon ayah|nelpon ayah|video call my mom|video call my parents|text my mom|text my mum|text my mother|text my dad'],
+ ['dhikr',5,'dhikr',null,'dhikr|zikir|dzikir|subhanallah|tasbih|tahlil|takbir|adhkar|azkar|wirid|remembrance of allah|la ilaha illallah|la hawla|morning adhkar|evening adhkar'],
+ ['trust',3,'tawakkul',null,'trust in allah|trust allah|put my trust|tawakkul|tawakal|tawakul|pasrah|serahkan|leave it to allah|leave the result|leave the rest|rely on allah|hasbunallah|meant for me|allah knows best|allah\'s plan|his plan|better plan|rezeki|takdir|qadar|allah\'s timing|his timing'],
+ ['happy-for-others',9,'shukr',null,'happy for|glad for|rejoice|congratulat|proud of|celebrate with|selamat untuk|ikut senang|bahagia untuk'],
+ ['road-courtesy',21,'rahmah',null,'give way|let others pass|let him go first|honk|klakson|mengalah|road courtesy|drive patiently|zipper merge|drive calmly'],
+ ['halal-income',8,'amanah','money','halal|haram income|haram money|riba|usury|shady|scam|bribe|suap|sogok|gratifikasi|kickback|exploit|overcharge|commission|fair price|fair wage|rizq|rezeki halal|salary|gaji'],
+ ['be-there-for',21,'rahmah',null,'listen to my|be there for|hard time|difficult time|going through|comfort|console|cheer up|encourage|discourag|motivate|support my|uplift|emotional support'],
+ ['god-aware',2,'taqwa',null,'allah is watching|allah sees|allah is aware|allah dislikes|displease allah|please allah|pleasing allah|pleased with|accountab|muraqaba|fear allah|taqwa|fear of allah|awareness of allah|what allah|allah would|haram$']
 ];
 
 /* Detector rules. contexts/themes/relationships: signals it is about. phrases: exact wording. avoid: signals that mean "not this".
@@ -904,7 +913,7 @@ const DETECT_META = {
   'friday': {cat:'time', spec:2},
   'thursday': {cat:'time', spec:2},
   'rain': {cat:'time', spec:2},
-  'last-third': {cat:'worship', contexts:'sleep', spec:2, ownWords:1, phrases:'wake up for tahajjud|wake for tahajjud|pray tahajjud|get up for tahajjud|bangun tahajud'},
+  'last-third': {cat:'worship', contexts:'sleep', spec:2, ownWords:1, phrases:'wake up for tahajjud|wake for tahajjud|pray tahajjud|get up for tahajjud|bangun tahajud|last third|sepertiga malam|last third of the night'},
   'screen-time': {cat:'heart', contexts:'screen', phrases:'less screen time|stop scrolling|put my phone down|off my phone', spec:1},
   'anger': {cat:'heart', contexts:'conflict', themes:'anger patience', phrases:'control my anger|lose my temper|keep my temper|not get angry', spec:1},
   'speech': {cat:'heart', phrases:'stop gossiping|watch my words|watch my tongue|hold my tongue', spec:1},
@@ -920,6 +929,13 @@ const DETECT_META = {
   'visiting-sick': {cat:'service', contexts:'illness gathering', themes:'kindness', relationships:'parent elder relative friend colleague sibling spouse child', phrases:'visit someone who is sick|visit the sick|visit my sick', spec:2, requires:'illness'},
   'unseen-people': {cat:'service', themes:'kindness', spec:1},
   'community': {cat:'service', themes:'kindness', spec:1},
+  'dhikr': {cat:'worship', phrases:'say subhanallah|make dhikr|do dhikr|morning adhkar|evening adhkar|dzikir pagi|dzikir petang|keep my tongue moist', spec:1},
+  'trust': {cat:'heart', themes:'anxiety', phrases:'trust in allah|trust allah|put my trust|leave it to allah|meant for me|allah knows best|allah\'s plan|allah\'s timing|tawakal|pasrah', spec:1},
+  'happy-for-others': {cat:'heart', themes:'gratitude', phrases:'happy for|glad for|be happy for', spec:2},
+  'road-courtesy': {cat:'service', phrases:'give way|let others pass|road courtesy', spec:2},
+  'halal-income': {cat:'work-study', contexts:'work money', phrases:'earn halal|halal income|avoid riba|fair price', spec:1},
+  'be-there-for': {cat:'service', themes:'kindness', phrases:'be there for|hard time|going through|listen to my|cheer up', spec:2},
+  'god-aware': {cat:'worship', phrases:'allah is watching|allah sees|please allah|displease allah|allah dislikes|fear allah', spec:1},
   'taking-ease': {cat:'worship', contexts:'prayer travel illness', spec:2},
   'gentle-with-self': {cat:'heart', themes:'sadness', spec:2},
   'making-amends': {cat:'relationships', contexts:'conflict', themes:'reconcile', relationships:'friend colleague sibling parent spouse relative child', phrases:'apologize to|apologise to|say sorry|make amends', spec:2, requires:'conflict reconcile'},
@@ -940,6 +956,13 @@ const DETECT_META = {
 
 /* Example sentences for the on-device model, per detector. More variety = steadier matches. */
 const EXAMPLES = {
+  'halal-income': 'earn only halal income|avoid riba and shady deals|charge a fair price and not exploit anyone|refuse a bribe',
+  'be-there-for': 'listen to my friend who is going through a hard time|be there for someone who needs support|encourage a discouraged colleague',
+  'god-aware': 'remember that Allah is watching me|do what pleases Allah even when alone|avoid what Allah dislikes',
+  'dhikr': 'say SubhanAllah and Alhamdulillah through the day|do my morning adhkar|keep my tongue moist with dhikr|tasbih after every prayer',
+  'trust': 'I trust Allah and leave the result to Him|put my trust in Allah after doing my best|what is meant for me will reach me|serahkan semuanya pada Allah',
+  'happy-for-others': 'be genuinely happy for my friend who got what I wanted|rejoice in my cousin\'s success|congratulate her sincerely',
+  'road-courtesy': 'give way to other drivers and stay patient on the road|not honk in traffic|let others merge',
   'plan-day': 'I want to plan my day properly|organise my schedule and to-do list for today|decide what to focus on today',
   'start-new': 'I am starting a new job today|beginning a new project this week|first day at my new school',
   'ordinary-task': 'do the laundry and clean the house|wash the dishes and tidy my room|finish my chores at home',
@@ -1491,6 +1514,7 @@ const SCORE = {
   wrongPerson: -3,    // the intention names a person this detector is not about
   focus: 2,           // a keyword inside the intention itself, not the feeling before it
   minimum: 3,         // below this, a detector is not considered a match
+  head: 1.5,          // a keyword in the first words of the intention: the verb is the point
   moment: 5           // a moment needs at least this much keyword evidence (or close meaning) to show its own card
 };
 
@@ -1505,7 +1529,7 @@ DETECT.forEach(a => {
   a.contexts = splitList(m.contexts); a.themes = splitList(m.themes); a.relationships = splitList(m.relationships);
   a.signals = [...a.contexts, ...a.themes, ...a.relationships];
   a.phrases = (m.phrases || '').split('|').filter(Boolean).map(p => p.toLowerCase());
-  a.avoid = splitList(m.avoid); a.requires = splitList(m.requires); a.ownWords = !!m.ownWords; a.spec = m.spec || 0;
+  a.cat = m.cat; a.avoid = splitList(m.avoid); a.requires = splitList(m.requires); a.ownWords = !!m.ownWords; a.spec = m.spec || 0;
   a.kwRes = a.kw.map(k => ({k, re: toRe(k), generic: GENERIC_KW.has(k)}));
 });
 
@@ -1531,11 +1555,14 @@ function splitPurpose(t){
   const main = t.slice(0, m.index);
   return main.trim().split(/\s+/).length >= 2 ? {main, purpose:t.slice(m.index)} : {main:t, purpose:''};
 }
+/* "her husband", "his mother": someone else's family, not yours. */
+const KIN_RE = /^(mother|mom|mum|ibu|mama|father|dad|ayah|bapak|papa|parent|husband|wife|spouse|suami|istri|sister|brother|aunt|uncle|cousin|grand)/;
+const othersKin = (t, r) => KIN_RE.test(r[2]) && /\b(her|his|their|your|the|a|an|that|this|every|another)\s+$/.test(t.slice(0, r.index + r[1].length));
 function detectSignals(t){
   const found = {};
   Object.values(SIGNALS).forEach(sg => {
     let hit = null;
-    sg.res.forEach(re => { const r = t.match(re); if (r && (!hit || r.index < hit.pos)) hit = {pos:r.index, word:r[2]}; });
+    sg.res.forEach(re => { const r = t.match(re); if (r && !othersKin(t, r) && (!hit || r.index < hit.pos)) hit = {pos:r.index, word:r[2]}; });
     (sg.re || []).forEach(re => { const r = t.match(re); if (r && (!hit || r.index < hit.pos)) hit = {pos:r.index, word:r[0].trim()}; });
     if (hit) found[sg.id] = hit;
   });
@@ -1560,8 +1587,11 @@ function scoreDetector(a, t, sig, focus = ''){
   let score = 0; const why = []; let best = null;
   const note = (pts, label, word, strength) => { score += pts; why.push(`${pts > 0 ? '+' : ''}${pts} ${label}`); if (word && (!best || strength > best.s)) best = {w:word, s:strength}; };
   let inFocus = false;
+  const head = (focus || t.trim()).slice(0, 26);
+  let headHit = false;
   a.phrases.forEach(p => { if (t.includes(p)){ note(SCORE.phrase, `phrase "${p}"`, p, 4); if (focus.includes(p)) inFocus = true; } });
-  a.kwRes.forEach(({k, re, generic}) => { const r = t.match(re); if (r && !a.phrases.some(p => t.includes(p) && p.includes(r[2]))){ note(generic ? SCORE.genericKeyword : SCORE.keyword, `${generic ? 'common' : 'keyword'} "${r[2]}"`, r[2], generic ? 1 : 3); if (!generic && focus.includes(r[2])) inFocus = true; } });
+  a.kwRes.forEach(({k, re, generic}) => { const r = t.match(re); if (r && !othersKin(t, r) && !a.phrases.some(p => t.includes(p) && p.includes(r[2]))){ note(generic ? SCORE.genericKeyword : SCORE.keyword, `${generic ? 'common' : 'keyword'} "${r[2]}"`, r[2], generic ? 1 : 3); if (!generic && focus.includes(r[2])) inFocus = true; if (!generic && head.includes(r[2])) headHit = true; } });
+  if (headHit) note(SCORE.head, 'keyword in the first words');
   if (inFocus) note(SCORE.focus, 'part of the intention itself');
   const dims = new Set();
   a.signals.forEach(id => { if (sig[id]){ const sg = SIGNALS[id]; note(sg.w, `${sg.dim} ${id}`, sig[id].word, 2); dims.add(sg.dim); } });
@@ -1579,19 +1609,44 @@ function scoreDetector(a, t, sig, focus = ''){
 }
 const HABIT_RE = /\b(usually|normally|i used to|most days|most nights)\b[^.!?;]*/g;
 const FOR_ALLAH_RE = /for the sake of allah|for allah|lillah|karena allah|for his sake/;
+/* A sentence has a MAIN clause (what you will do, or the feeling you are working on) and a SCENE (where, when, who is around,
+   what you will not do meanwhile). The scene is a clue, not the point: "call my mum while the kids nap" is about the call.
+   "even if / even though / despite" open a feeling, so those stay with the main clause. */
+const SCENE_W = 0.35;
+/* Some detectors ARE a scene: a time (Ramadan, the last third) or a feeling (angry, envious). For those the scene counts in full. */
+const sceneWeight = a => (a.src === 17 || a.cat === 'heart') ? 1 : SCENE_W;
+const SCENE_LEAD_RE = /^\s*(?:when|whenever|while|as|after|before|during|once|if|ketika|saat|kalau|jika|waktu)\b[^,;]*[,;]\s*/;
+const SCENE_RE = /\s(?:when|whenever|while|as|after|before|during|at|once|until|since|(?<!even\s)if|without|instead of|rather than|because|(?<=\b(?:gossip|backbite|backbiting|complain|complaining|rant|joke|joking|mock|mocking)\s)about|ketika|saat|waktu|sebelum|sesudah|setelah|selagi|kalau|jika|tanpa|daripada|di)\s/;
+function splitScene(t){
+  let main = t, scene = '';
+  const lead = SCENE_LEAD_RE.exec(main);
+  if (lead){ scene = lead[0]; main = main.slice(lead[0].length); }
+  const m = SCENE_RE.exec(main);
+  if (m && m.index > 3){ scene += ' ' + main.slice(m.index); main = main.slice(0, m.index); }
+  return main.trim().length < 3 ? {main: t, scene: ''} : {main, scene};
+}
 function rankDetectors(text){
   const full = normalise(text);
-  const {main, purpose} = splitPurpose(full.replace(HABIT_RE, ' '));
-  const t = main;
-  const sig = detectSignals(t), clues = detectSignals(full);
+  const {main: whole, purpose} = splitPurpose(full.replace(HABIT_RE, ' '));
+  const {main: t, scene} = splitScene(whole);
+  const sigM = detectSignals(t), sigS = scene ? detectSignals(scene) : {}, clues = detectSignals(full);
+  const sig = {...sigS, ...sigM};
   if (clues.avoidance) sig.avoidance = clues.avoidance;
   const focus = focusOf(text);
-  const all = DETECT.map(a => scoreDetector(a, t, sig, focus));
+  const score = w => DETECT.map(a => {
+    const m = scoreDetector(a, t, sigM, focus);
+    if (!scene || m.blocked) return m;
+    const c = scoreDetector(a, scene, sigS);
+    const k = Math.max(w, sceneWeight(a)); return c.blocked || c.score <= 0 ? m : {...m, score: m.score + k * c.score, why: [...m.why, `+${+(k * c.score).toFixed(1)} from the scene`], word: m.word || c.word};
+  });
+  // the main clause names nothing? then the scene is all there is, and counts in full
+  let all = score(SCENE_W);
+  if (scene && !all.some(r => r.score >= SCORE.minimum)) all = score(1);
   const blocked = new Set(all.filter(r => r.blocked).map(r => r.d));
   const ranked = all.filter(r => r.score >= SCORE.minimum)
     .sort((x, y) => y.score - x.score || (DET[y.d].spec - DET[x.d].spec));
   const hasPurpose = !!purpose && !FOR_ALLAH_RE.test(text.toLowerCase());
-  return {t, sig, clues, ranked, blocked, hasPurpose};
+  return {t, scene, sig, clues, ranked, blocked, hasPurpose};
 }
 const DOMAIN_ORDER = ['worship','work','people','money','body','home','world'];
 const domainOf = sig => DOMAIN_ORDER.find(d => DOMAINS[d].some(id => sig[id])) || null;
@@ -2626,6 +2681,23 @@ function jStories(){
     .sort((a, b) => score(b.x) - score(a.x) || a.i - b.i)
     .map(({x}) => ({title:x.t, cite:x.c, text:x.x, kind:x.k || (x.c.startsWith('Quran') ? "From the Qur'an" : 'A story'), fit:fits(x) ? 1 : 0}));
 }
+/* When the match is close between Sources, or there is none, the journey asks instead of guessing: "Closer to:" chips on the question screen. */
+const ALT_FALLBACK = [12, 15, 8, 10, 3, 19];
+function jAlts(n, r, keep){
+  const seen = new Set(n.quiet ? [] : [n.src]), out = keep && !n.quiet ? [keep] : [], top = r.ranked[0] ? r.ranked[0].score : 0;
+  out.forEach(a => seen.add(a.src));
+  r.ranked.forEach(x => { const d = DET[x.d]; if (out.length < 2 && !seen.has(d.src) && (n.quiet || x.score >= 0.55 * top)){ seen.add(d.src); out.push({src:d.src, det:x.d, word:x.word}); } });
+  if (!out.length && n.quiet) ALT_FALLBACK.forEach(id => { const d = DETECT.find(a => a.src === id); if (d) out.push({src:id, det:d.id}); });
+  return out;
+}
+function jUseAlt(i){
+  const a = J.alts[i]; if (!a) return;
+  const old = J.nudge, r = rankDetectors(J.text);
+  const keep = !old.quiet && old.det ? {src:old.src, det:old.det, word:old.word} : null;
+  const nn = packNudge(a.det, {sig:r.sig, hasPurpose:r.hasPurpose, word:a.word, strong:false})[0]; nn.fixed = true;
+  J.nudge = nn; J.turn = 0; J.storyAlt = 0; J.qi = 0; J.qs = jQs(nn, J.text); J.alts = jAlts(nn, r, keep);
+  jRefresh();
+}
 /* Tier 2b: what the answer says about why. */
 function jReason(answer){
   const t = ' ' + answer.toLowerCase().replace(/[’‘]/g, "'") + ' ';
@@ -2652,7 +2724,8 @@ function jSlide(step){
       jRv(1, 'j-echo', 'p', '', `About \u201C${esc(jPhrase(J.text))}\u201D`) +
       jRv(1, 'j-d lg on-bg', 'h2', 'tabindex="-1"', esc(J.q)) +
       `<textarea id="jAns" class="rv" style="--i:2" placeholder="A line or two is enough. Or leave it blank and continue." aria-label="Your answer, optional">${esc(J.answer)}</textarea>` +
-      jRv(3, 'j-links', 'div', '', `<button class="j-link" data-act="j-q">Ask me another question</button>`);
+      jRv(3, 'j-links', 'div', '', `<button class="j-link" data-act="j-q">Ask me another question</button>`) +
+      (J.alts.length ? jRv(4, 'j-alt', 'div', '', `<span>${J.nudge.quiet ? "I could not tell what this is about. Is it closest to:" : `Reading this as <b>${esc(SRC[jSrc(J.nudge)].title)}</b>. Closer to:`}</span><div class="j-pick">${J.alts.map((a, i) => `<button data-act="j-alt" data-i="${i}">${esc(SRC[a.src].title)}</button>`).join('')}</div>`) : '');
   }
   if (step === 2){
     const r = REASONS.find(x => x.id === J.reason), a = J.answer.trim();
@@ -2728,7 +2801,7 @@ async function startJourney(text){
   const btn = $('[data-act="save"]'); if (btn) btn.disabled = true;
   const n = (await computeNudges(text))[0];
   if (btn) btn.disabled = false;
-  J = {text, nudge:n, step:0, answer:'', reason:null, turn:0, pickOpen:false, dalilAlt:0, qi:0, storyAlt:0, qs:jQs(n, text), q:'', busy:false};
+  J = {text, nudge:n, alts:jAlts(n, rankDetectors(text)), step:0, answer:'', reason:null, turn:0, pickOpen:false, dalilAlt:0, qi:0, storyAlt:0, qs:jQs(n, text), q:'', busy:false};
   $('.app').inert = true;
   $('.j-x').innerHTML = ic('x', 22);
   jEl().hidden = false;
@@ -2824,6 +2897,7 @@ document.addEventListener('click', ev => {
     case 'j-view': J.turn++; jRefresh(); break;
     case 'j-dalil': J.dalilAlt++; jRefresh(); break;
     case 'j-story': J.storyAlt++; jRefresh(); break;
+    case 'j-alt': jUseAlt(Number(b.dataset.i)); break;
     case 'j-lens': J.pickOpen = !J.pickOpen; jRefresh(); break;
     case 'j-switch':
     case 'j-pick': {

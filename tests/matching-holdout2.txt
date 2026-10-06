@@ -1,0 +1,68 @@
+# HOLDOUT 2: written after holdout 1 had been looked at and before the second round of fixes. Report-only; do not tune against it.
+12|I will ring my dad on the way home and ask about his health
+12|I want to sit with my grandfather and listen to his stories this weekend
+12|I will stop rolling my eyes when my mum gives me advice
+12|Tonight I will make tea for my parents and talk with them
+12|I will message my brother who I haven't spoken to since the argument
+12,14|I will respect my in-laws' house rules when we visit
+14|I will surprise my husband with his favourite dinner and tell him I appreciate him
+14|I will be patient with my fiance while we plan the wedding
+14,3|I will keep making dua for a good marriage and not lose hope
+14|I will listen without interrupting when my wife tells me about her day
+15|I will pray all five prayers on time today without postponing
+15|I will lengthen my sujood tonight and take my time in prayer
+15,16|I will join the congregation at the masjid for Fajr
+15,17|I will pray tahajjud two rakaat tonight
+13|I will set two alarms and get up for Fajr without snoozing
+13|I will wake up earlier to have a quiet morning before the kids
+13,15|Bangun jam 4 pagi untuk sholat malam
+4|I will recite five pages of the Quran after Maghrib
+4|I want to reflect on the meaning of Surah Rahman tonight
+4|Hafalan baru surat Al-Mulk dan ulangi yang lama
+5|I will say SubhanAllah wa bihamdihi 100 times today
+5|I will keep my tongue busy with remembrance while waiting in line
+5|I will say Bismillah before every task
+7|I will make a heartfelt dua for my family after Isha
+7|I will ask Allah to make this decision clear for me
+7,12|doa untuk ibu yang sedang sakit
+3|I will do my part for the exam and then rest my heart in Allah's decree
+3|I will stop catastrophising about the future and place it in Allah's hands
+3|If the offer doesn't come, I will trust it was not meant for me
+9|I will pause and thank Allah for my health this morning
+9|I will list five blessings I usually overlook
+9,8|I will stop wishing for my friend's lifestyle and be content with mine
+8|I will refuse a commission I don't deserve
+8|I will charge a fair price and not exploit my customer
+8,10|I will track my expenses this month and avoid unnecessary shopping
+8|I will do my best at work and be satisfied with my rizq
+10|I will put a coin in the charity box every morning
+10|I will buy groceries for a family who is struggling
+10|I will give zakat on my savings this month
+21|I will help my neighbour move her furniture on Sunday
+21|I will encourage my colleague who looks discouraged
+21|I will let someone with fewer items go ahead of me at the shop
+21|I will bring soup to my sick uncle
+19|I will spend an hour reading a book on seerah tonight
+19|I will practise my coding for one hour and ask my mentor for feedback
+19|I will attend the halaqah this weekend and take notes
+19,4|I will review my Arabic vocabulary list on the train
+18|I will not open Instagram until after work
+18|I will not interrupt people or speak over them in the meeting
+18|I will not lose my temper when the kids spill things
+18|I will avoid the shop that sells things that tempt me
+6|I will drink water and eat only until I'm comfortable
+6|I will break my fast with dates and not overeat
+6|I will fast tomorrow with the intention of drawing close to Allah
+20|I will plant herbs on my balcony and look after them
+20|I will not litter and will pick up what I see on the street
+11|I will start a savings jar for Hajj
+16|I will pray in the masjid of my neighbourhood this Friday
+17|I will make extra dua on Friday between Asr and Maghrib
+17|I will try to catch laylatul qadr and stay up in worship
+2|I will be honest in my exam even if no one is watching
+2|I will think about whether Allah would be pleased before I act
+1|I will check my intention before I speak in the meeting
+1|Today I will do my chores as ibadah with a good niyyah
+Q|Hmm
+Q|Something good
+Q|Today
