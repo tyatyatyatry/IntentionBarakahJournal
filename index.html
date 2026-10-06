@@ -325,6 +325,7 @@ dialog{max-height:calc(100dvh - 48px);overflow:auto}
 .j-s{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.6;margin:0 0 14px;max-width:34em}
 .j-story{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(18px,4.8vw,22px);line-height:1.55;margin:0 0 14px;max-width:30em}
 .j-note{font-family:'Poppins',sans-serif;font-size:12px;opacity:.8;margin:0}
+.j-echo{font-family:'Lora',Georgia,serif;font-style:italic;font-size:16px;line-height:1.45;margin:0 0 10px;opacity:.85;max-width:30em;border-left:3px solid var(--jac);padding-left:12px}
 .j-quote{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(22px,6vw,32px);line-height:1.38;margin:0 0 12px;max-width:26em;text-wrap:pretty}
 .j-quote+cite{font-family:'Poppins',sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--jac);margin:0 0 18px}
 .j-bridge{border-left:4px solid var(--jac);padding:2px 0 2px 14px;margin:6px 0 14px;font-family:'Poppins',sans-serif;font-size:15px;line-height:1.6;max-width:32em}
@@ -2359,82 +2360,13 @@ function importText(str){
    THE JOURNEY  (what happens after "Begin")
    A full-screen walk, one idea per screen, tiered so each step uses the one before it:
      Tier 1  your sentence      -> a posture (the matching engine above)
-     Tier 2  a probing question -> picked from that posture's 4-5 by words in your sentence;
+     Tier 2  a probing question -> picked from the situation's 4-5 by words in your sentence, shown under your own words;
                                    your answer is read for a REASON (allah, people, worry, duty, love, growth, tired)
                                    and, if tier 1 found nothing, the answer is used to match again
-     Tier 3  posture + reason   -> "see it differently" + a line that answers your reason, then a story and the source
+     Tier 3  situation + reason -> "see it differently" + a line that answers your reason, then a story that fits both, and the source
    Nothing is saved until the last step; closing early keeps your words as a draft.
    Stories are short retellings of well-known accounts. They need a scholar's or your own check before sharing.
    ===================================================================== */
-const PROBES = {
- ikhlas:[
-  ["If no one ever knew you did this, would you still do it?", "show|post|impress|notice|boss|people|credit|recogni|promotion|social|share"],
-  ["Who are you picturing when you imagine this going well?", ""],
-  ["What part of this are you hoping Allah sees?", ""],
-  ["Is there a second, quieter reason underneath the first one?", "goal|career|money|win|best|success"],
-  ["What would change if this were only between you and Allah?", ""]],
- tawakkul:[
-  ["What part of this is yours to do, and what part is not yours to control?", "result|outcome|hope|wait|interview|exam|offer|decision|accept"],
-  ["What are you most afraid will not go the way you want?", "worr|afraid|fear|anxious|nervous|stress|scared"],
-  ["If it turns out differently, what would you still want to have done right?", ""],
-  ["What have you already prepared, and what is left to hand over?", "prepar|plan|ready|study|prep|practice"],
-  ["When did something you worried about turn out lighter than you feared?", ""]],
- dhikr:[
-  ["Where in this day could a few words of remembrance fit?", ""],
-  ["What usually pulls you away from Allah during this part of the day?", "phone|scroll|busy|work|tired|forget|distract"],
-  ["When did you last feel close to Allah, and what were you doing?", ""],
-  ["What would you like to be the first and the last thing you remember today?", "fajr|morning|night|sleep|wake|dawn|tahajjud"],
-  ["Is this about adding something new, or protecting something you already do?", "pray|prayer|quran|dhikr|dua|salah|salat|tasbih|istighfar"]],
- shukr:[
-  ["What is one thing here you could easily take for granted?", ""],
-  ["Who made this possible for you, apart from yourself?", "mom|mum|mother|dad|father|husband|wife|teacher|friend|team"],
-  ["What would you miss most if it were gone tomorrow?", ""],
-  ["How would you thank Allah for this in action, not only in words?", ""],
-  ["What is already going right that you have stopped noticing?", ""]],
- sabr:[
-  ["What is the hardest moment in this likely to be?", "hard|difficult|struggl|patien|angry|annoy|wait|stress|tired|frustrat"],
-  ["What do you usually do when it gets hard, and do you want to do that again?", ""],
-  ["What would patience look like as one small action, not a feeling?", ""],
-  ["What are you trying to rush that may need its own time?", "rush|quick|fast|hurry|soon|slow|finally"],
-  ["What do you wish someone would say to you before you begin?", ""]],
- taqwa:[
-  ["Where does the line sit for you in this, and how will you know you are near it?", ""],
-  ["What are you stepping away from, and what will you step toward instead?", "avoid|stop|quit|resist|temptation|leave|give up|stay away|control myself"],
-  ["What makes this harder when you are alone or tired?", "alone|night|late|tired|phone|scroll"],
-  ["Who do you want to be in that moment, if Allah is watching?", ""],
-  ["What small boundary would protect you today?", ""]],
- silah:[
-  ["What do you most want them to feel from you?", "mom|mum|mother|dad|father|family|parents|sister|brother|aunt|uncle|grand|relative|visit|call"],
-  ["Is there anything unsaid between you that this might soften?", ""],
-  ["When did you last speak to them with no purpose, only to ask how they are?", ""],
-  ["What gets in the way: time, pride, distance, or something old?", ""],
-  ["What is one small thing they would notice and remember?", ""]],
- rahmah:[
-  ["Who in this is quietly struggling, even if they do not show it?", "sick|ill|hospital|help|neighbo|stranger|elderly|poor|child|animal|cat|dog|lonely"],
-  ["How would you want to be treated if you were in their place?", ""],
-  ["What is the gentlest way you could do this?", ""],
-  ["Is there someone you were short with lately who deserves a softer second try?", ""],
-  ["What would mercy cost you here, and is it worth it?", ""]],
- sadaqah:[
-  ["What are you holding onto that you could share, even a little?", "give|donat|charity|sadaqah|zakat|share|gift|food|money|pay"],
-  ["Who would be helped most, and do they need to know it was you?", ""],
-  ["If it were not money, what could you give: time, a skill, a kind word?", ""],
-  ["What fear comes up when you think about giving this away?", ""],
-  ["What is something you love that you could part with?", ""]],
- ihsan:[
-  ["What would excellence look like here, if you did it as though Allah were watching?", "work|project|report|craft|cook|study|exam|clean|design|write|build"],
-  ["Which part of this are you most tempted to rush or leave half-done?", ""],
-  ["What is the extra five percent that nobody will check?", ""],
-  ["Whose life gets a little better if you do this well?", ""],
-  ["What will you be proud of if you do this properly?", ""]],
- amanah:[
-  ["Who is counting on you here, and what exactly did they trust you with?", "team|client|boss|deadline|promise|commit|responsib|duty|deliver|report|kids|children|family"],
-  ["What did you promise, and is it still on your list?", "promis|commit|owe"],
-  ["What would keeping this trust well look like, even when no one is checking?", ""],
-  ["What is the one thing you keep postponing that someone else is waiting on?", "postpone|delay|put off|procrastin|later|behind"],
-  ["How do you want to be remembered by the people who depend on you?", ""]]
-};
-
 /* Tier 2: what the answer says about WHY. The line answers that reason, whatever the posture. */
 const REASONS = [
  {id:'allah', kw:"allah|god$|akhirah|jannah|reward|worship|deen|faith|barakah|dua$|pray|quran|closer to|pleas", line:"You named Allah in your reason. Keep that thread, and let it be the first thing you reach for when this gets heavy."},
@@ -2473,17 +2405,288 @@ const STORIES = {
   text:"Even among those who opposed him, Muhammad ﷺ was known as al-Amin, the trustworthy, and people kept leaving their valuables with him. When he left Makkah for Madinah, he asked Ali to stay behind a little longer, only to return those deposits to their owners."}
 };
 
+/* =====================================================================
+   SITUATIONS (v2 of the journey)
+   The 87 detectors and 27 moments are grouped into 19 situation families. A family owns the questions and the stories,
+   so they speak to what you are actually doing (calling your mother, an exam, a rift, a payday), not only to the posture.
+   Order of choice:  detector or moment  ->  family  ->  question (by your words)  ->  story (by your reason).
+   A posture is the fallback when nothing is more specific. Stories are short retellings and need a scholar's check.
+   ===================================================================== */
+const FAMILY_IDS = {
+ salah:"prayer-on-time voluntary-prayer masjid adhan-iqamah after-salah taking-ease busy-day",
+ dawn:"fajr last-third tahajjud morning sleep before-sleep thursday",
+ quran:"quran-time memorise tadabbur",
+ remembrance:"bismillah istighfar salawat friday rain blessed-days ramadan umrah-plan commute travel journey",
+ anxious:"worry waiting big-moment decision asking hoping-to-marry leaving-home",
+ low:"feeling-low gentle-with-self",
+ family:"parents-elders calling-parents keeping-in-touch parents-dua coming-home entering-home spouse",
+ rift:"family-rift making-amends mending-rift tension-home",
+ patience:"patience anger complaining",
+ work:"work plan-day start-new ordinary-task procrastination business selling",
+ learning:"studying reading deen-learning teaching",
+ trust:"spending payday saving-for debts integrity",
+ giving:"giving small-kindness shared-meal",
+ mercy:"visiting-sick dua-for-others creatures helping-colleague help-while-busy unseen-people community",
+ earth:"nature planting",
+ gratitude:"counting-blessings good-news comparing",
+ restraint:"screen-time speech holding-back letting-go company",
+ body:"body mindful-eating fasting suhoor iftar",
+ sincerity:"sincerity"
+};
+const POSTURE_FAMILY = {ikhlas:'sincerity', tawakkul:'anxious', dhikr:'remembrance', shukr:'gratitude', sabr:'patience', taqwa:'restraint', silah:'family', rahmah:'mercy', sadaqah:'giving', ihsan:'work', amanah:'trust'};
+const FAMILY_OF = {};
+Object.entries(FAMILY_IDS).forEach(([f, ids]) => ids.split(' ').forEach(id => { FAMILY_OF[id] = f; }));
+
+/* Questions: [text, keywords that make it the better fit]. Four or five per family. */
+const FAMILY_QS = {
+ salah:[
+  ["What usually pulls you away from praying on time, and what could you set up to meet it halfway?","busy|work|meeting|phone|tired|late|forget"],
+  ["Is this about showing up on time, or about being present once you are there?","on time|early|late|present|focus|khushu"],
+  ["What do you want to feel in the first minute after you finish?",""],
+  ["When you stand to pray, where does your mind go first?",""]],
+ dawn:[
+  ["What does the night before need to look like for this to happen?","sleep|night|late|phone"],
+  ["What makes the first minutes after waking so hard, and what would make them easier?","wake|alarm|tired|snooze|woke"],
+  ["What would you ask Allah for in the quiet of that hour?",""],
+  ["Whose name would you bring with you into that dua?",""]],
+ quran:[
+  ["Is this about reciting, understanding, or remembering? Which do you need most right now?","memor|hafal|tafsir|understand|read|recite"],
+  ["What gets in the way of your time with it: time, focus, or feeling distant?","busy|time|focus|distant"],
+  ["What small amount could you keep even on your worst day?",""],
+  ["What do you hope the Quran says to you this week?",""]],
+ remembrance:[
+  ["Which moment of your day is quietest, and could a few words live there?",""],
+  ["When do you forget Allah the most, and what pulls you away?","phone|scroll|busy|work|forget|distract"],
+  ["What are you hoping these words will do for your heart today?",""],
+  ["What is one dua you would ask for if you knew it would be heard?",""]],
+ anxious:[
+  ["What exactly are you most afraid might happen?","worr|afraid|fear|anxious|nervous|scared"],
+  ["What part of this is in your hands, and what part is not?",""],
+  ["What have you already done to prepare, and what is left to hand over?","prepar|plan|ready|study|prep|practice"],
+  ["If it turns out differently from what you hope, what would you still want to have done right?","result|outcome|interview|exam|offer|decision|accept|wait"],
+  ["What would you say to a friend who was carrying this?",""]],
+ low:[
+  ["What is sitting heaviest on your heart right now?",""],
+  ["When did you last feel a little lighter, and what was happening?",""],
+  ["What would be the kindest next small step, with nothing else required?",""],
+  ["Who could you tell, even in one sentence?",""]],
+ family:[
+  ["What do you most want them to feel after this?","mom|mum|mother|dad|father|parents|call|visit"],
+  ["Is there something you have wanted to say to them that you have not?",""],
+  ["What usually gets in the way: time, distance, pride, or something older?","busy|far|distance|pride|awkward"],
+  ["What is one small thing they would notice and remember?",""]],
+ rift:[
+  ["What do you most want to be true between you after this?",""],
+  ["What part of this is yours to own, even if the other person owns more?",""],
+  ["What is stopping you from reaching out first?","pride|first|apolog|sorry"],
+  ["What would make it easier for them to say yes?",""]],
+ patience:[
+  ["What is the hardest moment in this likely to be?","hard|difficult|angry|annoy|wait|frustrat|mad"],
+  ["What do you usually do when it gets hard, and do you want to do that again?",""],
+  ["What would patience look like as one small action, not a feeling?",""],
+  ["What do you wish you could say, and what could you say instead?","say|tell|snap|shout|argue"]],
+ work:[
+  ["Who is this work really for, apart from you?",""],
+  ["Which part of it will you be most tempted to rush or leave half-done?","rush|quick|deadline|finish"],
+  ["What would doing this well look like if no one ever checked?",""],
+  ["How could this become something you do for Allah, not only for the deadline?",""],
+  ["What would help you begin the first ten minutes?","procrastinat|start|begin|delay|lazy|put off"]],
+ learning:[
+  ["What are you hoping to be able to do, or to be, after you learn this?",""],
+  ["Who could benefit if you learn this well?",""],
+  ["What makes it hard to stay with: difficulty, distraction, or doubt?","hard|difficult|focus|distract|doubt|fail|exam"],
+  ["What small dua could you make before you begin?",""]],
+ trust:[
+  ["What do you want this money to do, for you and for others?",""],
+  ["What are you afraid of when you think about this?","afraid|worr|debt|owe|short|enough|bills"],
+  ["Does anyone have a right to part of this, and have they received it?","owe|debt|lend|borrow|pay"],
+  ["What would handling this honestly look like, even if it costs you?",""]],
+ giving:[
+  ["Who would be helped most, and does it matter that they know it was you?",""],
+  ["What fear comes up when you think of giving this?",""],
+  ["If it were not money, what could you give: time, a skill, a kind word?",""],
+  ["What do you love that you could part with?",""]],
+ mercy:[
+  ["Who here is quietly struggling, even if they do not show it?",""],
+  ["How would you want to be treated in their place?",""],
+  ["What is the gentlest way to do this?",""],
+  ["What would help even if they never thanked you?",""]],
+ earth:[
+  ["What do you hope will still be here because you took care of it?",""],
+  ["Who else benefits when you look after this?",""],
+  ["What small thing could you do again and again, not only once?",""]],
+ gratitude:[
+  ["What in this could you easily take for granted?",""],
+  ["Who helped make this possible, apart from you?",""],
+  ["How could you thank Allah for it with something you do?",""],
+  ["What would you miss most if it were gone tomorrow?",""]],
+ restraint:[
+  ["What exactly are you stepping away from, and what will you step toward?","avoid|stop|quit|resist|leave|give up|stay away"],
+  ["When is it hardest, and what is going on around you then?","alone|night|late|tired|phone|bored"],
+  ["What small boundary would protect you today?",""],
+  ["Who do you want to be in that moment, if Allah is watching?",""]],
+ body:[
+  ["What does your body need from you today, rather than what it demands?",""],
+  ["What would taking care of it, as a trust from Allah, look like in one action?",""],
+  ["What gets in the way: time, energy, or motivation?","time|tired|energy|lazy|motivat"],
+  ["How do you want to feel at the end of the day?",""]],
+ sincerity:[
+  ["If no one ever knew you did this, would you still do it?","show|post|impress|notice|boss|credit|recogni"],
+  ["Who are you picturing when you imagine this going well?",""],
+  ["What part of this are you hoping Allah sees?",""],
+  ["Is there a second, quieter reason under the first one?",""]]
+};
+
+/* Stories: t title, c source, x text, r reasons it suits best, k label (default "A story"). */
+const FAMILY_STORIES = {
+ salah:[
+  {t:"Give us rest through it", d:"busy-day prayer-on-time voluntary-prayer after-salah adhan-iqamah", c:"Abu Dawud", r:["tired","duty"],
+   x:"When the time for prayer came, the Prophet ﷺ would say to Bilal, “O Bilal, call the iqamah and give us rest through it.” To him, prayer was not an interruption of the day. It was where the day could rest."},
+  {t:"Every step is counted", d:"masjid", c:"Muslim", r:["allah","growth"],
+   x:"A man lived far from the mosque yet never missed a prayer there. Someone said, “Why not buy a donkey, for the dust and the heat?” He said, “I would not like my house to be beside the mosque. I want my steps to the mosque, and back to my family, to be written for me.” The Prophet ﷺ said, “Allah has gathered all of that for you.”"}],
+ dawn:[
+  {t:"Better than the world", d:"fajr", c:"Muslim", r:["tired","allah"], k:"A saying",
+   x:"The Prophet ﷺ said of the two rak'ahs before Fajr, “They are dearer to me than the whole world.”"},
+  {t:"If only he would pray at night", d:"last-third tahajjud", c:"Bukhari & Muslim", r:["growth","allah"],
+   x:"Abdullah ibn Umar, still a young man, told the Prophet ﷺ of a dream. The Prophet ﷺ said, “What a fine man Abdullah is, if only he would pray at night.” After that, he slept only a little of the night."},
+  {t:"Better than what you asked for", d:"sleep before-sleep", c:"Bukhari & Muslim", r:["tired","love"],
+   x:"Fatima, whose hands were sore from grinding grain, asked the Prophet ﷺ for a servant. He came to them in the evening and said, “Shall I tell you something better than what you asked for?” He taught them to say SubhanAllah, Alhamdulillah and Allahu Akbar, thirty-three, thirty-three and thirty-four times, when they went to bed."}],
+ quran:[
+  {t:"Did He name me?", d:"tadabbur quran-time", c:"Bukhari & Muslim", r:["love","allah"],
+   x:"The Prophet ﷺ said to Ubayy ibn Ka'b, “Allah has commanded me to recite the Quran to you.” Ubayy asked, “Did He name me?” “Yes,” he said. And Ubayy wept."},
+  {t:"The night the angels came close", d:"memorise", c:"Bukhari & Muslim", r:["growth","tired"],
+   x:"Usayd ibn Hudayr was reciting Surat al-Baqarah at night when his horse began to shy. When he stopped, it calmed. When he recited, it shied again. He looked up and saw something like a canopy of lamps rising into the sky. The Prophet ﷺ told him, “Those were the angels, drawing near to listen to you.”"}],
+ remembrance:[
+  {t:"A treasure from Paradise", d:"bismillah commute travel journey", c:"Bukhari & Muslim", r:["tired","worry"],
+   x:"On a journey, the people began raising their voices in takbir. The Prophet ﷺ said, “Be gentle with yourselves. You are not calling on someone deaf or absent. He is with you.” Then he said to Abu Musa, “Shall I tell you a treasure from the treasures of Paradise? La hawla wa la quwwata illa billah.”"},
+  {t:"All of my dua", d:"salawat friday", c:"Tirmidhi", r:["worry","love"],
+   x:"Ubayy ibn Ka'b asked, “O Messenger of Allah, I send many prayers upon you. How much of my dua should be for you?” “As much as you like,” he said. Ubayy kept raising it until he said, “All of my dua.” The Prophet ﷺ said, “Then your worries will be taken care of, and your sins forgiven.”"}],
+ anxious:[
+  {t:"Two, and Allah is the third", d:"worry", c:"Bukhari & Muslim; Quran 9:40", r:["worry","people"],
+   x:"In the cave, with the Quraysh outside, Abu Bakr whispered, “If one of them looks down at his feet, he will see us.” The Prophet ﷺ said, “O Abu Bakr, what do you think of two whose third is Allah?” The Quran records his words: “Do not grieve; indeed Allah is with us.”"},
+  {t:"Enough for us is Allah", d:"big-moment decision leaving-home", c:"Bukhari; Quran 3:173", r:["worry","duty"],
+   x:"“Hasbunallahu wa ni'mal wakeel,” said Ibrahim (a.s.) when he was thrown into the fire. Muhammad ﷺ and his companions said it when they were told, “The people have gathered against you, so fear them.” It only increased their faith."},
+  {t:"No! My Lord is with me", d:"waiting asking hoping-to-marry", c:"Quran 26:61-62", r:["worry","growth"], k:"From the Qur'an",
+   x:"At the sea, with Pharaoh's army behind them, Musa's people said, “We are about to be overtaken.” He said, “No! Indeed, my Lord is with me; He will guide me.” Then Allah told him to strike the sea with his staff."}],
+ low:[
+  {t:"From the belly of the whale", d:"feeling-low", c:"Quran 21:87-88", r:["tired","duty"], k:"From the Qur'an",
+   x:"Yunus (a.s.) found himself in the darkness of the whale, the night and the sea. He called out, “There is no god but You; glory be to You; indeed I was among the wrongdoers.” Allah says, “So We responded to him and saved him from the distress. And thus do We save the believers.”"},
+  {t:"Only to Allah", d:"gentle-with-self", c:"Quran 12:83-86", r:["love","worry"], k:"From the Qur'an",
+   x:"Yaqub (a.s.) lost Yusuf, and then his grief grew until his eyes turned white with sorrow. He said, “So, beautiful patience,” and, “I only complain of my suffering and my grief to Allah.”"}],
+ family:[
+  {t:"Your mother, then your mother", d:"calling-parents parents-elders keeping-in-touch parents-dua", c:"Bukhari & Muslim", r:["love","duty"],
+   x:"A man asked, “O Messenger of Allah, who is most deserving of my good company?” “Your mother,” he said. “Then who?” “Your mother.” “Then who?” “Your mother.” “Then who?” “Then your father.”"},
+  {t:"The friend of his father", d:"parents-elders", c:"Muslim", r:["love","people"],
+   x:"On the road to Makkah, Abdullah ibn Umar met a Bedouin, greeted him, and gave him the donkey he was riding and the turban from his own head. His companions said, “He would have been content with a little.” Ibn Umar said, “His father was a friend of Umar's, and I heard the Prophet ﷺ say that the best kindness is for a man to keep ties with the loved ones of his father.”"},
+  {t:"In the service of his family", d:"spouse coming-home entering-home", c:"Bukhari", r:["duty","people"],
+   x:"Aisha was asked what the Prophet ﷺ did at home. She said, “He was busy serving his family, and when the time for prayer came, he went out to pray.”"}],
+ rift:[
+  {t:"A man of Paradise", d:"tension-home making-amends", c:"Ahmad", r:["people","tired"],
+   x:"Three days in a row the Prophet ﷺ said, “A man of Paradise will walk in now,” and each time it was the same Ansari. Abdullah ibn Amr stayed with him to see his deeds and found nothing unusual. When he asked, the man said, “Only that I go to bed without any ill feeling in my heart toward any Muslim.”"},
+  {t:"Go, you are free", d:"family-rift mending-rift", c:"Sirah (Ibn Hisham)", r:["people","duty"],
+   x:"When the Prophet ﷺ entered Makkah as its victor, the people who had driven him out waited for their sentence. He asked, “What do you think I will do with you?” They said, “A noble brother, son of a noble brother.” He said, “Go, you are free.”"}],
+ patience:[
+  {t:"The Bedouin and the cloak", d:"anger", c:"Bukhari & Muslim", r:["tired","people"],
+   x:"A Bedouin pulled the Prophet's ﷺ cloak so hard that its edge left a mark on his neck, and said, “O Muhammad, give me some of the wealth of Allah that you have.” The Prophet ﷺ turned to him, smiled, and ordered that he be given something."},
+  {t:"Patience is at the first strike", d:"patience complaining", c:"Bukhari & Muslim", r:["tired","worry"],
+   x:"The Prophet ﷺ passed a woman weeping at a grave and said, “Fear Allah and be patient.” Not knowing him, she said, “Leave me; you have not been struck as I have.” When she learned who it was, she came to his door and said, “I did not recognise you.” He said, “Patience is at the first strike.”"}],
+ work:[
+  {t:"From the work of his own hands", d:"work business selling", c:"Bukhari", r:["duty","growth"],
+   x:"The Prophet ﷺ said, “No one has ever eaten better food than that which he earned with his own hands. The Prophet of Allah, Dawud (a.s.), used to eat from the earnings of his own hands.”"},
+  {t:"Musa at the well", d:"ordinary-task helping-colleague", c:"Quran 28:23-24", r:["allah","tired"], k:"From the Qur'an",
+   x:"Arriving in Madyan, a stranger with nothing, Musa (a.s.) saw two women holding back their flock. He watered it for them, then went to the shade and said, “My Lord, I am in need of whatever good You send down to me.” Soon after, an invitation came: work, and a home."},
+  {t:"The trench", d:"procrastination start-new plan-day", c:"Bukhari", r:["tired","growth"],
+   x:"Digging the trench around Madinah, the Prophet ﷺ carried earth with his companions until the dust covered him. They were hungry, and some had tied stones to their bellies. They worked, and he worked with them."}],
+ learning:[
+  {t:"Musa goes looking for knowledge", d:"deen-learning reading", c:"Quran 18:60-69", r:["growth","tired"], k:"From the Qur'an",
+   x:"Musa (a.s.) said, “I will not stop until I reach the junction of the two seas, even if I travel for years.” He found a servant of Allah who had been given knowledge, and asked, “May I follow you so you teach me?” The servant said, “You will not be able to be patient with me.” Musa said, “You will find me patient, if Allah wills.”"},
+  {t:"The spread-out cloak", d:"studying teaching", c:"Bukhari", r:["growth","worry"],
+   x:"Abu Hurayrah said he stayed close to the Prophet ﷺ while others were busy in the markets and fields. He told the Prophet ﷺ that he heard much and forgot it. The Prophet ﷺ asked him to spread out his cloak, then to gather it to his chest. Abu Hurayrah said, “After that, I never forgot anything.”"}],
+ trust:[
+  {t:"Allah as guarantor", d:"debts", c:"Bukhari", r:["worry","duty"],
+   x:"A man of Bani Israil asked another for a loan of a thousand dinars. “Bring a witness.” “Allah is enough as a witness.” “Bring a guarantor.” “Allah is enough as a guarantor.” When the time came he could find no boat, so he put the money in a hollowed log with a letter and asked Allah to deliver it. The lender found the log on the shore with the money inside. When the borrower finally arrived to repay him, the lender said, “Allah has already delivered what you sent.”"},
+  {t:"Green and sweet", d:"payday spending saving-for", c:"Bukhari & Muslim", r:["worry","growth"],
+   x:"Hakim ibn Hizam asked the Prophet ﷺ for money, and was given it. Again, and again. Then the Prophet ﷺ said, “This wealth is green and sweet. Whoever takes it with a generous heart will be blessed in it. Whoever takes it with greed will not be blessed, like one who eats and is never full.” Hakim said he would take from no one after that, and kept to it."},
+  {t:"The jar of gold", d:"integrity", c:"Bukhari & Muslim", r:["duty","people"],
+   x:"A man bought land and found a jar of gold in it. He took it to the seller: “Take your gold. I bought the land, not the gold.” The seller said, “I sold you the land and everything in it.” They went to a judge, who told them to marry the buyer's son to the seller's daughter, and to spend on themselves from it and give in charity."}],
+ giving:[
+  {t:"Half a date", d:"giving small-kindness", c:"Muslim", r:["love","tired"],
+   x:"A woman came to Aisha with her two little daughters, asking for food. Aisha had only one date, and gave it to her. The woman split it between her daughters and ate none herself. When the Prophet ﷺ heard, he said, “Allah has made Paradise for her because of it.”"},
+  {t:"The lamp that went out", d:"shared-meal", c:"Bukhari & Muslim", r:["love","people"],
+   x:"A man took a guest of the Prophet ﷺ home, but his wife said they had food only for the children. He told her to put the children to sleep, light the lamp and let it go out as if fixing it, and sit with the guest pretending to eat. In the morning the Prophet ﷺ said, “Allah was pleased with what you two did last night.”"},
+  {t:"What did you leave for your family?", c:"Abu Dawud & Tirmidhi", r:["allah","growth"],
+   x:"Abu Bakr brought all his wealth to the Prophet ﷺ. “What did you leave for your family?” he asked. Abu Bakr said, “I left Allah and His Messenger for them.”"}],
+ mercy:[
+  {t:"The thirsty dog", d:"creatures dua-for-others", c:"Bukhari & Muslim", r:["love","duty"],
+   x:"A man on a long road grew very thirsty. He found a well, climbed down, drank, and came up. Then he saw a dog panting, licking damp earth from thirst. He thought, “This dog is as thirsty as I was.” He went back down, filled his leather sock with water, held it in his teeth as he climbed, and gave the dog a drink. Allah thanked him for it and forgave him."},
+  {t:"The boy who was ill", d:"visiting-sick", c:"Bukhari", r:["love","allah"],
+   x:"A young boy who used to serve the Prophet ﷺ fell ill, and the Prophet ﷺ went to visit him. He sat by the boy's head and invited him to Islam. The boy looked at his father, who was beside him, and his father said, “Obey Abul-Qasim.” The boy accepted Islam, and the Prophet ﷺ left saying, “Praise be to Allah who saved him from the Fire through me.”"},
+  {t:"A branch on the road", d:"unseen-people community", c:"Bukhari & Muslim", r:["tired","duty"],
+   x:"While a man was walking, he found a thorny branch on the road and moved it aside. Allah thanked him for it and forgave him."},
+  {t:"The baby's cry", d:"help-while-busy helping-colleague", c:"Bukhari & Muslim", r:["duty","people"],
+   x:"The Prophet ﷺ said, “I begin the prayer meaning to make it long, then I hear a child crying and I shorten it, because I know how much his mother is troubled by his crying.”"}],
+ earth:[
+  {t:"The sapling in your hand", d:"planting", c:"Ahmad", r:["growth","tired"], k:"A saying",
+   x:"The Prophet ﷺ said, “If the Final Hour is about to begin and one of you has a sapling in his hand, if he can plant it before it begins, let him plant it.”"},
+  {t:"Sulayman and the ant", d:"nature", c:"Quran 27:18-19", r:["love","allah"], k:"From the Qur'an",
+   x:"As Sulayman's army passed a valley of ants, one ant said, “O ants, enter your homes so that Sulayman and his soldiers do not crush you without noticing.” He smiled, amused at her words, and said, “My Lord, enable me to be grateful for Your favour that You have bestowed upon me.”"}],
+ gratitude:[
+  {t:"Good news, and the gift of his clothes", d:"good-news counting-blessings", c:"Bukhari & Muslim", r:["love","allah"],
+   x:"After fifty days of waiting, Ka'b ibn Malik heard a voice call out from the mountain that Allah had accepted his repentance. A man ran to him with the news, and Ka'b took off both his garments and gave them to him. When he reached the Prophet ﷺ, his face was shining with joy."},
+  {t:"The mat and the world", d:"comparing", c:"Bukhari & Muslim", r:["people","growth"],
+   x:"Umar went in and saw the Prophet ﷺ lying on a straw mat that had left marks on his side, with little else in the room. Umar began to weep. “Why do you weep?” “Chosroes and Caesar live in luxury, and you are Allah's Messenger.” He ﷺ said, “Are you not content that they have this world, and we have the next?”"}],
+ restraint:[
+  {t:"Hold this back", d:"speech", c:"Tirmidhi", r:["tired","people"],
+   x:"The Prophet ﷺ took hold of his own tongue and said to Mu'adh, “Hold this back.” Mu'adh asked, “Will we be held to account for what we say?” He ﷺ said, “Is there anything that throws people on their faces into the Fire except what their tongues have reaped?”"},
+  {t:"Protect his chastity", d:"letting-go holding-back company", c:"Ahmad", r:["worry","people"],
+   x:"A young man came to the Prophet ﷺ and asked permission to do something forbidden. The people rebuked him, but the Prophet ﷺ said, “Come closer,” and spoke with him gently. Then he put his hand on the young man's chest and prayed, “O Allah, forgive his sin, purify his heart, and protect his chastity.” The young man never turned to it again."},
+  {t:"Two blessings", d:"screen-time", c:"Bukhari", r:["tired","growth"], k:"A saying",
+   x:"The Prophet ﷺ said, “There are two blessings that many people lose out on: health and free time.”"}],
+ body:[
+  {t:"Your body has a right over you", d:"body", c:"Bukhari", r:["tired","duty"],
+   x:"Salman visited Abu Darda and found him fasting and praying through the nights. Salman said, “Your Lord has a right over you, your body has a right over you, and your family has a right over you. Give each its right.” The Prophet ﷺ said, “Salman has spoken the truth.”"},
+  {t:"Fresh dates and water", d:"fasting suhoor iftar mindful-eating", c:"Abu Dawud", r:["love","tired"], k:"A sunnah",
+   x:"The Prophet ﷺ would break his fast before praying, with fresh dates. If there were none, then dry dates. If there were none, then a few sips of water."}],
+ sincerity:[
+  {t:"The rock at the cave's mouth", c:"Bukhari & Muslim", r:["allah","worry"],
+   x:"Three men sheltering in a cave were sealed in when a boulder slid across the entrance. Each asked Allah by naming one deed done only for His sake: caring for his elderly parents before his own children, turning away from a wrong he could have done out of fear of Allah, and keeping a worker's wages safe until they had grown. After each du'a the rock moved a little, until they walked out."},
+  {t:"Charity in the dark", c:"Bukhari & Muslim", r:["allah","worry"],
+   x:"A man said, “I will give charity tonight.” In the morning people said it had gone to a thief. “O Allah, praise be to You: to a thief!” He gave again and it went to an adulteress, then again and it went to a rich man. He was told, “As for the thief, perhaps it will keep him from stealing. The adulteress, from immorality. The rich man may learn, and spend from what Allah gave him.”"}]
+};
+
 let J = null;
 const J_STEPS = 6;
 const jEl = () => $('#journey');
 const jCur = () => $('#jStage .j-slide.on');
 
-/* Tier 2a: which of the posture's questions to ask. Words in your sentence win; otherwise it varies by sentence. */
-function jOrder(p, text){
-  const list = PROBES[p] || PROBES.ikhlas, t = normalise(text);
-  const h = hashStr(t) % list.length;
-  return list.map((x, i) => ({i, s: x[1] ? x[1].split('|').reduce((n, k) => n + (toRe(k).test(t) ? 1 : 0), 0) : 0}))
-    .sort((a, b) => b.s - a.s || ((a.i - h + list.length) % list.length) - ((b.i - h + list.length) % list.length)).map(x => x.i);
+/* The situation this intention is about: its detector or moment, else its posture. */
+const jFamily = n => n.quiet ? 'sincerity' : (FAMILY_OF[n.det] || FAMILY_OF[n.m] || POSTURE_FAMILY[n.p] || 'sincerity');
+/* Tier 2a: the situation's questions, best fit first. Words in your sentence win; otherwise it varies by sentence. */
+function jQs(n, text){
+  const list = FAMILY_QS[jFamily(n)] || FAMILY_QS.sincerity, t = normalise(text), len = list.length, h = hashStr(t) % len;
+  return list.map(([q, kw], i) => ({q, i, s: kw ? kw.split('|').reduce((c, k) => c + (toRe(k).test(t) ? 1 : 0), 0) : 0}))
+    .sort((a, b) => b.s - a.s || ((a.i - h + len) % len) - ((b.i - h + len) % len)).map(x => x.q);
+}
+/* Your own words, trimmed to the action: "Bismillah, today I intend to call my mother, so that..." -> "call my mother". */
+function jPhrase(text){
+  let t = text.trim().replace(/\s+/g, ' ');
+  t = t.replace(/^bismillah[,.!]?\s*/i, '').replace(/^(today|tonight|this morning)[, ]+/i, '').replace(/^for the sake of allah,?\s*/i, '');
+  t = t.replace(/^(i am asking allah for barakah in |i place my trust in allah as i |i('|\u2019)?m going to |i (will|intend to|plan to|want to|wanna|would like to|need to|hope to|try to)\s+|i'll\s+|intend to |to )/i, '');
+  const at = t.toLowerCase().search(PURPOSE_RE); if (at > 8) t = t.slice(0, at);
+  t = t.replace(/[\s,;.!?]+$/, '');
+  return clip(t.length < 3 ? text.trim() : t, 80);
+}
+/* Tier 3: stories of this situation, those that suit your reason first. The posture's own story is the last resort. */
+const REASON_LABEL = {allah:'your wish to do it for Allah', people:'your care for people', worry:'your worry', duty:'your sense of duty', love:'your love', growth:'your wish to grow', tired:'your tiredness'};
+function jStories(){
+  const n = J.nudge, key = [n.det, n.m].filter(Boolean);
+  const score = s => (s.d && key.some(k => s.d.split(' ').includes(k)) ? 2 : 0) + (J.reason && s.r && s.r.includes(J.reason) ? 1 : 0);
+  const list = (FAMILY_STORIES[jFamily(n)] || []).map((s, i) => ({s, i}))
+    .sort((a, b) => score(b.s) - score(a.s) || a.i - b.i)
+    .map(({s}) => ({title:s.t, cite:s.c, text:s.x, kind:s.k || (s.c.startsWith('Quran') ? "From the Qur'an" : 'A story'), fit:s.r && J.reason && s.r.includes(J.reason) ? 1 : 0}));
+  const P = STORIES[n.p];
+  if (!list.length && P) list.push({title:P.title, cite:P.cite, text:P.text, kind:'A story', fit:0});
+  return list;
 }
 /* Tier 2b: what the answer says about why. */
 function jReason(answer){
@@ -2494,7 +2697,7 @@ function jReason(answer){
 }
 const jViews = () => cardViews(J.nudge);
 const jView = () => { const v = jViews(); return v[J.turn % v.length]; };
-const jQuestion = () => { const list = PROBES[J.nudge.p] || PROBES.ikhlas; return list[J.order[J.qi % J.order.length]][0]; };
+const jQuestion = () => J.qs[J.qi % J.qs.length];
 const jRv = (i, cls, tag, attrs, inner) => `<${tag} class="${cls} rv" style="--i:${i}" ${attrs || ''}>${inner}</${tag}>`;
 
 function jSlide(step){
@@ -2508,6 +2711,7 @@ function jSlide(step){
   if (step === 1){
     J.q = jQuestion();
     return jRv(0, 'j-k', 'p', '', 'A question first') +
+      jRv(1, 'j-echo', 'p', '', `About \u201C${esc(jPhrase(J.text))}\u201D`) +
       jRv(1, 'j-d lg on-bg', 'h2', 'tabindex="-1"', esc(J.q)) +
       `<textarea id="jAns" class="rv" style="--i:2" placeholder="A line or two is enough. Or leave it blank and continue." aria-label="Your answer, optional">${esc(J.answer)}</textarea>` +
       jRv(3, 'j-links', 'div', '', `<button class="j-link" data-act="j-q">Ask me another question</button>`);
@@ -2523,11 +2727,13 @@ function jSlide(step){
       jRv(5, 'j-note', 'p', '', esc(cardTag(n)));
   }
   if (step === 3){
-    const st = STORIES[n.p] || STORIES.ikhlas;
-    return jRv(0, 'j-k', 'p', '', 'A story') +
+    const L = jStories(), st = L[J.storyAlt % L.length];
+    const why = st.fit ? ` and ${REASON_LABEL[J.reason]}` : '';
+    return jRv(0, 'j-k', 'p', '', esc(st.kind)) +
       jRv(1, 'j-d lg', 'h2', 'tabindex="-1"', esc(st.title)) +
       jRv(2, 'j-story', 'p', '', esc(st.text)) +
-      jRv(4, 'j-note', 'p', '', `${esc(st.cite)} · retold briefly`);
+      jRv(3, 'j-note', 'p', '', `${esc(st.cite)} \u00B7 retold briefly`) +
+      jRv(4, 'j-links', 'div', '', (L.length > 1 ? `<button class="j-link" data-act="j-story">Another story</button>` : '') + `<span class="j-note" style="padding:8px 0">Chosen for \u201C${esc(clip(jPhrase(J.text), 40))}\u201D${esc(why)}</span>`);
   }
   if (step === 4){
     const ds = v.dalil, d = ds[J.dalilAlt % ds.length];
@@ -2579,7 +2785,7 @@ async function startJourney(text){
   const btn = $('[data-act="save"]'); if (btn) btn.disabled = true;
   const n = (await computeNudges(text))[0];
   if (btn) btn.disabled = false;
-  J = {text, nudge:n, step:0, answer:'', reason:null, turn:0, pickOpen:false, dalilAlt:0, qi:0, order:jOrder(n.p, text), q:'', busy:false};
+  J = {text, nudge:n, step:0, answer:'', reason:null, turn:0, pickOpen:false, dalilAlt:0, qi:0, storyAlt:0, qs:jQs(n, text), q:'', busy:false};
   $('.app').inert = true;
   $('.j-x').innerHTML = ic('x', 22);
   jEl().hidden = false;
@@ -2620,7 +2826,7 @@ async function jNext(){
       // tier 1 found nothing: the answer is a second chance to match
       if (J.nudge.quiet && J.answer.trim().split(/\s+/).length >= 3){
         const n2 = (await computeNudges(J.text + '. ' + J.answer))[0];
-        if (n2 && !n2.quiet){ J.nudge = n2; J.turn = 0; J.order = jOrder(n2.p, J.text); }
+        if (n2 && !n2.quiet){ J.nudge = n2; J.turn = 0; J.storyAlt = 0; J.qs = jQs(n2, J.text); }
       }
     }
     if (J.step === J_STEPS - 1){ if (!commitJourney()) return; }
@@ -2674,12 +2880,13 @@ document.addEventListener('click', ev => {
     case 'j-q': { const ta = $('#jAns'); if (ta) J.answer = ta.value; J.qi++; jShow(1, 1); break; }
     case 'j-view': J.turn++; jRefresh(); break;
     case 'j-dalil': J.dalilAlt++; jRefresh(); break;
+    case 'j-story': J.storyAlt++; jRefresh(); break;
     case 'j-lens': J.pickOpen = !J.pickOpen; jRefresh(); break;
     case 'j-pick': {
       const to = b.dataset.to; if (!POSTURES[to]) break;
       const old = J.nudge;
       J.nudge = fromTarget(to, {fixed:true, ...(old.d ? {d:old.d} : {}), ...(old.purpose ? {purpose:true} : {})})[0];
-      J.turn = 0; J.order = jOrder(J.nudge.p, J.text); J.qi = 0; J.pickOpen = false; jRefresh(); break;
+      J.turn = 0; J.storyAlt = 0; J.qs = jQs(J.nudge, J.text); J.qi = 0; J.pickOpen = false; jRefresh(); break;
     }
     case 'done': ui.justSaved = null; renderWrite(); break;
     case 'carry': {
