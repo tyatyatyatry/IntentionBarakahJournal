@@ -1,0 +1,93 @@
+# HOLDOUT set: written before tuning, and only run to report accuracy. Do not tune the matcher against it.
+# Format and Source numbers as in matching-dev.txt.
+12|I will drop by my parents' house after work and have dinner with them
+12|Today I will thank my mother for everything she did for me and hug her
+12|I want to forgive my uncle and send him a message
+12|I will spend time with my cousins at the family gathering and avoid arguments
+12|aku mau ngobrol sama bapak malam ini, sudah lama nggak telepon
+12|I will call my sister who lives abroad and ask how her kids are
+12,21|I will help my parents with the groceries and fix their wifi
+14|I will treat my wife with kindness when she's tired and help with the kids
+14|I will make dua for a righteous spouse tonight
+14,3|I am waiting for the right person, I will focus on becoming better and trust Allah
+14|I will not compare my relationship with couples on social media
+14,12|When my husband's family visits, I will be a good host
+15|I will leave work for the Asr prayer on time
+15,16|I will pray in jamaah at the masjid for Isha tonight
+15|I will not delay my prayers because of a deadline
+15,17|sholat dhuha dua rakaat sebelum kerja
+13|I will go to bed at 10 so I can wake up for Fajr
+13|Wake up early to pray Fajr in the masjid
+13|I will start my morning with a walk and morning adhkar
+13|bangun subuh dan tidak tidur lagi
+4|I will recite Surah Kahf this Friday
+4|I want to understand what I'm reading in the Quran, so I'll read the translation tonight
+4|I will recite Quran in my car instead of listening to music
+4|hafalan 5 ayat hari ini
+5|I will make my morning and evening adhkar today
+5|I will say astaghfirullah whenever I notice I made a mistake
+5|I will keep my tongue moist with dhikr during my commute
+7,2|I will ask Allah to guide me in my choices tonight, in sujood
+7|I will make a dua list for the people I love
+7,19|Please Allah ease my exam tomorrow, I will pray after Fajr and ask for help
+7|doakan teman yang sakit setelah sholat
+3|I will prepare well for my presentation and leave the rest to Allah
+3|I am anxious about the surgery, I will trust Allah and say hasbunallah
+3|I will stop overthinking tomorrow's meeting and trust that Allah will handle it
+3|aku pasrah dan serahkan ke Allah setelah usaha
+9|I will notice three good things today and say alhamdulillah for each
+9|I will appreciate what I have instead of wanting a new phone
+9|I will send a thank-you message to my teacher
+9,21|Thank the delivery guy and say jazakallahu khairan
+8|I will not lie to my customer about the product
+8,21|I will give my employees their salary on time and be fair
+8|I will do my job honestly without wasting company time
+8|I will earn halal and avoid shady deals
+8|I will budget my money wisely this month and avoid debt
+8,2|I will return the money my colleague overpaid me by mistake
+10|I will give sadaqah every day this week
+10|I will pack food for the homeless near the station
+10,21|I will sponsor an orphan this month
+10|I will give my old clothes to charity
+21|I will pick up my elderly neighbour's prescription
+21|I will look out for the new intern and help her settle in
+21|I will listen to my friend who is going through a hard time without judging
+21|I will visit my teacher who is in the hospital
+21,20|I will volunteer for the neighbourhood clean-up
+19|I will study Islamic finance for one hour tonight
+19|I will take an online course to improve my skills
+19|I will review my lecture notes before class
+19,4,10|I will teach my little cousin how to read Quran
+19|baca buku sebelum tidur
+18,12|I will not look at my phone during the family dinner
+18|I will not backbite about my neighbour
+18|I will walk away when I feel myself getting angry
+18|I will avoid binge-watching series tonight and rest instead
+18,2|I will stop lying to cover up my mistakes
+18|I will resist the urge to check social media every five minutes
+6|I will say Bismillah and eat with my right hand, not rushing
+6|I will fast on Monday
+6|I will avoid overeating at the party tonight
+6,13|Sahur dulu sebelum subuh
+20|I will care for my plants and not waste water
+20|I will take better care of the environment and reduce plastic
+20|I will water the neighbourhood trees
+11|I will start saving for hajj
+11,12|I want to perform umrah with my parents next year
+16|I will visit Masjid An-Nabawi when I travel and send salawat
+16,15|I will pray two rakaat when I enter the masjid
+17|I will make dua during the last third of the night
+17,4|It is Friday so I will recite Surah Kahf and send salawat
+17|I will fast during Ramadan with full focus
+1|I will do everything today with a clean intention
+1,8|I will intend to seek Allah's pleasure in my job today
+2,18|I will remember Allah is watching when no one else is around
+2,18|I will say no to a party that has things Allah dislikes
+9|I will accept that my friend got the job and be happy for her
+3,9,8|I will be at peace with what I don't have, trusting Allah's plan
+14,9|I will stay positive and not feel low when I see wedding photos
+5,7|I feel sad and heavy, I will cry to Allah tonight and make dhikr
+12|When my mom compares me with my cousins, I will keep calm and respectful
+Q|Just exist
+Q|Yes
+Q|Today I will do my thing
