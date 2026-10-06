@@ -274,6 +274,7 @@ dialog{max-height:calc(100dvh - 48px);overflow:auto}
 .pk[aria-pressed="true"]{background:var(--kiwi);border-color:var(--kiwi)}
 .pk-more summary{font-weight:800;font-size:13px;cursor:pointer;margin:4px 0 8px;color:var(--muted)}
 .pk-more .pk{--c:var(--forest);font-weight:700}
+.en-why{margin:0 0 8px;font-size:14px;line-height:1.5;border-left:3px solid var(--c);padding-left:10px;color:var(--forest)}
 .en-actions{display:flex;justify-content:flex-end;margin-top:4px}
 .en-actions .btn{padding:4px 10px;font-size:12px}
 .posture-list .srcitem summary small{font-weight:700;color:var(--muted);margin-left:6px}
@@ -325,6 +326,7 @@ dialog{max-height:calc(100dvh - 48px);overflow:auto}
 .j-s{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.6;margin:0 0 14px;max-width:34em}
 .j-story{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(18px,4.8vw,22px);line-height:1.55;margin:0 0 14px;max-width:30em}
 .j-note{font-family:'Poppins',sans-serif;font-size:12px;opacity:.8;margin:0}
+.j-suggest{background:rgba(255,255,255,.28);border-radius:16px;padding:10px 14px;margin:0 0 10px;font-family:'Poppins',sans-serif;font-size:14px;line-height:1.55;max-width:32em}
 .j-echo{font-family:'Lora',Georgia,serif;font-style:italic;font-size:16px;line-height:1.45;margin:0 0 10px;opacity:.85;max-width:30em;border-left:3px solid var(--jac);padding-left:12px}
 .j-quote{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(22px,6vw,32px);line-height:1.38;margin:0 0 12px;max-width:26em;text-wrap:pretty}
 .j-quote+cite{font-family:'Poppins',sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--jac);margin:0 0 18px}
@@ -891,7 +893,7 @@ const DETECT_META = {
   'sleep': {cat:'body', contexts:'sleep', phrases:'sleep early|sleep earlier|go to bed|stop staying up', spec:1},
   'body': {cat:'body', themes:'discipline', phrases:'go to the gym|work out|go for a run', spec:1},
   'spouse': {cat:'relationships', contexts:'gathering', themes:'connection', relationships:'spouse', avoid:'conflict', spec:1},
-  'hoping-to-marry': {cat:'relationships', spec:2, phrases:'|find a spouse|find a good spouse|good spouse|future husband|future wife|find a husband|find a wife'},
+  'hoping-to-marry': {cat:'relationships', spec:2, phrases:'|find a spouse|find a good spouse|good spouse|future husband|future wife|find a husband|find a wife|not married|not yet married|have not married|haven\'t married|still single|belum menikah|belum nikah|belum kawin|future sister-in-law|future sister in law|future brother-in-law|when will i marry|when will i get married'},
   'tension-home': {cat:'relationships', contexts:'conflict home', themes:'patience anger', relationships:'spouse', requires:'conflict anger', spec:2},
   'prayer-on-time': {cat:'worship', contexts:'prayer', avoid:'time-marker', phrases:'pray on time|pray all five|five prayers|five daily prayers', spec:1},
   'busy-day': {cat:'worship', contexts:'busy work', phrases:'busy day|packed day|long day|hectic day|full day', spec:1, requires:'busy'},
@@ -982,7 +984,7 @@ const EXAMPLES = {
   'sleep': 'go to sleep early tonight|get enough rest|stop staying up late',
   'body': 'quit smoking for my health|go to the gym|exercise and stay healthy|take a shower and look after myself|go for a run',
   'spouse': 'spend quality time with my husband|be a better wife|take care of my spouse',
-  'hoping-to-marry': 'find a good spouse|prepare myself for marriage|pray for my future husband',
+  'hoping-to-marry': 'find a good spouse|prepare myself for marriage|pray for my future husband|have a bigger heart when others talk about marriage|accept that I am not married yet and stay kind',
   'tension-home': 'not argue with my husband|stay calm with my wife|avoid fighting at home',
   'prayer-on-time': 'pray all five prayers on time|pray Maghrib at the beginning of its time|not miss any prayer today',
   'busy-day': 'I have a really busy day|my schedule is packed back to back|so much to do today',
@@ -1973,7 +1975,7 @@ function renderSaved(scroll = true){
     body = V ? `<div class="card sleep-q fade" style="border-left:6px solid ${V.a.color}">
         <span class="nl">${esc(cardTitle(n))} · ${esc(cardTag(n))}</span>
         <p class="q" style="margin:4px 0 8px;font-family:Lora,Georgia,serif;font-style:italic;font-size:17px">${esc(V.see)}</p>
-        ${e.why ? `<p class="small muted" style="margin:0 0 8px">Your why: “${esc(clip(e.why.a, 120))}”</p>` : ''}
+        ${e.why ? `<p class="small muted" style="margin:0 0 8px">Your why: “${esc(clip(e.why.a, 120))}”${reasonLine(e.why.r) ? `<br>${esc(reasonLine(e.why.r))}` : ''}</p>` : ''}
         <div class="nudge" style="border:0;box-shadow:none;padding:0;margin:0"><div class="try">${ic('sprout',16)}<span>${esc(V.invite)}</span></div></div>
         <div class="row" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn soft" data-act="carry" data-entry="${e.id}" style="padding:8px 14px;font-size:13px">${ic('moon',16)} Reflect on this tonight</button></div>
       </div>` : '';
@@ -2076,6 +2078,7 @@ function entryNudgeHTML(e){
   return `<div class="entry-nudge" style="--c:${P.a.color}">
     <span class="nl">${esc(cardTitle(n))} · ${esc(cardTag(n))}</span>
     <p class="q" style="margin:2px 0 6px">${esc(P.see)}</p>
+    ${e.why && reasonLine(e.why.r) ? `<p class="en-why">${esc(reasonLine(e.why.r))}</p>` : ''}
     ${conceptHTML(P.concept)}
     <div class="en-tip">${ic('sprout',15)}<span>${esc(P.invite)}</span></div>
     <details><summary>From the sources</summary>${P.dalil.map(d => `<p class="en-src">“${esc(unquote(d.text))}” <cite>${esc(d.cite)}</cite></p>`).join('')}</details>
@@ -2369,6 +2372,9 @@ function importText(str){
    ===================================================================== */
 /* Tier 2: what the answer says about WHY. The line answers that reason, whatever the posture. */
 const REASONS = [
+ {id:'trust', kw:"meant for me|written for me|will be for me|qadar|qadr|destiny|fate$|allah knows best|his plan|his timing|in his time|leave it to allah|takdir|rezeki|jodoh|trust allah|tawakkul", line:"You said what is meant for you will reach you. That is tawakkul: doing your part, then letting the heart rest."},
+ {id:'envy', kw:"envy|jealous|iri$|everyone else|others have|their turn|my turn|why not me|behind|compar", line:"Looking at what others have can hurt. It can also turn into a dua for them and gratitude for what you hold."},
+ {id:'hurt', kw:"hurt|sad$|cry|lonely|left out|heartbroken|pain|sedih|sakit hati|reminded", line:"Something here touched a tender place. You are allowed to feel it, and still choose your next small step."},
  {id:'allah', kw:"allah|god$|akhirah|jannah|reward|worship|deen|faith|barakah|dua$|pray|quran|closer to|pleas", line:"You named Allah in your reason. Keep that thread, and let it be the first thing you reach for when this gets heavy."},
  {id:'people', kw:"people|boss|family|parents|friends|husband|wife|kids|child|team|mother|father|others|colleague|respect|proud|impress|approval|judge|think of me", line:"You named people in your reason, and caring for them is a good reason. Hold it beside one more: that Allah sees what they cannot."},
  {id:'worry', kw:"afraid|fear|worr|anxious|nervous|stress|scared|pressure|overwhelm|uncertain|what if|dread", line:"There is worry under this. You do not have to remove it first. You can take the next step with it still there, and hand the rest over."},
@@ -2377,6 +2383,9 @@ const REASONS = [
  {id:'growth', kw:"better|improve|grow|learn|goal|success|career|future|progress|discipline|habit|consisten|achiev|promotion|build|change", line:"You want to grow. Wanting to be better for Allah's sake is worship, not only ambition."},
  {id:'tired', kw:"tired|exhaust|burn|drain|busy|no time|too much|heavy|lazy|unmotivated|numb|struggl|hard$|difficult", line:"You sound tired. Choose the smallest version of this that is still honest, and let that be enough for today."}
 ];
+/* Some reasons point to a better lens than the one the sentence matched. The journey offers it; it never switches silently. */
+const REASON_LENS = {trust:'tawakkul', envy:'shukr', hurt:'feeling-low'};
+const reasonLine = id => { const r = REASONS.find(x => x.id === id); return r ? r.line : ''; };
 const REASON_OTHER = "Thank you for putting it into words. Naming your reason is already part of making the intention.";
 
 
@@ -2465,9 +2474,10 @@ const SRC_QS = {
   ["How do you want to feel at the end of the day?",""]],
  14:[
   ["What do you most want your spouse to feel from you today?","husband|wife|spouse|suami|istri"],
-  ["What small thing do they quietly carry that you have stopped noticing?",""],
-  ["What did you love about them that you have stopped saying?",""],
-  ["If you are hoping to marry, what part is yours to prepare, and what do you leave with Allah?","marry|marriage|nikah|someone|proposal"]],
+  ["What small thing do they quietly carry that you have stopped noticing?","husband|wife|spouse|suami|istri"],
+  ["What did you love about them that you have stopped saying?","husband|wife|spouse|suami|istri"],
+  ["If you are hoping to marry, what part is yours to prepare, and what do you leave with Allah?","marri|nikah|single|future|jodoh|proposal|someone"],
+  ["When this feeling comes up, what do you want your heart to do with it?","heart|feel|remind|jealous|envy|marri|single|future|lonely"]],
  15:[
   ["What usually pulls you away from praying on time, and what could you set up to meet it halfway?","busy|work|meeting|phone|tired|late|forget"],
   ["Is this about showing up on time, or about being present once you are there?","on time|early|late|present|focus|khushu"],
@@ -2520,7 +2530,7 @@ const STORY_LIB = [
  {"t":"All of my dua","s":[5,7],"d":"salawat friday","r":["worry","love"],"c":"Tirmidhi","x":"Ubayy ibn Ka'b asked, “O Messenger of Allah, I send many prayers upon you. How much of my dua should be for you?” “As much as you like,” he said. Ubayy kept raising it until he said, “All of my dua.” The Prophet ﷺ said, “Then your worries will be taken care of, and your sins forgiven.”"},
  {"t":"Two, and Allah is the third","s":[3],"d":"worry","r":["worry","people"],"c":"Bukhari & Muslim; Quran 9:40","x":"In the cave, with the Quraysh outside, Abu Bakr whispered, “If one of them looks down at his feet, he will see us.” The Prophet ﷺ said, “O Abu Bakr, what do you think of two whose third is Allah?” The Quran records his words: “Do not grieve; indeed Allah is with us.”"},
  {"t":"Enough for us is Allah","s":[3],"d":"big-moment decision leaving-home","r":["worry","duty"],"c":"Bukhari; Quran 3:173","x":"“Hasbunallahu wa ni'mal wakeel,” said Ibrahim (a.s.) when he was thrown into the fire. Muhammad ﷺ and his companions said it when they were told, “The people have gathered against you, so fear them.” It only increased their faith."},
- {"t":"No! My Lord is with me","s":[3],"d":"waiting asking hoping-to-marry","r":["worry","growth"],"k":"From the Qur'an","c":"Quran 26:61-62","x":"At the sea, with Pharaoh's army behind them, Musa's people said, “We are about to be overtaken.” He said, “No! Indeed, my Lord is with me; He will guide me.” Then Allah told him to strike the sea with his staff."},
+ {"t":"No! My Lord is with me","s":[3,14],"d":"waiting asking hoping-to-marry","r":["worry","growth"],"k":"From the Qur'an","c":"Quran 26:61-62","x":"At the sea, with Pharaoh's army behind them, Musa's people said, “We are about to be overtaken.” He said, “No! Indeed, my Lord is with me; He will guide me.” Then Allah told him to strike the sea with his staff."},
  {"t":"From the belly of the whale","s":[5,7],"d":"feeling-low","r":["tired","duty"],"k":"From the Qur'an","c":"Quran 21:87-88","x":"Yunus (a.s.) found himself in the darkness of the whale, the night and the sea. He called out, “There is no god but You; glory be to You; indeed I was among the wrongdoers.” Allah says, “So We responded to him and saved him from the distress. And thus do We save the believers.”"},
  {"t":"Only to Allah","s":[7],"d":"gentle-with-self","r":["love","worry"],"k":"From the Qur'an","c":"Quran 12:83-86","x":"Yaqub (a.s.) lost Yusuf, and then his grief grew until his eyes turned white with sorrow. He said, “So, beautiful patience,” and, “I only complain of my suffering and my grief to Allah.”"},
  {"t":"Your mother, then your mother","s":[12],"d":"calling-parents parents-elders keeping-in-touch parents-dua","r":["love","duty"],"c":"Bukhari & Muslim","x":"A man asked, “O Messenger of Allah, who is most deserving of my good company?” “Your mother,” he said. “Then who?” “Your mother.” “Then who?” “Your mother.” “Then who?” “Then your father.”"},
@@ -2648,9 +2658,14 @@ function jSlide(step){
     const r = REASONS.find(x => x.id === J.reason), a = J.answer.trim();
     const bridge = a ? jRv(2, 'j-bridge', 'div', '', `<small>You said: “${esc(clip(a, 90))}”</small>${esc(r ? r.line : REASON_OTHER)}`) : '';
     const concept = v.concept ? jRv(3, 'j-concept', 'details', '', `<summary>${ic('book',16)} ${esc(v.concept.term)}</summary><p>${esc(v.concept.text)}</p>`) : '';
+    const lens = REASON_LENS[J.reason], cur = J.nudge.m || J.nudge.p;
+    const lensName = lens && (MOMENTS[lens] ? MOMENTS[lens].name : POSTURES[lens] && POSTURES[lens].en);
+    const same = lens && (lens === cur || (POSTURES[lens] && POSTURES[lens].ar === (POSTURES[cur] || {}).ar) || (MOMENTS[lens] && J.nudge.m === lens));
+    const suggest = lens && lensName && !same && !J.nudge.fixed ? jRv(4, 'j-suggest', 'div', '', `Your reason sounds more like <b>${esc(lensName)}</b>. <button class="j-link" data-act="j-switch" data-to="${lens}">See it that way</button>`) : '';
     const pick = J.pickOpen ? `<div class="j-pick" role="group" aria-label="Choose a lens">${POSTURE_ORDER.map(p => `<button data-act="j-pick" data-to="${p}" aria-pressed="${n.p === p && !n.m}">${esc(POSTURES[p].ar)} <span style="font-weight:500">· ${esc(POSTURES[p].en)}</span></button>`).join('')}</div>` : '';
     return jRv(0, 'j-k', 'p', '', `See it differently · ${esc(cardTitle(n))}`) +
       jRv(1, 'j-d md', 'h2', 'tabindex="-1"', esc(v.see)) + bridge + concept +
+      suggest +
       jRv(4, 'j-links', 'div', '', `${jViews().length > 1 ? `<button class="j-link" data-act="j-view">Another way to see it</button>` : ''}<button class="j-link" data-act="j-lens">${J.pickOpen ? 'Close' : 'Not quite? Choose another lens'}</button>`) + pick +
       jRv(5, 'j-note', 'p', '', esc(cardTag(n)));
   }
@@ -2810,8 +2825,9 @@ document.addEventListener('click', ev => {
     case 'j-dalil': J.dalilAlt++; jRefresh(); break;
     case 'j-story': J.storyAlt++; jRefresh(); break;
     case 'j-lens': J.pickOpen = !J.pickOpen; jRefresh(); break;
+    case 'j-switch':
     case 'j-pick': {
-      const to = b.dataset.to; if (!POSTURES[to]) break;
+      const to = b.dataset.to; if (!POSTURES[to] && !MOMENTS[to]) break;
       const old = J.nudge;
       J.nudge = fromTarget(to, {fixed:true, ...(old.d ? {d:old.d} : {}), ...(old.purpose ? {purpose:true} : {})})[0];
       J.turn = 0; J.storyAlt = 0; J.qs = jQs(J.nudge, J.text); J.qi = 0; J.pickOpen = false; jRefresh(); break;
@@ -2914,7 +2930,7 @@ $('#importFile').addEventListener('change', ev => { const f = ev.target.files[0]
   document.querySelectorAll('#settings [data-act]').forEach(b => { if (dl[b.dataset.act]) b.innerHTML = ic(dl[b.dataset.act][0], 18) + dl[b.dataset.act][1]; });
   $('#welcome .w-sun').innerHTML = ic('sun', 30);
   // entries saved before the matching engine improved are matched again once, with the new engine
-  const ENGINE = 7;   // version 2: postures and moments
+  const ENGINE = 8;   // version 2: postures and moments
   if (data.engine !== ENGINE){
     migrateLearned();
     data.entries.forEach(e => {
